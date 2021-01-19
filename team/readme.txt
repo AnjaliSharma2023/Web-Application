@@ -22,6 +22,24 @@ Keep in mind that this is a public repo so we won't be posting any e-mail addres
 +++
 Schedule
 
+===
+Week 0 (2021-01-17)
+
+---
+Due By Tuesday (2021-01-19)
+
+1. Read Readmes
+
+---
+Due By Wednesday (2021-01-20)
+
+1. Slack
+1.1. Accept invite
+1.2. Post GitHub username
+2. GitHub
+2.1. Accept invite
+2.2. Post availability (please follow format)
+
 +++
 Ground Rules
 
