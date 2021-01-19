@@ -1,0 +1,27 @@
+Availability
+
+https://github.com/bizzlebin/team_6/blob/master/team/availability.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-01-19
+
++++
+
+For your first commit to the group repo, please add your meeting availability (morning, afternoon, evening) in accordance with the formats specified in the resources directory; read mine for an example. You can—and should—update this later if it changes. If we need to, we can extract this and make an iCal or something more visual, but the main purpose will be for me to coordinate the weekly Slack meeting(s).
+
+"""
+Name                Sunday         Monday         Tuesday        Wednesday      Thursday       Friday         Saturday
+
+Jeremiah Thomas     -              -              -              -              -              -              -
+                    -              13:00–17:00    13:00–17:00    13:00–17:00    13:00–17:00    13:00–17:00    -
+                    18:00–24:00    18:00–24:00    20:00–24:00    18:00–24:00    18:00–24:00    -              -
+
+[Your Name...]
+"""
+
+PS: Remember to add/modify an "Updated ..." field if you update this—or any—document on a different day than its creation!
