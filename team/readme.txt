@@ -38,7 +38,14 @@ Due By Wednesday (2021-01-20)
 1.2. Post GitHub username
 2. GitHub
 2.1. Accept invite
-2.2. Post availability (please follow format)
+2.2. Post availability in Availability file (please follow format)
+
+---
+Due By Friday (2021-01-22)
+
+1. Post your preferred role (Slack)
+2. Post your phone and e-mail address (Slack)
+3. Create at least 1 SMART goal in the SMART Goals file
 
 +++
 Ground Rules
@@ -58,3 +65,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
+**meta_updated**: 2021-01-21
