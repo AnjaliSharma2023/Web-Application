@@ -29,6 +29,10 @@ Elmehdi Mnajli     -              -              -              -              -
 Anjali Sharma       -              -              -              -              -              -              -
                     -              14:00–18:00    14:00–18:00    14:00–18:00    14:00–18:00    14:00–18:00    -
                     22:00–23:00    22:00–23:00    22:00–23:00    22:00–23:00    22:00–23:00    -              -
+                    
+Kai McGregor        -              -              -              -              -              -              -
+                    -              10:00–14:00    10:00–14:00    10:00–14:00    10:00–14:00    10:00–14:00    -
+                    18:00–24:00    18:00–24:00    18:00–24:00    18:00–24:00    18:00–24:00    18:00-24:00    -
 """
 
 PS: Remember to add/modify an "Updated ..." field if you update this—or any—document on a different day than its creation!
