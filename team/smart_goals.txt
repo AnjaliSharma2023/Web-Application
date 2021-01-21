@@ -1,0 +1,22 @@
+SMART Goals
+
+https://github.com/bizzlebin/team_6/blob/master/team/smart_goals.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-01-21
+
++++
+Description
+
+SMART (specific, measurable, acceptable, realistic, and timebound) goal ideas for Project 6 (GlucoCheck); please create *at least* 1 goal; we can pick the best later.
+
+1.
+2.
+3.
+4.
+5.
