@@ -17,6 +17,6 @@ SMART (specific, measurable, acceptable, realistic, and timebound) goal ideas fo
 
 1. MongoDB database is setup according to the HLD
 2. A login page is presented to the user to authenticate further use
-3.
+3. Graph Screen-display blood sugar levels
 4.
 5.
