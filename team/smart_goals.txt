@@ -10,14 +10,19 @@ By Jeremiah Thomas, et al
 
 Created 2021-01-21
 
+Updated 2021-01-23
+
 +++
 Description
 
 SMART (specific, measurable, acceptable, realistic, and timebound) goal ideas for Project 6 (GlucoCheck); please create *at least* 1 goal; we can pick the best later.
 
-1. MongoDB database is setup according to the HLD
-2. A login page is presented to the user to authenticate further use
-3. Graph Screen-display blood sugar levels
-4. Enable customer to access their blood glucose history
-5. Enable customer to get food recommendation to maintain and improve health
-6. 
++++
+
+1. Enable my customers to sign up and login securely during 1st Sprint.
+2. Enable my customers to input and review their health data during 1st Sprint.
+3. Enable my customers to visualize and understand their health data during 2nd Sprint.
+4. Enable my customers to use the app on any web browser during 2nd Sprint.
+5. Enable my customers to receive custom dietary recommendations during 3rd Sprint.
+6. Enable my customers to access instructions and help documentation during 3rd Sprint.
+7. Enable my customers to export health data during 3rd Sprint.
