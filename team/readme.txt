@@ -20,6 +20,16 @@ Welcome to the project readme for our team, tentatively named Team 6 ! This will
 Keep in mind that this is a public repo so we won't be posting any e-mail addresses, links to our other collaboration tools, etc. We'll have regular group meetings and some [emotion and thought] communication elsewhere but everything of substance should be committed here. By doing the majority of our work in the open on Git, we will not only have better control of versioning but something we can all share in the future on a résumé; I plan to keep this repo open and public indefinitely.
 
 +++
+Project Plan
+
+Team 6 will be creating GlucoCheck, a program to track glucose and insulin levels. This program will offer a secure, web-based, DB-backed UI for users to create an account, log in, and input health data. Users will be able to visualize this data, as well as receive different dietary recommendations based upon it.
+
++++
+Project Background
+
+The biggest challenge will be providing a secure, easy-to-use interface for customers to be able to interpret their health data. While there is no shortage of tools to measure glucose, few of those tools provide data visualization or personalized dietary recommendations that allow the customer to go from numbers to knowledge. This will be a vital learning experience for the team because customers very rarely want data, or software, or even logins: they want concrete answers, simplifications, and convenience. By applying programming techniques to a real-world problem in the healthcare industry, members will be able to understand how to make use of their technical knowledge in a supporting role for a useful, profitable business.
+
++++
 Schedule
 
 ===
@@ -47,6 +57,18 @@ Due By Friday (2021-01-22)
 2. Post your phone and e-mail address (Slack)
 3. Create at least 1 SMART goal in the SMART Goals file
 
+===
+Week 1 (2021-01-24)
+
+---
+Monday (2021-01-25)
+
+1. Prepare for meeting
+1.1. Create questions for teacher/mentor about project generally, SRS, or Agile processes
+1.2. Create summary of your role and how you plan to contribute to the team
+1.3. Create ideas for Product Vision: stakeholders, requirements, features, etc
+2. **10 pm meeting** on Teams
+
 +++
 Ground Rules
 
@@ -65,4 +87,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-01-21
+**meta_updated**: 2021-01-23
