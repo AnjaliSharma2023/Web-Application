@@ -37,4 +37,4 @@ The elevator-pitch-style statement of vision, to "sell" the product (including i
 **That**: allows remote input even by non-professional, glucose level tracker, insulin reminder, food recommendations and graphical representation of recorded data.
 
 **Unlike**: competitors—such as Omnipod and Medtronic, which focus heavily on bolus doses and medical intervention to manage diabetes—
-**Our product**: also offers lifestyle changes and meal ideas for controlling blood sugar spikes with a more holistic approach that treats the whole person.
+**Our product**: also offers lifestyle changes and meal ideas, dietery advice approved by USDA based on recorded health record for controlling blood sugar spikes with a more holistic approach that treats the whole person.
