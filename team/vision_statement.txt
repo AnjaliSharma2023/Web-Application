@@ -27,3 +27,14 @@ The elevator-pitch-style statement of vision, to "sell" the product (including i
 
 **Unlike**: competitors—such as Omnipod and Medtronic, which focus heavily on bolus doses and medical intervention to manage diabetes—
 **Our product**: also offers lifestyle changes and meal ideas for controlling blood sugar spikes with a more holistic approach that treats the whole person.
+
+
+
+**For**: diabetics and their caregivers
+**Who**: self monitoring log for the people who wants to control, monitor, and manage diabetes 
+**The**: program GlucoCheck
+**Is a**: web based personal logbook that provides self monitoring log
+**That**: allows remote input even by non-professional, glucose level tracker, insulin reminder, food recommendations and graphical representation of recorded data.
+
+**Unlike**: competitors—such as Omnipod and Medtronic, which focus heavily on bolus doses and medical intervention to manage diabetes—
+**Our product**: also offers lifestyle changes and meal ideas for controlling blood sugar spikes with a more holistic approach that treats the whole person.
