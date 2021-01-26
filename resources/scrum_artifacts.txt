@@ -1,0 +1,46 @@
+Scrum Artifacts
+
+https://github.com/bizzlebin/team_6/blob/master/resources/scrum_artifacts.txt
+
+***
+
+By Jeremiah Thomas
+
+***
+
+Created 2021-01-25
+
+Updated 2021-01-26
+
++++
+Description
+
+The 3 "official" scrum artifacts + tracking, with how they fit into the scrum team.
+
++++
+Product Backlog
+
+**Responsibility**: Product owner
+
+The product backlog is an ordered list of higher-level *all* "what" priorities to satisfy stakeholders, often given in the form of user stories, 6-C-compliant features, bug fixes, non-functional requirements, or even large epics. Normally, the product owner should reduce the scope of the priorities by breaking them down into smaller parts so that any given priority can be completed in less than 1 Sprint—and if possible a small fraction of a sprint—while at the same time keeping the list as concise as possible: this allows the development team more in-sprint flexibility and can increase motivation. The product owner may change or re-prioritize the product backlog at any time. Each item in the backlog should also have a point value, decided upon by the team, to convey the relative size and complexity of the item in terms of the triple constraints: scope, time, and resources.
+
++++
+Sprint Backlog
+
+**Responsibility**: Development team
+
+The sprint backlog is an unordered list of higher-level "what" priorities taken primarily from the top of the product backlog, which may be further broken down by the team into subitems—lower-level "what" priorities—as needed. The development team creates the backlog at the beginning of each sprint during the sprint planning meeting. Like the product backlog, items in the sprint backlog should also be assigned a point value for relative size. Once the sprint starts, only the team may add to the sprint backlog but no one may take away from it apart from pulling items to complete. At the end of the sprint, any unfinished items are put back into the product backlog.
+
++++
+Increment
+
+**Responsibility**: Development team
+
+The [potentially-releasable product] increment is the product at the end of a sprint: brought to a stopping point, fully tested, and ready to release as-is as a full product that meets at least some priorities. The development team must pace themselves so that they allow adequate time for QA and all the non-functional requirements of product release at the end of each sprint. Though the product owner may not choose to end development, the increment could *at any time* be the final product: it needs to be 100% shippable and ready for users, whatever that may entail.
+
++++
+Burndown Chart
+
+**Responsibility**: Scrum master
+
+The burndown chart, while not one of the 3 scrum artifacts, is frequently used with scrum to help estimate priority completion. Since sprints are timeboxed but features are not, the burndown chart provides a way to track trends over time and help the product owner—as well as other stakeholders—understand how quickly the project is moving forward. Typically, the scrum master builds and maintains the burndown chart, which also assists in their role of maintaining openness and communication with the entire team.
