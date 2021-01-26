@@ -10,12 +10,20 @@ By Jeremiah Thomas, et al
 
 Created 2021-01-25
 
+Updated 2021-01-25
+
++++
+Description
+
+The elevator-pitch-style statement of vision, to "sell" the product (including internally to management), guide development, and inspire follow-up goals and improvements for years to come.
+
 +++
 
 **For**: diabetics and their caregivers
-**Who**: need blood sugar monitoring and medical advice
-**The**: GlucoCheck
-**Is a**: web-based app
-**That**: is simple, easy to use, and clear even for non-professionals
-**Unlike**: competitors, which do not offer dietary guidance
-**Our product**: offers meal ideas for controlling blood sugar
+**Who**: need help tracking blood sugar levels and stopping dietary glucose spikes,
+**The**: program GlucoCheck
+**Is a**: simple, easy-to-use, and clear web-based app
+**That**: allows even non-professionals to log in from anywhere, input insulin and glucose levels, and visualize the changes over time.
+
+**Unlike**: competitors—such as Omnipod and Medtronic, which focus heavily on bolus doses and medical intervention to manage diabetes—
+**Our product**: also offers lifestyle changes and meal ideas for controlling blood sugar spikes with a more holistic approach that treats the whole person.
