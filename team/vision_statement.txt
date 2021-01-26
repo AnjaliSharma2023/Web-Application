@@ -10,7 +10,7 @@ By Jeremiah Thomas, et al
 
 Created 2021-01-25
 
-Updated 2021-01-25
+Updated 2021-01-26
 
 +++
 Description
@@ -20,21 +20,10 @@ The elevator-pitch-style statement of vision, to "sell" the product (including i
 +++
 
 **For**: diabetics and their caregivers
-**Who**: need help tracking blood sugar levels and stopping dietary glucose spikes,
+**Who**: need help monitoring, tracking, and managing blood sugar levels and stopping dietary glucose spikes,
 **The**: program GlucoCheck
-**Is a**: simple, easy-to-use, and clear web-based app
-**That**: allows even non-professionals to log in from anywhere, input insulin and glucose levels, and visualize the changes over time.
+**Is a**: simple, easy-to-use, and clear web-based personal logbook
+**That**: allows even non-professionals to log in from anywhere, input insulin and glucose levels, visualize the changes over time, get reminders, and receive dietary recommendations.
 
 **Unlike**: competitors—such as Omnipod and Medtronic, which focus heavily on bolus doses and medical intervention to manage diabetes—
-**Our product**: also offers lifestyle changes and meal ideas for controlling blood sugar spikes with a more holistic approach that treats the whole person.
-
-
-
-**For**: diabetics and their caregivers
-**Who**: self monitoring log for the people who wants to control, monitor, and manage diabetes 
-**The**: program GlucoCheck
-**Is a**: web based personal logbook that provides self monitoring log
-**That**: allows remote input even by non-professional, glucose level tracker, insulin reminder, food recommendations and graphical representation of recorded data.
-
-**Unlike**: competitors—such as Omnipod and Medtronic, which focus heavily on bolus doses and medical intervention to manage diabetes—
-**Our product**: also offers lifestyle changes and meal ideas, dietery advice approved by USDA based on recorded health record for controlling blood sugar spikes with a more holistic approach that treats the whole person.
+**Our product**: also offers lifestyle changes and USDA/FDA-approved meal ideas for controlling blood sugar spikes with a more holistic approach that treats the whole person.
