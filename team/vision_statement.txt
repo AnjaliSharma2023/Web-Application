@@ -1,0 +1,21 @@
+Vision Statement
+
+https://github.com/bizzlebin/team_6/blob/master/team/vision_statement.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-01-25
+
++++
+
+**For**: diabetics and their caregivers
+**Who**: need blood sugar monitoring and medical advice
+**The**: GlucoCheck
+**Is a**: web-based app
+**That**: is simple, easy to use, and clear even for non-professionals
+**Unlike**: competitors, which do not offer dietary guidance
+**Our product**: offers meal ideas for controlling blood sugar
