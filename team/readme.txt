@@ -69,6 +69,15 @@ Monday (2021-01-25)
 1.3. Create ideas for Product Vision: stakeholders, requirements, features, etc
 2. **10 pm meeting** on Teams
 
+---
+Wednesday (2021-01-27)
+
+1. Prep for meeting
+2. **10 pm meeting** on Teams
+2.1. Questions and clarification of roles
+2.2. Finalize Product Vision document
+2.3. Begin Product Roadmap (up to and including a planning poker session)
+
 +++
 Ground Rules
 
@@ -87,4 +96,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-01-23
+**meta_updated**: 2021-01-26
