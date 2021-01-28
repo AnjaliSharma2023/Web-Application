@@ -78,6 +78,14 @@ Wednesday (2021-01-27)
 2.2. Finalize Product Vision document
 2.3. Begin Product Roadmap (up to and including a planning poker session)
 
+---
+Thursday (2021-01-28)
+
+1. Prep for meeting
+2. **10 pm meeting** on Teams
+2.1. GitHub branch check
+2.2. Finalize Product Roadmap (planning poker session 2)
+
 +++
 Ground Rules
 
@@ -96,4 +104,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-01-26
+**meta_updated**: 2021-01-28
