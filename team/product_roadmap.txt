@@ -1,0 +1,72 @@
+Product Roadmap
+
+https://github.com/bizzlebin/team_6/blob/master/team/product_roadmap.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-01-26
+
+Updated 2021-01-28
+
++++
+Description
+
+One of many possible precursors to a product backlog, the product roadmap is akin to an SRS. It turns the product vision into a series of identifiable goals and trackable high-level metrics, including the identification of stakeholders, the establishment of baseline requirements, and determination of any dependencies.
+
++++
+Overview
+
++++
+Stakeholders
+
+• Users (diabetics, caregivers, etc)
+• Government (FDA, USDA)
+• Competitors (Omnipod, Medtronic, etc)
+• School (professor, us)
+• Mentors
+• Infrastructure (hosting, DNS, etc)
+
++++
+Focus Areas
+
+• Personalization
+• Storage
+• Security
+• UI
+• Visualization
+• Interface/API
+• Communication
+• Convenience
+• Accessibility
+• Knowledge
+• Feedback
+• Product support
+• Flexibility
+
++++
+Features
+
+• (5) Website
+• (2) Legal disclaimer
+• (2) Sign up
+• (5) Secure login
+• (1) Geofenced distribution
+• (2) Freemium model
+• (2) Advertising
+• (2) Test across multiple browsers
+• (5) Visualize health data
+• (2) Input health data manually
+• (2) Input health data via API
+• (*) Review their health data
+• (*) Provide definitions
+• (*) Provide optimum metrics
+• (*) Interpret health metrics
+• (*) Generate approved advice
+• (*) Interface with meal API
+• (*) Getting started guide
+• (*) Links to professional help
+• (*) Export health data
