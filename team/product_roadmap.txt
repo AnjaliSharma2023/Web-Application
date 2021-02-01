@@ -10,7 +10,7 @@ By Jeremiah Thomas, et al
 
 Created 2021-01-26
 
-Updated 2021-01-29
+Updated 2021-02-01
 
 +++
 Description
@@ -52,6 +52,8 @@ Qualities
 +++
 Requirements
 
+(Unordered list determines dependency, parenthesized value represents relative complexity)
+
 ///
 Remember FURPS+: functionality, usability, reliability, performance, and supportability + design, implementation, interface, and physical requirements
 \\\
@@ -59,33 +61,33 @@ Remember FURPS+: functionality, usability, reliability, performance, and support
 ===
 Sprint 1
 
-• (2) Legal disclaimer
+• (2) Legal Disclaimer: As a lawyer, I want to read a disclaimer so that my client's PHI is protected. (1. Protects PHI according to HIPAA. 2. Uses proven language. 3. Is prominently displayed.)
 • (5) Website
-•• (2) Sign up
-•• (5) Secure login
-••• (1) Geofenced distribution
-•• (2) Freemium model
-•• (2) Advertising
+•• (2) Sign Up
+•• (5) Secure Login
+••• (1) Geofenced Distribution
+•• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.)
+•• (2) Advertising: As a potential customer, I want to be made aware of GlucoCheck so that I can try it out. (1. Is a coordinated digital campaign. 2. Generates through-traffic to the website. 3. Links up with a trial offer.)
 
 ===
 Sprint 2
 
-•• (2) Test across multiple browsers
-•• (2) Accessibility audit
-•• (1) Reliability audit
-•• (1) Check website responsiveness
-•• (5) Visualize health data
-•• (2) Input health data manually
-••• (2) Input health data via API
-•• (1) Provide definitions
-•• (2) Provide optimum metrics
+•• (2) Testing Across Multiple Browsers: As a developer, I want to ensure a pleasant, functional experience across browsers so that I can gain and retain more customers. (1. Supports Chrome and at least one other browser. 2. Ensures all functional tests complete. 3. Ensures that design is similar and does not produce jarring nonconformities.)
+•• (2) Accessibility Audit
+•• (1) Reliability Audit
+•• (1) Check Website Responsiveness
+•• (5) Visualize Health Data
+•• (2) Input Health Data Manually
+••• (2) Input Health Data Via API
+•• (1) Provide Definitions
+•• (2) Provide Optimum Metrics
 
 ===
 Sprint 3
 
-••• (5) Generate approved advice
-•••• (10) Interface with meal API
-•• (5) Getting started guide
-•• (1) Links to professional medical help
-•• (1) Export health data
-• (2) Hire or provide tech support
+••• (5) Generate Approved Advice
+•••• (10) Interface With Meal API
+•• (5) Getting Started Guide
+•• (1) Links To Professional Medical Help
+•• (1) Export Health Data
+• (2) Hire Or Provide Tech Support
