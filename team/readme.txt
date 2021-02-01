@@ -86,6 +86,18 @@ Thursday (2021-01-28)
 2.1. GitHub branch check
 2.2. Finalize Product Roadmap (planning poker session 2)
 
+===
+Week 2 (2021-01-31)
+
+---
+Monday (2021-02-01)
+
+1. Prep for meeting
+2. **10 pm meeting** on Teams
+2.1. Check user stories for accuracy
+2.2. Finalize measurable acceptance criteria
+2.3. Verify story complexity
+
 +++
 Ground Rules
 
@@ -104,4 +116,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-01-28
+**meta_updated**: 2021-01-31
