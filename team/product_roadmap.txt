@@ -62,8 +62,8 @@ Remember FURPS+: functionality, usability, reliability, performance, and support
 Sprint 1
 
 • (2) Legal Disclaimer: As a lawyer, I want to read a disclaimer so that my client's PHI is protected. (1. Protects PHI according to HIPAA. 2. Uses proven language. 3. Is prominently displayed.)
-• (5) Website
-•• (2) Sign Up
+• (5) Website: As a website visitor, see a description of the GlucoCheck app and background info to determine if the product will help manage their health. (1. Displays a clear landing page. 2. Is able to host a visualization dashboard. 3. Describes the GlucoCheck app and its features.)
+•• (2) Sign Up: As a customer, I want to create an account so that I can access the GlucoCheck app. (1. Is able to capture and transmit personal account details, including e-mail address. 2. Verifies date of birth. 3. Verifies acceptance of terms. 4. Creates username and password. 5. Sends verification to customer.)
 •• (5) Secure Login
 ••• (1) Geofenced Distribution
 •• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.)
@@ -79,14 +79,14 @@ Sprint 2
 •• (5) Visualize Health Data
 •• (2) Input Health Data Manually
 ••• (2) Input Health Data Via API
-•• (1) Provide Definitions
+•• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so I can understand my health better. (1. From a recognized medical authority. 2. Come with a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
 •• (2) Provide Optimum Metrics
 
 ===
 Sprint 3
 
 ••• (5) Generate Approved Advice
-•••• (10) Interface With Meal API
+•••• (10) Interface With Meal API: As a developer, I want to receive meal nutrition data so I can determine a healthy option for the customer. (1. From a legal, trusted source. 2. With HTTP 200 status codes. 3. Formatted as a series of Python objects or data structures. 4. Of at least 10 meals and/or snacks.)
 •• (5) Getting Started Guide
 •• (1) Links To Professional Medical Help
 •• (1) Export Health Data
