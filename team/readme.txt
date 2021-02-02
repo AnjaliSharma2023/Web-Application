@@ -98,6 +98,16 @@ Monday (2021-02-01)
 2.2. Finalize measurable acceptance criteria
 2.3. Verify story complexity
 
+---
+Wednesday (2021-02-03)
+
+1. Prep for meeting
+2. **10 pm meeting** on Teams
+2.1. Finalize roadmap
+2.2. Determine constant for complexity-to-time conversion
+2.3. Vote on web framework
+2.4. Vote on visualization library
+
 +++
 Ground Rules
 
@@ -116,4 +126,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-01-31
+**meta_updated**: 2021-02-02
