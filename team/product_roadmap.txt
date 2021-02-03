@@ -65,7 +65,9 @@ Sprint 1
 • (5) Website: As a website visitor, see a description of the GlucoCheck app and background info to determine if the product will help manage their health. (1. Displays a clear landing page. 2. Is able to host a visualization dashboard. 3. Describes the GlucoCheck app and its features.)
 •• (2) Sign Up: As a customer, I want to create an account so that I can access the GlucoCheck app. (1. Is able to capture and transmit personal account details, including e-mail address. 2. Verifies date of birth. 3. Verifies acceptance of terms. 4. Creates username and password. 5. Sends verification to customer.)
 •• (5) Secure Login
+** (5) Secure Login: Provide the customer with privacy and customer's information will not be shared.
 ••• (1) Geofenced Distribution
+** (1) Geofenced Distribution: Customer access website during Sign up by providing a zip code.
 •• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.)
 •• (2) Advertising: As a potential customer, I want to be made aware of GlucoCheck so that I can try it out. (1. Is a coordinated digital campaign. 2. Generates through-traffic to the website. 3. Links up with a trial offer.)
 
@@ -74,20 +76,32 @@ Sprint 2
 
 •• (2) Testing Across Multiple Browsers: As a developer, I want to ensure a pleasant, functional experience across browsers so that I can gain and retain more customers. (1. Supports Chrome and at least one other browser. 2. Ensures all functional tests complete. 3. Ensures that design is similar and does not produce jarring nonconformities.)
 •• (2) Accessibility Audit
+•• (2) Accessibility Audit: evaluation of how well your product supports the needs of web users with disabilities, to identify barriers that are present and that are preventing individuals with disabilities from accessing the web.
 •• (1) Reliability Audit
+•• (1) Reliability Audit: 1. knowledgeable source that is visual. 2. documentary because the data would be third party. 3.Support multiple user accounts.
 •• (1) Check Website Responsiveness
+•• (1) Check Website Responsiveness: Design that fully meets the needs of users and is displayed without any problems on any types of devices and browsers. 
 •• (5) Visualize Health Data
+**(5) Visualize Health Data:1. Create interactive charts  2. Visually assess data health. 3. Custom visuals for your data.
 •• (2) Input Health Data Manually
+**(2) Input Health Data Manually: Create a tool that will allow the customer to enter their personal data.
 ••• (2) Input Health Data Via API
+••• (2) Input Health Data Via API: 1. Supply a data sheet with a metrics for customers that display guidelines on what their levels should be. 2.Enable a system to send or retrieve data that can update an individual’s record or provide.
 •• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so I can understand my health better. (1. From a recognized medical authority. 2. Come with a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
 •• (2) Provide Optimum Metrics
+**(2) Provide Optimum Metrics: 1. Create a metric that shows a starting point(login). 2. objective(handle traffic). 3.Goal for the customer (page load and click through on the website). 
 
 ===
 Sprint 3
 
 ••• (5) Generate Approved Advice
+**(5) Generate Approved Advice: Provide links for the customer to review or speak with a professional 2. To educate the customer or/if they need feedback on a personal matter.
 •••• (10) Interface With Meal API: As a developer, I want to receive meal nutrition data so I can determine a healthy option for the customer. (1. From a legal, trusted source. 2. With HTTP 200 status codes. 3. Formatted as a series of Python objects or data structures. 4. Of at least 10 meals and/or snacks.)
 •• (5) Getting Started Guide
+**(5) Getting Started Guide: A intro/objective on what the website provides. 2. What steps the customer can access. 3. Tools accessible 4. Walk through for the customer to     understand the functionality.
 •• (1) Links To Professional Medical Help
+**(1) Links To Professional Medical Help: Create supporting links to visit USFDA, .gov
 •• (1) Export Health Data
+** (1) Export Health Data: Create accessible links to view food group to improve health 2. Incentive to excerise 3. Downloadable documents the customer can share or keep for future reference. 
 • (2) Hire Or Provide Tech Support
+**(2) Hire or Provide Tech Support: Supply a FAQ, Email submission to allow customer to submit any questions and concerns. 2. Weekly server checkup/maintenance.
