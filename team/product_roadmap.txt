@@ -65,9 +65,9 @@ Sprint 1
 • (5) Website: As a website visitor, see a description of the GlucoCheck app and background info to determine if the product will help manage their health. (1. Displays a clear landing page. 2. Is able to host a visualization dashboard. 3. Describes the GlucoCheck app and its features.)
 •• (2) Sign Up: As a customer, I want to create an account so that I can access the GlucoCheck app. (1. Is able to capture and transmit personal account details, including e-mail address. 2. Verifies date of birth. 3. Verifies acceptance of terms. 4. Creates username and password. 5. Sends verification to customer.)
 ***(1) Geofenced Distribution
-***(1) Geofenced Distribution: As a developer, I want to make sure the customer sign up with a valid zip code. So that the legal disclaimer covers the customers Disclaimer of residence. 1. List a zip codes. 2. Deni any zip code that is not on the list. 
+***(1) Geofenced Distribution: As a developer, I want to make sure the customer sign up with a valid zip code. (1.So that the legal disclaimer covers and defined terms of the customer geographic regions. 2. List a zip codes. 3. Deny any zip code that is not on the list.)
 •• (5) Secure Login
-** (5) Side cure Login: As a developer, I want to provide the customer with privacy information that their data is not shared. I want to the customer a secure login form. 1. Reject passowrd. 2. Accept password. 3.Reset password. 4. Remember password. 5.TLS
+** (5) Secure Login: As a developer, I want to provide privacy/protection for customer regarding their information that it is not shared. (1. I want to the customer a secure login form. 2. Reject passowrd. 3. Accept password. 3.Reset password. 4. Remember password. 5.TLS.)
 
 •• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.)
 •• (2) Advertising: As a potential customer, I want to be made aware of GlucoCheck so that I can try it out. (1. Is a coordinated digital campaign. 2. Generates through-traffic to the website. 3. Links up with a trial offer.)
@@ -75,34 +75,34 @@ Sprint 1
 ===
 Sprint 2
 
-•• (2) Testing Across Multiple Browsers: As a developer, I want to ensure a pleasant, functional experience across browsers so that I can gain and retain more customers. (1. Supports Chrome and at least one other browser. 2. Ensures all functional tests complete. 3. Ensures that design is similar and does not produce jarring nonconformities.)
+•• (2) Testing Multiple Browsers: As a developer, I want to ensure a pleasant, functional experience across browsers so that I can gain and retain more customers. (1. Supports Chrome and at least one other browser. 2. Ensures all functional tests complete. 3. Ensures that design is similar and does not produce jarring nonconformities.)
 •• (2) Accessibility Audit
-•• (2) Accessibility Audit: As an Auditor I want evaluatate and support the needs of the web users with disabilities, so that individuals with disabilities are able to access the website. 2. This website provides the best pracitices for the blind and individually impaired.  
+•• (2) Accessibility Audit: As an Auditor I want evaluatate and support the needs of the web users with disabilities. (1. So that individuals with disabilities are able to access the website. 2. This website provides the best pracitices for the blind and individually impaired.)  
 •• (1) Reliability Audit
-•• (1) Reliability Audit: As a developer, I want to Insure the website is reliablitily access that it's accessible to customers and provide a knowledgeable source that is visual. 1.Support the graph on our webpage via traffic. 2. 3 9's up time. 
+•• (1) Reliability Audit: As a developer, I want to insure the website is accessible to customers and provide a knowledgeable source that is visual. (1.Support the graph on our webpage via traffic. 2. 3 9's up time.) 
 •• (1) Check Website Responsiveness
-•• (1) Check Website Responsiveness: As a developer, I want the website to load quickly,  so the customer to do not become frustrated. 1. Website of one second and visualization of one second. 
+•• (1) Check Website Responsiveness: As a developer, I want the website to load quickly to avoid a customer to become frustrated. (1. Website of one second and visualization of one second.)
 •• (5) Visualize Health Data
-**(5) Visualize Health Data: As the user, I want a graphical chart and graphs so that I can see my history and trends. 1. Custom visuals for your data. 2. Display bar graph showing a specifics in range. 3. Display a whisker plot, showing a spread accross the time frame. 4. Scatter plot showiong GluckCulse, insinule and carb values accross the time frame.  
+**(5) Visualize Health Data: As the user, I want a graphical chart and graphs so that I can see my history and trends. (1. Custom visuals for your data. 2. Display bar graph showing a specifics in range. 3. Display a whisker plot, showing a spread across the time frame. 4. Scatter plot showing GlucoCheck, insulin and carb values across the time frame.)  
 •• (2) Input Health Data Manually
-**(2) Input Health Data Manually: Create a tool that will allow the customer to enter their personal data.
+**(2) Input Health Data Manually: As a developer, I want to create a tool that will allow the customer to enter their personal data.
 ••• (2) Input Health Data Via API
-••• (2) Input Health Data Via API: 1. Supply a data sheet with a metrics for customers that display guidelines on what their levels should be. 2.Enable a system to send or retrieve data that can update an individual’s record or provide.
+••• (2) Input Health Data Via API: As a developer, I want to supply a data sheet with a metrics for customers that display guidelines on what their levels should be. (1.Enable a system to send or retrieve data that can update an individual’s record or provide.)
 •• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so I can understand my health better. (1. From a recognized medical authority. 2. Come with a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
 •• (2) Provide Optimum Metrics
-**(2) Provide Optimum Metrics: 1. Create a metric that shows a starting point(login). 2. objective(handle traffic). 3.Goal for the customer (page load and click through on the website). 
+**(2) Provide Optimum Metrics: As a developer, I want to create a metric that shows a starting point(initial input). (1. objective(handle traffic). 2. Goal for the customer (history of progress).) 
 
 ===
 Sprint 3
 
 ••• (5) Generate Approved Advice
-**(5) Generate Approved Advice: Provide links for the customer to review or speak with a professional 2. To educate the customer or/if they need feedback on a personal matter.
+**(5) Generate Approved Advice: As a developer, I want to provide mulitple links for the customer to review or speak with a professional. (1. To provide education/educate the customer or/if they need feedback on a personal matter.)
 •••• (10) Interface With Meal API: As a developer, I want to receive meal nutrition data so I can determine a healthy option for the customer. (1. From a legal, trusted source. 2. With HTTP 200 status codes. 3. Formatted as a series of Python objects or data structures. 4. Of at least 10 meals and/or snacks.)
 •• (5) Getting Started Guide
-**(5) Getting Started Guide: A intro/objective on what the website provides. 2. What steps the customer can access. 3. Tools accessible 4. Walk through for the customer to     understand the functionality.
+**(5) Getting Started Guide: As a user, I want a intro/objective on what the website provides. (1. What's on the menu. 2. Guidance tools I can use.  3. I can access a Walk through to the different functionalities on the website.)
 •• (1) Links To Professional Medical Help
-**(1) Links To Professional Medical Help: Create supporting links to visit USFDA, .gov
+**(1) Links To Professional Medical Help: As a developer, I want to create supporting links to visit USFDA, .gov
 •• (1) Export Health Data
-** (1) Export Health Data: Create accessible links to view food group to improve health 2. Incentive to excerise 3. Downloadable documents the customer can share or keep for future reference. 
+** (1) Export Health Data: As a developer, I want to create accessible links to view food groups to improve a customer's health. (1. Incentive to excerise 2. I want downloadable documents to review or keep for future references.)
 • (2) Hire Or Provide Tech Support
-**(2) Hire or Provide Tech Support: Supply a FAQ, Email submission to allow customer to submit any questions and concerns. 2. Weekly server checkup/maintenance.
+**(2) Hire or Provide Tech Support: As a developer, I want to supply a FAQ. (1. Accessible email submission for customer. 2. Weekly server checkup/maintenance.)
