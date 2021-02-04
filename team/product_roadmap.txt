@@ -64,10 +64,11 @@ Sprint 1
 • (2) Legal Disclaimer: As a lawyer, I want to read a disclaimer so that my client's PHI is protected. (1. Protects PHI according to HIPAA. 2. Uses proven language. 3. Is prominently displayed.)
 • (5) Website: As a website visitor, see a description of the GlucoCheck app and background info to determine if the product will help manage their health. (1. Displays a clear landing page. 2. Is able to host a visualization dashboard. 3. Describes the GlucoCheck app and its features.)
 •• (2) Sign Up: As a customer, I want to create an account so that I can access the GlucoCheck app. (1. Is able to capture and transmit personal account details, including e-mail address. 2. Verifies date of birth. 3. Verifies acceptance of terms. 4. Creates username and password. 5. Sends verification to customer.)
+***(1) Geofenced Distribution
+***(1) Geofenced Distribution: As a developer, I want to make sure the customer sign up with a valid zip code. So that the legal disclaimer covers the customers Disclaimer of residence. 1. List a zip codes. 2. Deni any zip code that is not on the list. 
 •• (5) Secure Login
-** (5) Secure Login: Provide the customer with privacy and customer's information will not be shared.
-••• (1) Geofenced Distribution
-** (1) Geofenced Distribution: Customer access website during Sign up by providing a zip code.
+** (5) Side cure Login: As a developer, I want to provide the customer with privacy information that their data is not shared. I want to the customer a secure login form. 1. Reject passowrd. 2. Accept password. 3.Reset password. 4. Remember password. 5.TLS
+
 •• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.)
 •• (2) Advertising: As a potential customer, I want to be made aware of GlucoCheck so that I can try it out. (1. Is a coordinated digital campaign. 2. Generates through-traffic to the website. 3. Links up with a trial offer.)
 
@@ -76,13 +77,13 @@ Sprint 2
 
 •• (2) Testing Across Multiple Browsers: As a developer, I want to ensure a pleasant, functional experience across browsers so that I can gain and retain more customers. (1. Supports Chrome and at least one other browser. 2. Ensures all functional tests complete. 3. Ensures that design is similar and does not produce jarring nonconformities.)
 •• (2) Accessibility Audit
-•• (2) Accessibility Audit: evaluation of how well your product supports the needs of web users with disabilities, to identify barriers that are present and that are preventing individuals with disabilities from accessing the web.
+•• (2) Accessibility Audit: As an Auditor I want evaluatate and support the needs of the web users with disabilities, so that individuals with disabilities are able to access the website. 2. This website provides the best pracitices for the blind and individually impaired.  
 •• (1) Reliability Audit
-•• (1) Reliability Audit: 1. knowledgeable source that is visual. 2. documentary because the data would be third party. 3.Support multiple user accounts.
+•• (1) Reliability Audit: As a developer, I want to Insure the website is reliablitily access that it's accessible to customers and provide a knowledgeable source that is visual. 1.Support the graph on our webpage via traffic. 2. 3 9's up time. 
 •• (1) Check Website Responsiveness
-•• (1) Check Website Responsiveness: Design that fully meets the needs of users and is displayed without any problems on any types of devices and browsers. 
+•• (1) Check Website Responsiveness: As a developer, I want the website to load quickly,  so the customer to do not become frustrated. 1. Website of one second and visualization of one second. 
 •• (5) Visualize Health Data
-**(5) Visualize Health Data:1. Create interactive charts  2. Visually assess data health. 3. Custom visuals for your data.
+**(5) Visualize Health Data: As the user, I want a graphical chart and graphs so that I can see my history and trends. 1. Custom visuals for your data. 2. Display bar graph showing a specifics in range. 3. Display a whisker plot, showing a spread accross the time frame. 4. Scatter plot showiong GluckCulse, insinule and carb values accross the time frame.  
 •• (2) Input Health Data Manually
 **(2) Input Health Data Manually: Create a tool that will allow the customer to enter their personal data.
 ••• (2) Input Health Data Via API
