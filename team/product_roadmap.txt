@@ -10,7 +10,7 @@ By Jeremiah Thomas, et al
 
 Created 2021-01-26
 
-Updated 2021-02-04
+Updated 2021-02-06
 
 +++
 Description
@@ -58,6 +58,7 @@ Release Plan
 **Developers**: 3
 **Developer time per week (h)**: 16
 **Complexity constant (h)**: 8
+**Points per week**: 6
 **Sprint Length (weeks)**: 3
 **Sprints**: 3
 
@@ -72,6 +73,8 @@ Remember FURPS+: functionality, usability, reliability, performance, and support
 
 ===
 Sprint 1 (2021-02-07)
+
+Set up a compliant, secure website that allows users to signup and login to the app.
 
 ---
 Week 1.1 (2021-02-07)
@@ -94,6 +97,8 @@ Week 1.3 (2021-02-21)
 
 ===
 Sprint 2 (2021-03-07)
+
+Add data entry and visualization to the app and make sure the experience is accessible, clear, and robust.
 
 ---
 Week 2.1 (2021-03-07)
@@ -118,6 +123,8 @@ Week 2.3 (2021-03-21)
 
 ===
 Sprint 3 (2021-03-28)
+
+Provide dietary advice, alerts, and more general help to the user to aid in differentiation and customer retention.
 
 ---
 Week 3.1 (2021-03-28)
