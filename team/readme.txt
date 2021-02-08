@@ -108,6 +108,20 @@ Wednesday (2021-02-03)
 2.3. Vote on web framework
 2.4. Vote on visualization library
 
+===
+Week 3 (2021-02-07)
+
+---
+Monday (2021-02-08)
+
+1. Sprint 1 begins!
+1.1. Pick a "doing" story
+1.2. Break down story into tasks
+1.3. Start developing
+2. Prep for meeting
+3. **10 pm meeting** on Teams
+3.1. Daily scrum: timeboxed to 15 min: what did you do, what are you going to do, and what do you need to get there?
+
 +++
 Ground Rules
 
@@ -126,4 +140,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-02-02
+**meta_updated**: 2021-02-07
