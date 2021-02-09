@@ -26,11 +26,6 @@ Overview
 +++
 Backlog
 
-**Dev's Install Django
-**Dev channel created to track progress(for individual code status)
-**Display a landing page
-**Legal Disclaimer
-
 ===
 Done
 
