@@ -1,0 +1,33 @@
+Meeting Format
+
+https://github.com/bizzlebin/team_6/blob/master/resources/meeting_format.txt
+
+https://github.com/bizzlebin/team_g/blob/master/resources/meeting_format.txt
+
+***
+
+By Jeremiah Thomas
+
+***
+
+Created 2021-01-19
+
++++
+
+Meetings will be held according to the normal weekly schedule; as the project moves forward, meetings may increase or decrease in frequency depending on project needs. Extraordinary meetings will be announced via e-mail at least *1 day* before they take place. Participation is mandatory and all meetings will be recorded.
+
+Generally, the meetings should be short and focused so everyone gets a quick, top-level view of what is going on; essentially, presenters will give a brief overview of their past, present, and future work. Extended discussion should be reserved for elsewhere (eg, not in the meeting's Slack channel, if there is one) *after* the meeting is over; special concerns or non-standard agenda items should be sent directly to the project manager (PM) via e-mail [with standard project header] at least *1 day* in advance for inclusion in the next meeting, if necessary. In the rare circumstance of a formal vote, lengthier discussion will be welcome during the formal meeting. Vetoes and overrides may be used during the comment period after a given presentation.
+
+When meetings are held online, attendees lack a lot of nonverbal and social cues. Thus, it is especially important to wait until presenters are done and for presenters to be very explicit about when they are done presenting (eg, "That concludes my presentation."). The PM will officiate and move the meeting along, up to and including asking for feedback, keeping presentations on topic, and calling for votes. To voice agreement or provide "nonverbal" input, use emoji reactions to posts—don't make *any* comments out of turn. And during the comment period, do not post anything unless it is something *substantive* (eg, don't write "Sounds good!" during a comment period); positive, respectful, and team-building comments are great but should be reserved for other channels so that they do not bring the meeting to a [silent] screeching halt. Meetings should be efficient, productive, and clear.
+
+0. Call to meeting, with date (PM)
+0.1 Attendance (secretary)
+1. Greetings (PM)
+2. Presentations (varies; PM will select order)
+2.1. Introduction of self/team and scope
+2.2. **Past**: History since last meeting (think CURD: created files, updated docs, released modules tools/docs, major "resets"/deletions, etc)
+2.3. **Present**: Current work summary (again, be concise but comprehensive)
+2.4. **Future**: Plans for current or future work, goals, and/or ideas (ie, what will get done and *anything* that is hindering you or anything you need from the team to accomplish it)
+2.5. Comments (PM will call for comments, if needed)
+3. Call to close
+3.1. Minutes (secretary; create and upload ASAP)

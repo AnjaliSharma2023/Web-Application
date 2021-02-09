@@ -1,0 +1,184 @@
+NK Metadata Format
+
+https://github.com/bizzlebin/team_6/blob/master/resources/nk_metadata_format.txt
+
+nkfs:/red/communication/metadata_format.txt
+
+***
+
+By JBT
+
+***
+
+Created 2021-01-19
+
+***
+
+Copyright © JBT
+
+All rights reserved. ***Pre-release: do not distribute!***
+
+"""THE WORK IS PROVIDED "AS IS" AND THE AUTHORS AND OWNERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS WORK INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHORS OR OWNERS BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS WORK."""
+
++++
+Description
+
+The Metadata Format is the standard New Kidronite format for textual [and primarily file-based] metadata, which is able to handle everything from code and readmes to recipes and experiments to books and multimedia. Metadata is divided into 3 main parts: header metadata (original, non-content-derivable data to locate and use the work, some of which includes filesystem metadata (eg, creation date) in a filesystem-independent form), footer metadata (original, non-content-derivable data to describe the history and sources of the work), and derived metadata ("""**key**: value""" pairs that describe the content directly and can generally be automatically generated from the content by itself). The Metadata Format also contains the standard citation format for New Kidron.
+
++++
+Overview
+
+All native New Kidronite works—including files in the NKFS—must follow this format, which requires at minimum a compliant document header but should include all available metadata; other formats for more specific uses, such as the NK Code Format and NK Recipe Format, also integrate this metadata format in their specs. The header should be reduced to the first 3 parts (title, authorship, and timestamps), despite the required field notices, when a work is inside a container [having consistent metadata], with the usage and all other [container-wide] metadata provided in the top level of the container and named [with proper extension] readme, license, or index (this is additionally the default search order for such a file). It may also be reduced to these 3 parts for personal files, where the remaining metadata may be less relevant.
+
+Unless otherwise noted, fields may contain [preformatted] quotes to handle conflicting characters but must not contain [preformatted] blockquotes. All fields containing multiple names (eg, authors) are stored as lists separated by a comma and space; to prevent conflicts as well as to encourage a more relationship-based identification with biographical/educational/personal description elsewhere, appended titles/degrees are not allowed (eg, no "Author, PhD") but non-comma distinctions which identify the author are (eg, "Author III Jr" and "Bp Translator Of Diocese").
+
+===
+Header
+
+[TATU]DCDTF:
+
+[Title] (TVCSUS: """title""" """version""" | """container""" / """subtitle""" / """uri""" / """source""")
+[Authorship] (AETG: """author""" / """editor""" / """translator""" / """generator""")
+[Timestamps] (CURD: """created""" / """updated""" / """released""" / """deleted""")
+[Usage] (CLTP: """copyright""" / """license""" / """tags""" / """permissions""")
+Dedication ("""dedication""")
+Colophon ("""colophon""")
+Description ("""description""")
+TOC
+Foreword
+
+===
+Footer
+
+ABCTMM:
+
+Acknowledgments ("""acknowledgments""")
+Bibliography
+Changelog
+Todo
+Metadata (...)
+Metametadata (...)
+
++++
+Header Format
+
+All documents must have a document header, which covers the most basic and difficult-to-reproduce metadata for the document. For non-textual works, the header can either be stored as discrete data using the built-in API for the file's format or as a separate text document which references the file(s) (eg, a readme.txt or index.html) or object(s) (for non-digital works). Each part of the header has Python-style comments denoting the official field name (if stored separately as metadata), any shorthand forms (for automated conversion later, never bare use!), and description, along with some basic usage notes. All fields refer to the work (ie, the file or object) denoted by the title and most can be automated to some degree by the creator of the documents (ie, most information is either filesystem metadata or can be set up with the author/owner's personal information). This metadata—as well as that found in other divisions—may be creatively [re]displayed (eg, a book cover may display values from the first 2 parts and a website may move much of this information into a sidebar), but must be present in this format and order at the beginning of the document, source code, or [non-cover] printed pages. If a division is omitted, omit its division heading, as well.
+
+"""
+[Title[ Version][ | Container/Collection]] # **title**: *Required*; in title case; **version**: using *semantic* versioning, if possible; filename should be snake case version of title and version; follow with *literal* vertical bar/pipe, if there is a container—the *first* unquoted vertical bar triggers the container field; **container**: May be physical, logical (eg, The Bible contains Sirach), website title, even project home URL; if it is a URI, it should be only value in the field; no series numbers must be given for either the title or container field unless actually part of the title or container (eg, "Season 1 | Good Eats" for metadata about the entire first season but never something like "Destiny 1 | Rocket Girls"); the container must be omitted unless it is inextricably linked to the work (eg, "Sirach | The Bible" is correct but "File Name | Folder" and "Book Name | Library" are incorrect)—when in doubt, omit the container!; nested containers—with higher levels separated by another vertical bar—are technically permitted with the innermost first but their use is extremely rare
+
+[Subtitle] # **subtitle**: 200-char-or-less adjectival paragraph—also in title case; it is passed to HTML, setup.py, etc as "[short] description"
+
+[Canonical URI] # **uri**: *Required*; may be a file, URL, ISBN, ISSN, etc; follow the actual location (URL for web and so on) for the URI and [automatically] generate a new URI if the work is moved to another *URI-identifiable* source format—multiple formats are common, but a mere printout, for example, must retain the URI of the document it was printed from; provide even a partial URI if at all possible (eg, folder/file.txt for a local file and http://example.com/project/ for the top-level directory containing the project's metadata in a readme) but write the value """null""" if a location is not available, such as for a physical object (eg, a handwritten note that has no digital source or a monument)
+
+[Source URI] # **source**: May be a file, URL, ISBN, ISSN, etc; use only if the work was copied and/or generated from another *URI-identifiable* work (eg, file.txt -> file.html and program.c -> program.exe); if multiple sources were used, provide the source of the content (eg, post.txt, not style.css), a partial URI (eg, project/src), or omit
+
+***
+
+[[By ]Author(s)] # **author**: *Required*; use "Unknown", if necessary; brief parenthetical information is permitted *only* to further distinguish roles (eg, "Author (illustrator)", "Author (composer)", or even "Author (questioner), Author (answerer)" for a Stack Overflow post) or clarify an unknown source (eg, "Unknown (English folk)"; anyone making direct creative changes to the *meaning* of the work is considered an author (eg, green -> dark green is likely editing, but green -> copper is likely authoring)—indirect, purely organizational, etc changes fall under the category of editing or translating; the author(s) should not be listed again as editor(s) unless they edited *someone else's* creative contribution; further credits (contributors, technical staff, etc) and details should go under Acknowledgments and/or Changelog; "By " is prepended for display but not stored; shorthand: omit "By "
+
+[Edited by Editor(s)] # **editor**: Multiple editors are listed, ideally in the order they edited the work; brief parenthetical information is permitted *only* to further distinguish roles (eg, "Editor (arranger)" for a musical score or "Editor (content)" for heavily editing an entire work); editing means *creatively* altering the work (including fixing typos) in such a way that the work is still expressed in the same language/dialect or medium; further credits (contributors, technical staff, etc) and details should go under Acknowledgments and/or Changelog; "Edited by " is prepended for display but not stored
+
+[Translated by Translator(s)] **translator**: Multiple translators are listed, ideally in the order they translated the work; brief parenthetical information is permitted *only* to further distinguish roles (eg, "Translator (arranger)" for arranging a musical score from a passed-down melody or "Translator (JS)" for manually translating code into JavaScript); translation means *creatively* altering the work in such a way that the work is expressed in a different language/dialect or medium; further credits (contributors, technical staff, etc) and details should go under Acknowledgments and/or Changelog; "Translated by " is prepended for display but not stored
+
+[Generated by Generator(s)] **generator**: Use only when a work is *automatically* copied, translated, and/or generated from another source; provide only the generating program(s) (eg, UEWSG Parser, Notepad++, pngcrush) in the order they generated the work (first generator first); "Generated by " is prepended for display but not stored
+
+***
+
+[[Created ]YYYY[-MM[-DD]]] # **created**: *Required*; "Created " is prepended for display but not stored; shorthand: replace "Created" with "+" or omit prepension entirely
+
+[Updated YYYY[-MM[-DD]]] # **updated**: "Updated " is prepended for display but not stored; note that changes to metadata do *not* count as document updates for the purposes of this field—use """**meta_updated**""" (below); shorthand: replace "Updated" with "="
+
+[Released YYYY[-MM[-DD]]] # **released**: "Released " is prepended for display but not stored; shorthand: replace "Released" with "#"
+
+[Deleted YYYY[-MM[-DD]]] # **deleted**: Rare field for when metadata is retained on deleted content; "Deleted " is prepended for display but not stored; shorthand: replace "Updated" with "-"
+
+///
+In addition to shorthand for dates, these symbols are used more generally for CURD operations in NK. Another common shorthand, used especially for Git, is prepending an underscore to a commit when only metadata changes. "_+" means metadata was created [where there was *none at all* before], "_=" means only the metadata (up to and including the filename) was changed, the rare "_#" denotes the last file access, and the rare "_-" means all metadata was deleted [but not the work itself].
+\\\
+
+***
+
+[Public Domain|[[Ø |Copyright © ][YYYY ]Owner(s)]] # **copyright**: *Required* at the container/project/top level but *not* at the file level—if the license field is present, this field must be; may auto-generate from author(s), if not provided, prepended with "Ø ", since copyright is automatic but public domain dedication is the default in NK; note that the presence of this field does *not* imply public release; this information is *required* 
+
+[Full license] # **license**: *Required* at the container/project/top level but *not* at the file level—if the copyright field is present, this field must be; if "Public Domain" is used (eg, for old or non-creative works), auto-generate "This work has been identified as being free of known restrictions under copyright law, including all related and neighboring rights. For more information, visit https://creativecommons.org/publicdomain/mark/1.0/ ."; if "Ø" is used, auto-generate "To the extent possible under law, the owner(s) has waived all copyright and related or neighboring rights to this work. For more information, visit https://creativecommons.org/publicdomain/zero/1.0/ ."; if "Copyright ©" is used, auto-generate "All rights reserved. Under New Kidronite law, copyright lasts 7 years from the date of a work's release and the work is thereafter automatically dedicated to the public domain by the owner(s); this applies in The Kingdom Of New Kidron (NK) and extends to all Orthodox Christians in other jurisdictions universally (Deuteronomy 15.1–3). Outside of NK, copyright lasts 50 years from the date of a work's release and the work is thereafter automatically dedicated to the public domain by the owner(s); this applies universally to the extent possible under law (Leviticus 25.10–13). For more information on the terms of the 50-year release, visit https://creativecommons.org/publicdomain/zero/1.0/ ."; if either "Ø" or "Copyright ©" are used, also auto-generate the following boilerplate disclaimer in a regular paragraph (but with all content in a preformatted quote), which is adapted from the OpenBSD license: """THE WORK IS PROVIDED "AS IS" AND THE AUTHORS AND OWNERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS WORK INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHORS OR OWNERS BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS WORK."""; works should also contain, as needed, an "All persons fictitious"-type disclaimer, a disclaimer against offering legal, financial, or medical advice, a disclaimer against treating a medical condition, and/or any other disclaimer advised by legal counsel; note, however, that for any work originating outside of NK, the default for copyrights is "All rights reserved." and warranties may be implied!
+
+[<link ...>/<meta ...>] # **tags**: Tags passed to HTML parser, if overriding
+
+[Permissions/ACL data, if overriding] # **permissions**: For automatically creating file permissions for the metadata
+
++++
+Dedication
+
+[Imprimatur, dedication, and/or epigraph] # **dedication**: May be as complex as a [preformatted] blockquote; teacher/class information should also go here, for school assignments, as well as patron or company for hired or contracted works
+
++++
+Colophon
+
+[Publisher, catalog, ISBN, LOC, and similar info] # **colophon**: May use subfields or [preformatted] blockquotes as needed, though everything is stored as a whole for this field, too
+
++++
+Description
+
+[Description] # **description**: Each file format has a slightly different use case for the description, further detailed in their related spec; it may be as complex as a [preformatted] blockquote
+
++++
+Table Of Contents
+
+[TOC] # The TOC is usually a hierarchical list and must come after the above divisions, if present. Page numbering—even if given separately for front matter—must start on the first printed, non-cover page, which is nearly always the first page of a printed document and usually a title page: the TOC need not include references to earlier material but *must* take the used page numbers into account, particularly when dealing with PDFs and other formats where physical and logical page numbers can become mismatched
+
++++
+Foreword
+
+[Foreword] # From a source other than the author. No other standard divisions are considered to be part of the header of a document: introductions and prologs are considered to be content, not metadata
+"""
+
++++
+Citation Format
+
+Formal in-text citations, when used, must be given according to the standard NK citation format, currently only documented here in the Metadata Format; informal citations, such as URLs linked in code comments, need not be as thorough. Formal citations must follow the cited material inline (usually parenthetically) or via a note (eg, """[1]"""), directly after the cited material but after the [optional] author; in the case of a quote, this would be written as "—Pr Stephen Freeman (The Useless God; post)". The citation must be in the format "Title Version: [division number Name]/[division type] [Name]/post [number]/comment [number]/answer [number]/etc (page [number])", with the paging only provided if applicable and no extra terminal punctuation following the citation. In the case that a work is citing itself (eg, a metadata file providing select quotes or a review of a book), the "Title Version; " may be omitted.
+
+Bibliographic citations must also be given according to the NK citation format, which follow the same principles, namely giving a reader everything they need to find/reproduce the information without the extraneous colophonic info that can be found later, if/as needed. Works should contain bibliographic entries for all cited material, whether or not the material is cited in-text. The format is:
+
+Title Version | Container: division/comment/answer/etc [Name]/[number] (page [number]): URI . Author(s); editor(s); translator(s); generator(s). Released [date] .
+
+The field names must be filled in as far as possible and their conventions must be adhered to (eg, ISO-compliant dates). If multiple containers are present (extremely rare), only list the first (ie, the innermost). The URI may have a fragment appended to it, if applicable, differing from the full source's URI (eg, project/page.html#chapter_5). Display prepensions are required but blank fields and their preceding punctuation are omitted entirely, except that periods are always retained. Any name fields with more than 3 names must be limited to no more than the first 3 and appended with ", et al" to keep the bibliography clear and concise; for wiki pages, these fields should generally be omitted entirely. And if no release date is given, replace with "Accessed [date]."; such timestamp information is important not just for digital data but physical drafts and art installations. For example, a bibliographic citation for the Metadata Format [from within the NKFS] would be written like "NK Metadata Format; chapter Citation Format: nkfs:/red/language/metadata_format.txt . By JBT. Accessed 2020-05-02 ."
+
++++
+Footer Format
+
+Most documents have a document footer, which handles more extensive metadata—for both human and machine—than is generally practical in the header. Unlike the header, no part of the footer's subdivisions are required. The document footer must be placed under a single division, named "More", at the end of the document's main contents (including postscripts, appendices, and endnotes) as well as after the glossary and index. As with the header, each part of the footer has Python-style comments denoting the official field name (if stored separately as metadata), any shorthand forms (for automated conversion later, never bare use!), and description, along with some basic usage notes. All fields refer to the work denoted by the title and much of the """key:value""" metadata can be automated to some degree with well-preserved digital documents. This metadata—as well as that found in other divisions—may be creatively [re]displayed (eg, a book's dusk jacket flaps may display part of the general "More" info and a website may hide the metadata sections completely), but must be present in this format and order at the end of the document, source code, or [non-cover] printed pages.
+
+"""
++++
+Acknowledgments
+
+[General info of any type, followed by optional message of any number of paragraphs the last of which is terminated by a colon:] # Any general information can go directly under the "Acknowledgments" heading, including more of the background and the why—beyond what is in the "Description" and content (eg, in the "Introduction")—as well as any interesting history and rationale; it is followed by more specific acknowledgments; the *first* colon-ended paragraph will end this part; the default text is "The following contributors deserve special thanks:"
+
+[Acknowledgment(s)] # **acknowledgments**: Multiple acknowledgments/names/contributors/donors/credits are separated by a comma and space. Since there is no easily-parsable way to subdivide the acknowledgments, any additional information should be included after the acknowledgment parenthetically
+
++++
+Bibliography
+
+[Bibliography] # The bibliography should be a bulleted list, but any other format is permitted; read chapter Citation Format, above, for more info
+
++++
+Changelog
+
+[Brief changelog] # The in-footer changelog should contain at most a brief version history and highlights by number—exhaustive diffs are for Git and/or an exhaustive changelog file! Entries must use description lists with semantic versioning, eg "**0.1.0**:[ (YYYY[-MM[-DD]])] First release. Started adding..."]; the current version is not usually added to the changelog until release
+
++++
+Todo
+
+[Items] # The todo section should be a bulleted list, but any other format is permitted
+
++++
+Metadata
+
+[Additional metadata about *the work denoted by the title*] # All derived metadata must be provided in a description list (ie, """**key**: value""" pairs on new lines) with recognized keys to guarantee correct parsing and storage; generally, this type of metadata holds data that can be created from direct inspection of the work, such as type, [file] size, etc; use a separate metadata file named "[source_name.ext]_metadata.txt" and place [meta]metadata under the appropriate heading, if original metadata is really needed and the original source is unsuitable for metadata insertion; after the usual derived metadata, further subdivisions are allowed for more complicated metadata, such as a review of the content, quotes gleaned from the material, and so on; such subdivisions, however, are not stored in """**key**: value""" pairs and are only for human use
+
++++
+Metametadata
+
+[Metadata about *the metadata document itself*] # All metadata must be provided in a description list (ie, """**key**: value""" pairs on new lines) with recognized keys to guarantee correct parsing and storage; original metadata (that which cannot be derived from the metadata) should appear first, such as [metadata] author, creation date, and copyright, with the key name prepended with ""meta_" (eg, """**meta_author**: [Author(s)]"""); the derived metadata, such as type, [file] size, etc, should follow in the same format; metametadata is use is generally discouraged—authors should create the original metadata because there is no other way to derive it—though it may be necessary in conjunction with an external metadata file, above, or if updating the metadata independent of the [rest of the] work; after the usual metametadata, further subdivisions are allowed for more complicated metametadata, such as a description of how difficult the metadata was to find, a todo list of more tasks to perform on the content and/or metadata, and so on; such subdivisions, however, are not stored in """**key**: value""" pairs and are only for human use
+"""

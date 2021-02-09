@@ -1,0 +1,50 @@
+Sprint Backlog 01
+
+https://github.com/bizzlebin/team_6/blob/master/team/sprint_backlog_01.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-02-07
+
++++
+Description
+
+The development team's sprint backlog for sprint 1, which can be subdivided into smaller and smaller chunks—even into tasks instead of stories.
+
++++
+Overview
+
+**Sprint**: 1
+**Start date**: 2021-02-07
+**End date**: 2021-02-27
+**Goal**: Set up a compliant, secure website that allows users to signup and login to the app.
+
++++
+Backlog
+
+===
+Done
+
+Items that are now in the past; only the *product owner* may move user stories to this category when they meet the acceptance criteria or, in the case of dev-team-created subitems, the internal definition of done.
+
+===
+Doing
+
+The *one* story—and any subitems—that are presently in progress. Only the dev team may pull an item into this category and they may freely create subitems, as needed: this is the place to break a story down.
+
+===
+Do
+
+The agreed-upon user stories for the sprint, ready for future work by the development team. The team may add to this list by mutual agreement at any time but no extra work may be pushed to the team during a sprint.
+
+• (2) Legal Disclaimer: As a lawyer, I want to read a disclaimer so that my client's PHI is protected. (1. Protects PHI according to HIPAA. 2. Uses proven language. 3. Is prominently displayed.)
+• (5) Website: As a website visitor, I want to read a description of the GlucoCheck app and background info so that I  know if the product will help manage my health situation. (1. Displays a clear landing page. 2. Is able to host a visualization dashboard. 3. Describes the GlucoCheck app and its features.)
+•• (2) Sign Up: As a customer, I want to create an account so that I can access the GlucoCheck app. (1. Is able to capture and transmit personal account details, including e-mail address. 2. Verifies date of birth. 3. Verifies acceptance of terms. 4. Creates username and password. 5. Sends verification to customer.)
+••• (1) Geofenced Distribution: As a developer, I want to make sure the customer has a valid zip code so that they are in a jurisdiction covered by the legal disclaimer. (1. References a list of valid zip codes. 2. Denies any zip code that is not on the list.)
+•• (5) Secure Login: As a developer, I want to provide privacy and protection for my customers so that their information is not shared. (1. Directs the customer to a secure login form. 2. Rejects incorrect username/password combos. 3. Accepts correct username/password combos. 4. Can reset passwords. 5. Can remember passwords. 6. Transmits data over TLS.)
+•• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.)
+•• (2) Advertising: As a potential customer, I want to be made aware of GlucoCheck so that I can try it out. (1. Is a coordinated digital campaign. 2. Generates through-traffic to the website. 3. Links up with a trial offer.)

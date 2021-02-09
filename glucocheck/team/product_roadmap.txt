@@ -1,0 +1,149 @@
+Product Roadmap
+
+https://github.com/bizzlebin/team_6/blob/master/team/product_roadmap.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-01-26
+
+Updated 2021-02-06
+
++++
+Description
+
+One of many possible precursors to a product backlog, the product roadmap is akin to an SRS. It turns the product vision into a series of discrete requirements, starting with the identification of stakeholders and the establishment of baseline qualities. Once the requirements are set, any dependencies can be noted and the complexity estimated in terms of the triple constraints: scope, time, and resources.
+
++++
+Vision
+
+For diabetics and their caregivers, who need help monitoring, tracking, and managing blood sugar levels and stopping dietary glucose spikes, the program GlucoCheck is a simple, easy-to-use, and clear web-based personal logbook that allows even non-professionals to log in from anywhere, input insulin and glucose levels, visualize the changes over time, get reminders, and receive dietary recommendations. Unlike competitors—such as Omnipod and Medtronic, which focus heavily on bolus doses and medical intervention to manage diabetes—our product also offers lifestyle changes and USDA/FDA-approved meal ideas for controlling blood sugar spikes with a more holistic approach that treats the whole person.
+
++++
+Stakeholders
+
+• Users (diabetics, caregivers, etc)
+• Government (FDA, USDA)
+• Competitors (Omnipod, Medtronic, etc)
+• School (professor, us)
+• Mentors
+• Infrastructure (hosting, DNS, etc)
+
++++
+Qualities
+
+• Personalization
+• Storage
+• Security
+• UI
+• Visualization
+• Interface/API
+• Communication
+• Convenience
+• Accessibility
+• Knowledge
+• Feedback
+• Product support
+• Flexibility
+
++++
+Release Plan
+
+**Release Goal**: Enable diabetics and their caregivers to input insulin and glucose levels, visualize the changes over time, get reminders, and receive dietary recommendations via a web-based personal logbook.
+**Creation Date**: 2021-01-19
+**Release Date**: 2021-05-03
+**Developers**: 3
+**Developer time per week (h)**: 16
+**Complexity constant (h)**: 8
+**Points per week**: 6
+**Sprint Length (weeks)**: 3
+**Sprints**: 3
+
++++
+Product Backlog
+
+(Started as Requirements chapter with story titles only, then dependencies were added (unordered list), followed by complexity (parenthesized value), user story (following post-title colon), and acceptance criteria (parenthesized ordered list))
+
+///
+Remember FURPS+: functionality, usability, reliability, performance, and supportability + design, implementation, interface, and physical requirements
+\\\
+
+===
+Sprint 1 (2021-02-07)
+
+Set up a compliant, secure website that allows users to signup and login to the app.
+
+---
+Week 1.1 (2021-02-07)
+
+• (2) Legal Disclaimer: As a lawyer, I want to read a disclaimer so that my client's PHI is protected. (1. Protects PHI according to HIPAA. 2. Uses proven language. 3. Is prominently displayed.)
+• (5) Website: As a website visitor, I want to read a description of the GlucoCheck app and background info so that I  know if the product will help manage my health situation. (1. Displays a clear landing page. 2. Is able to host a visualization dashboard. 3. Describes the GlucoCheck app and its features.)
+
+---
+Week 1.2 (2021-02-14)
+
+•• (2) Sign Up: As a customer, I want to create an account so that I can access the GlucoCheck app. (1. Is able to capture and transmit personal account details, including e-mail address. 2. Verifies date of birth. 3. Verifies acceptance of terms. 4. Creates username and password. 5. Sends verification to customer.)
+••• (1) Geofenced Distribution: As a developer, I want to make sure the customer has a valid zip code so that they are in a jurisdiction covered by the legal disclaimer. (1. References a list of valid zip codes. 2. Denies any zip code that is not on the list.)
+•• (5) Secure Login: As a developer, I want to provide privacy and protection for my customers so that their information is not shared. (1. Directs the customer to a secure login form. 2. Rejects incorrect username/password combos. 3. Accepts correct username/password combos. 4. Can reset passwords. 5. Can remember passwords. 6. Transmits data over TLS.)
+
+---
+Week 1.3 (2021-02-21)
+
+•• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.)
+•• (2) Advertising: As a potential customer, I want to be made aware of GlucoCheck so that I can try it out. (1. Is a coordinated digital campaign. 2. Generates through-traffic to the website. 3. Links up with a trial offer.)
+
+===
+Sprint 2 (2021-03-07)
+
+Add data entry and visualization to the app and make sure the experience is accessible, clear, and robust.
+
+---
+Week 2.1 (2021-03-07)
+
+•• (2) Testing Multiple Browsers: As a developer, I want to ensure a pleasant, functional experience across browsers so that I can gain and retain more customers. (1. Supports Chrome and at least one other browser. 2. Ensures all functional tests complete. 3. Ensures that design is similar and does not produce jarring nonconformities.)
+•• (2) Accessibility Audit: As a developer, I want to meet the needs of users with disabilities so that they are able to use the functionality of the website. (1. Identifies the needs of colorblind and other visually-impaired users. 2. Ensure best practices are followed. 3. Produces a report with some type of accessibility score.)
+•• (1) Reliability Audit: As a developer, I want to ensure the website is continually available to customers so that they can continue to utilize the app. (1. Reports on webpage traffic. 2. Produces a report to determine if 3 9s uptime has been met.)
+•• (1) Check Website Responsiveness: As a developer, I want the website to load quickly so that customers don't become frustrated. (1. Achieves page load time of < 1 s. 2. Achieves visualization load time of < 1 s.)
+
+---
+Week 2.2 (2021-03-14)
+
+•• (5) Visualize Health Data: As a customer, I want visual charts and graphs so that I can see my health data history and look for trends. (1. Produces custom visuals for health data. 2. Displays bar graph showing if health data is in range. 3. Displays a whisker plot, showing a spread of values over time. 4. Displays a scatter plot showing glucose, insulin, and carb values over time.)
+•• (2) Input Health Data Manually: As a customer, I want to input health data manually so that it is saved for me. (1. Provides interface for data entry. 2. Saves the health data.)
+
+---
+Week 2.3 (2021-03-21)
+
+••• (2) Input Health Data Via API: As a developer, I want to automate data entry so that advanced users or hardware can quickly and accurately input large amounts of health data. (1. Provides a public-facing API that allows programmatic mass data entry after authentication. 2. Documents the API for users.)
+•• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so that I can understand my health better. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
+•• (2) Provide Optimum Metrics: As a customer, I want to understand the optimum range for health data so that I can keep the numbers in check. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all metrics used on the website. 4. Contextualized and/or integrated into the visualization.)
+
+===
+Sprint 3 (2021-03-28)
+
+Provide dietary advice, alerts, and more general help to the user to aid in differentiation and customer retention.
+
+---
+Week 3.1 (2021-03-28)
+
+••• (5) Generate Approved Advice: As a developer, I want to provide generic advice and alerts based on the health data and metrics so that I do not give regulated medical advice. (1. Is legally unregulated. 2. Is safe. 3. Is accurate. 4. Is based upon both the customer's health data and the metrics. 5. Incorporates dietary information. 6. Is actionable.)
+
+---
+Week 3.2 (2021-04-04)
+
+•••• (10) Interface With Meal API: As a developer, I want to automatically receive meal nutrition data so that I can determine a healthy option for the customer. (1. From a legal, trusted source. 2. Checks for HTTP 200 status codes. 3. Formatted as a series of Python objects or data structures. 4. Retrieves at at least 10 meals and/or snacks.)
+
+---
+Week 3.3 (2021-04-11)
+
+•• (5) Getting Started Guide: As a customer, I want an introduction to the app so that I understand why and how I should use it. (1. Shows what's on the menu. 2. Demonstrates the app's functions. 3. Provides a video walk-through of the website and/or app. 4. Contains a FAQ of at least 10 items.)
+
+===
+Unscheduled
+
+•• (1) Links To Professional Medical Help: As a developer, I want to provide links to professional health services so that I can reduce app support complexity. (1. From a recognized medical authority or governmental agency.)
+•• (1) Export Health Data: As a customer, I want to be able to download my health data so that I have my own, portable copy. (1. Returns all captured health data in a single download. 2. Supports a standardized or basic plaintext-readable file format.)
+• (2) Hire or Provide Tech Support: As a developer, I want to provide a way for customers to receive extra support so that they are retained and have a positive impression of the app. (1. Accessible via e-mail or form submission. 2. Sends to internal or 3rd-party ticketing system. 3. Clearly delineates what type of support can and cannot be provided.)

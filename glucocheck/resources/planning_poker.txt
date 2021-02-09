@@ -1,0 +1,27 @@
+Planning Poker
+
+https://github.com/bizzlebin/team_6/blob/master/resources/planning_poker.txt
+
+***
+
+By Jeremiah Thomas
+
+***
+
+Created 2021-01-26
+
++++
+Description
+
+Planning poker is a common method of assigning point values to priorities to convey the relative size and complexity of each item in terms of the triple constraints: scope, time, and resources. Normally, all team members have cards and simultaneously reveal their point value estimate; this avoids the "founder effect" that may cluster all results together or create artificial agreement if one team member reveals their card first. The poker "hand" is repeated—after periods of discussion—until are team members have assigned the priority the same value.
+
++++
+Point Values
+
+Various vales and schemes can be used, but a simple logarithmic approach with few values will be suitable for many projects:
+
+• 1
+• 2
+• 5
+• 10
+• 20
