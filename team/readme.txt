@@ -122,6 +122,11 @@ Monday (2021-02-08)
 3. **10 pm meeting** on Teams
 3.1. Daily scrum: timeboxed to 15 min: what did you do, what are you going to do, and what do you need to get there?
 
+---
+Wednesday (2021-02-10)
+
+1. **10 pm daily scrum** on Teams: what did you do, what are you going to do, and what do you need to get there?
+
 +++
 Ground Rules
 
@@ -140,4 +145,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-02-07
+**meta_updated**: 2021-02-08
