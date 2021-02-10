@@ -38,9 +38,9 @@ The *one* story—and any subitems—that are presently in progress. Only the de
 
 • (5) Website: 
 •• Setup homepage
-•• Add links to app functions -> link to dashboard and link to the rest of the functionality through there,
-								 link to the sign-in/up
-•• Write up describing and pitching GlucoCheck functionality concisely with fluid presentation
+••• Add links to app functions -> link to dashboard and link to the rest of the functionality through there
+				  link to the sign-in/up
+••• Write up describing and pitching GlucoCheck functionality concisely and with fluid presentation
 
 ===
 Do
