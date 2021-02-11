@@ -10,6 +10,8 @@ By Jeremiah Thomas, et al
 
 Created 2021-01-19
 
+Released 2021-05-03
+
 ***
 
 Copyright © Jeremiah Thomas, et al
@@ -26,7 +28,7 @@ CSC 289-0002
 +++
 Description
 
-[add 6 Cs-compliant description]
+GlucoCheck is an app that enables diabetics and their caregivers to input insulin and glucose levels, visualize the changes over time, get reminders, and receive dietary recommendations via a web-based personal logbook.
 
 +++
 Metametadata
@@ -35,3 +37,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
+**meta_updated**: 2021-02-10
