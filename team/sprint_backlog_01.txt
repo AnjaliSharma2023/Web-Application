@@ -42,6 +42,13 @@ The *one* story—and any subitems—that are presently in progress. Only the de
 				  link to the sign-in/up
 ••• Write up describing and pitching GlucoCheck functionality concisely and with fluid presentation
 
+•• (2) Signup:
+Creation of form
+Creation of superuser admin
+Database creation and link with the user input
+Validation of user account
+Setup of signup and login page 
+
 ===
 Do
 
