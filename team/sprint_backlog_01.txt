@@ -36,6 +36,10 @@ Doing
 
 The *one* story—and any subitems—that are presently in progress. Only the dev team may pull an item into this category and they may freely create subitems, as needed: this is the place to break a story down.
 
+Creation of form
+Creation of superuser admin
+
+
 • (5) Website: 
 •• Setup homepage
 ••• Add links to app functions -> link to dashboard and link to the rest of the functionality through there
@@ -43,9 +47,8 @@ The *one* story—and any subitems—that are presently in progress. Only the de
 ••• Write up describing and pitching GlucoCheck functionality concisely and with fluid presentation
 
 •• (2) Signup:
-Creation of form
-Creation of superuser admin
-Database creation and link with the user input
+
+Link between signup and login pages
 Validation of user account
 Setup of signup and login page 
 
