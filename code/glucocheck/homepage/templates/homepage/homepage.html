@@ -1,6 +1,7 @@
 <html>
 <head>
-	<link rel="stylesheet" href="homepage.css">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'homepage/style.css' %}">
 	<title>Homepage</title>
 </head>
 
@@ -11,7 +12,7 @@
 		<i>some slogan here w/ extra styling</i>
 		<!--Nav Items-->
 		<ul>
-			<li><a href="#signin/up">{{sometext}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
+			<li><a href="#signin/up">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
 			<li><a href="#dashboard">Dashboard</a></li>
 			<li><a class="active" href="#home">Home</a></li>
 		</ul>
