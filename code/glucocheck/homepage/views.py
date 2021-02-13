@@ -8,5 +8,6 @@ def homepage(request):
     else:
         context = {'username': 'Sign-In/Up'}
     '''
-    context = {'username': 'Sign-In/Up'}
+    context = {'username': 'Sign-In/Up',
+               'active': 'Home'}
     return render(request, 'homepage/homepage.html', context)

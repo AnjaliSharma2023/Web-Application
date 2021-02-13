@@ -6,17 +6,8 @@
 </head>
 
 <body>
-	<!--Navigation Bar-->
-	<div class="topnav">
-		<p>GlucoCheck</p>
-		<i>some slogan here w/ extra styling</i>
-		<!--Nav Items-->
-		<ul>
-			<li><a href="#signin/up">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
-			<li><a href="#dashboard">Dashboard</a></li>
-			<li><a class="active" href="#home">Home</a></li>
-		</ul>
-	</div>
+	<!--Import header-->
+	{% include "header/header.html" %}
 	
 	<!--Page Content-->
 	<div class="container">
@@ -68,25 +59,8 @@
 	</div>
 	<!--End Page Content-->
 	
-	<!--Footer-->
-	<div class="footer">
-		<div class="column">
-			<h2>Learn More</h2>
-			<ul>
-				<li><a href="#tutorial">Getting Started</a></li>
-				<li><a href="#legal_disclaimer">Legal Disclaimer</a></li>
-			</ul>
-		</div>
-		<div class="column">
-			<h2>Contact Us</h2>
-			<ul>
-				<li><a href="#support">Customer Support</a></li>
-				<li><a href="#bug_report">Report a Bug(will prob just be bundled with customer support)</a></li>
-			</ul>
-		</div>
-		<p>GlucoCheck</p>
-		<i>© 2021-2025 GlucoCheck Development Team and individual contributors. GlucoCheck is a registered trademark of the GlucoCheck Development Team.</i>
-	</div>
+	<!--Import footer-->
+	{% include "footer/footer.html" %}
 	
 </body>
 </html>
