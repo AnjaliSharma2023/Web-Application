@@ -37,10 +37,9 @@ Doing
 The *one* story—and any subitems—that are presently in progress. Only the dev team may pull an item into this category and they may freely create subitems, as needed: this is the place to break a story down.
 
 • (5) Website: 
-•• Setup homepage
-••• Add links to app functions -> link to dashboard and link to the rest of the functionality through there
-				  link to the sign-in/up
-••• Write up describing and pitching GlucoCheck functionality concisely and with fluid presentation
+•• Setup homepage HTML and CSS - Kai McGregor, 2/12 Ready for input
+•• Add links to app functions - Kai McGregor, 2/12 Done (placeholders for now)
+•• Write up describing and pitching GlucoCheck functionality concisely and with fluid presentation
 
 •• (2) Signup:
 Creation of form
