@@ -8,22 +8,22 @@
 	<i>some slogan here w/ extra styling</i>
 	<!--Nav Items-->
 	<ul>
-		{% if active == 'Sign-In/Up' %}
-			<li><a class='active' href="#signin/up">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
+		{% if active == 'Authentication' %}
+			<li><a class='active' href="/authentication">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
 		{% else %}
-			<li><a href="#signin/up">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
+			<li><a href="/authentication">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
 		{% endif %}
 		
 		{% if active == 'Dashboard' %}
-			<li><a class='active' href="#dashboard">Dashboard</a></li>
+			<li><a class='active' href="/dashboard">Dashboard</a></li>
 		{% else %}
-			<li><a href="#dashboard">Dashboard</a></li>
+			<li><a href="/dashboard">Dashboard</a></li>
 		{% endif %}
 		
 		{% if active == 'Home' %}
-			<li><a class="active" href="#home">Home</a></li>
+			<li><a class="active" href="/">Home</a></li>
 		{% else %}
-			<li><a href="#home">Home</a></li>
+			<li><a href="/">Home</a></li>
 		{% endif %}
 	</ul>
 </div>
