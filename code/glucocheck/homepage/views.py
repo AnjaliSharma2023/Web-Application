@@ -25,18 +25,22 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
-            user.first_name = cleaned_data['first_name']
-            user.last_name = cleaned_data['last_name']
-            user.email = cleaned_data['email']
-            user.country = cleaned_data['country']
+            username = form.cleaned_data.get('username')
+            #user.last_name = form.cleaned_data['last_name']
+            #user.email = form.cleaned_data['email']
+            #user.country = form.cleaned_data['country']
+
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            
             messages.success(request,'Account created successfully')
             return redirect('login')
     else: 
         form = SignupForm()
 
-    return render(request,'homepage/signup.html', {'form': form})
+    return render(request,'account/signup.html', {'form': form})
 
 
 def login(request):
     
-    return render(request,'homepage/login.html')
+    return render(request,'account/login.html')
