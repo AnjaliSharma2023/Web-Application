@@ -3,12 +3,12 @@ body {
 }
 
 .footer {
-  background-color: #333;
+  background-color: {% background_color color1 %};
   overflow: hidden;
 }
 
 .footer .column a, h2 {
-	color: #f2f2f2;
+	color: {% text_color color1 %};
 	text-align: center;
 }
 
@@ -26,7 +26,7 @@ body {
 
 .footer p, i{
 	float: left;
-	color: #f2f2f2;
+	color: {% text_color color1 %};
 	text-align: center;
 	font-size: 17px;
 	margin: 0;
