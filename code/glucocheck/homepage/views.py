@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from homepage.forms import SignupForm
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate,logout
 
 # Create your views here.
 
@@ -26,15 +26,9 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            #user.last_name = form.cleaned_data['last_name']
-            #user.email = form.cleaned_data['email']
-            #user.country = form.cleaned_data['country']
-
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            
-            messages.success(request,'Account created successfully')
+            user = form.cleaned_data.get('username')
+                       
+            messages.success(request,'Account created successfully for' + user)
             return redirect('login')
     else: 
         form = SignupForm()

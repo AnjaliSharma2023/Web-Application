@@ -106,19 +106,17 @@
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        {{form.state}}
+                        {{form.birth_date}}
                     </div>
+                    
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        {{form.country}}
+                        {{form.state}}
                     </div>
-
-
-
-
-                       <div class="d-flex justify-content-center mt-3 login_container">
+                    
+                    <div class="d-flex justify-content-center mt-3 login_container">
                          <input class="btn login_btn" type="submit" value="Register Account">
                        </div>
 
@@ -146,8 +144,8 @@
     form_fields[2].placeholder='Email..';
     form_fields[3].placeholder='Enter password...';
     form_fields[4].placeholder='Re-enter Password...';
+    form_fields[5].placeholder='Birth Date.';
     form_fields[5].placeholder='State...';
-    form_fields[6].placeholder='Country...';
 
 
     for (var field in form_fields){	

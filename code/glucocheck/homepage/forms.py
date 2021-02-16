@@ -5,8 +5,9 @@ from django.contrib.auth.forms import UserCreationForm
 class SignupForm(UserCreationForm):
     username = forms.CharField(required =True)
     email=forms.EmailField(required =True)
+    birth_date = forms.DateField(label ='Date of birth',widget = forms.SelectDateWidget)
     state = forms.CharField(max_length = 20,required =True)
-    country = forms.CharField(max_length = 20,required =True)
+   
 
     class Meta:
         model = User
@@ -15,8 +16,8 @@ class SignupForm(UserCreationForm):
             'email',
             'password1',
             'password2',
+            'birth_date',
             'state',
-            'country',
         ) 
 
 
