@@ -4,11 +4,17 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 
 class SignupForm(UserCreationForm):
-
+    username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
+    email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
+    birth_date = forms.DateField(widget = forms.SelectDateWidget(attrs={'placeholder':'Birth Date'}), label='calendar-alt.svg')
+    state = forms.CharField(max_length = 20,required =True, widget=forms.TextInput(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
+    password1 = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Password'}), label='key.svg')
+    password2 = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
+    '''
     email=forms.EmailField(required =True)
     birth_date = forms.DateField(input_formats=['%d/%m/%Y'])
     state = forms.CharField(max_length = 20)
- 
+    '''
     class Meta:
         model = User
         fields = (

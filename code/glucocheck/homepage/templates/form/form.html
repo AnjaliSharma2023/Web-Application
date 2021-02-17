@@ -1,27 +1,36 @@
+<!--Load related stylesheet from static-->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'form/style.css' %}">
 
+<!--Center form content-->
 <div class="center">
 	<form action="" method="post">
+	<!--Pull form title from context-->
 	<h3 class="no_icon">{{form_title}}</h3>
 	{% csrf_token %}
+	<!--Create form input, one row per field-->
 	{% for field in form %}
 	<div class="row">
+		<!--Pull icon path from the label attribute and include it-->
 		<div class="column">
 			{% with "icons/"|add:field.label as icon_path %}
 				{% include icon_path %}
 			{% endwith %}
 		</div>
+		<!--Display the input field-->
 		{{field}}
 	</div>
 	{% endfor %}
+	<!--Submit button with its value pulled from context-->
 	<div class="row">
 		<input class="no_icon" type="submit" value={{submit_value}}>
 	</div>
+	<!--Include any additional html to be placed under the submit button, this context value is False if there is none-->
 	{% if additional_html %}
 		{% include additional_html %}
 	{% endif %}
 	
+	<!--Display form errors, may need to be placed in a div-->
 	{{form.errors}}
 	</form>
 </div>

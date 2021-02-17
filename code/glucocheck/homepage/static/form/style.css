@@ -1,3 +1,4 @@
+/*Center the content container*/
 .center {
 	box-sizing: border-box;
 	margin: auto;
@@ -11,6 +12,7 @@
 	margin-bottom: 20px;
 }
 
+/*Icon sizing and coloring*/
 .icon {
 	box-sizing: border-box;
 	width: 30px;
@@ -19,19 +21,24 @@
 	fill: white;
 }
 
+/*Add padding to the icon column*/
 .row .column {
 	float: left;
 	padding-right: 2px;
 }
+
+/*Add padding to rows*/
 .row {
-	padding-bottom: 2px;
+	padding-bottom: 5px;
 }
 
+/*Size input boxes*/
 .row input {
 	box-sizing: border-box;
 	height: 32px;
 	width: 320px;
 }
+/*Size select boxes*/
 .row select {
 	box-sizing: border-box;
 	height: 32px;
@@ -44,11 +51,13 @@
   clear: both;
 }
 
+/*Align and color the form title*/
 h3.no_icon {
 	text-align: center;
 	color: #652D90;
 }
 
+/*Align and color the input boxes*/
 input.no_icon {
 	width: 60%;
 	margin-left: 20%;
@@ -57,6 +66,7 @@ input.no_icon {
 	background-color: #652D90;
 }
 
+/*Align additional content*/
 p.no_icon {
 	text-align: center;
 }
