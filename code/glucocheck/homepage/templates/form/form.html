@@ -1,0 +1,27 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'form/style.css' %}">
+
+<div class="center">
+	<form action="" method="post">
+	<h3 class="no_icon">{{form_title}}</h3>
+	{% csrf_token %}
+	{% for field in form %}
+	<div class="row">
+		<div class="column">
+			{% with "icons/"|add:field.label as icon_path %}
+				{% include icon_path %}
+			{% endwith %}
+		</div>
+		{{field}}
+	</div>
+	{% endfor %}
+	<div class="row">
+		<input class="no_icon" type="submit" value={{submit_value}}>
+	</div>
+	{% if additional_html %}
+		{% include additional_html %}
+	{% endif %}
+	
+	{{form.errors}}
+	</form>
+</div>
