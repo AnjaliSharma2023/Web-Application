@@ -17,9 +17,9 @@ class Country(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User,on_delete= models.CASCADE)
     email = models.CharField(max_length=200)
-    first_name = models.CharField(max_length=200,)
+    first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    birth_date = models.DateField()
+    birth_date = models.DateField(default=None)
     state = models.CharField(max_length=200)
 
     def __str__(self):

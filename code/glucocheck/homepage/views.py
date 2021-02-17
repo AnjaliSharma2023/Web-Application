@@ -6,6 +6,7 @@ from django.contrib.auth import login, authenticate,logout
 
 # Create your views here.
 
+
 def homepage(request):
     ''' Snippet of the code for inputting the user name into the template
     if request.user.is_authenticated:
@@ -24,16 +25,25 @@ def signup(request):
 
     if request.method == 'POST':
         form = SignupForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-                       
-            messages.success(request,'Account created successfully for' + user)
+        #info_form = InfoProfile(data=request.POST)
+        if form.is_valid() :
+            user = form.save()
+            user.save()
+            #profile=info_form.save(commit=False)
+            #profile.user = user
+            #profile.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')  
+            user = authenticate(username = username, password = raw_password)         
+            #login(request,user)
+            messages.success(request,'Account created successfully ')
             return redirect('login')
     else: 
         form = SignupForm()
+        #info_form = InfoProfile(data=request.POST)
 
     return render(request,'account/signup.html', {'form': form})
+    #return render(request,'account/signup.html', {'form': form,'info_form':info_form})
 
 
 def login(request):
