@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from homepage.forms import SignupForm
+from .forms import SignupForm,UserProfileForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate,logout
 
@@ -25,27 +25,32 @@ def signup(request):
 
     if request.method == 'POST':
         form = SignupForm(request.POST)
-        #info_form = InfoProfile(data=request.POST)
-        if form.is_valid() :
+        profile_form = UserProfileForm(request.POST)
+
+        if form.is_valid() and profile_form.is_valid():   #validation of both forms
             user = form.save()
             user.save()
-            #profile=info_form.save(commit=False)
-            #profile.user = user
-            #profile.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')  
-            user = authenticate(username = username, password = raw_password)         
-            #login(request,user)
-            messages.success(request,'Account created successfully ')
+            # creating new profile using data from form
+            profile=profile_form.save(commit=False) # do not save to databse now
+            profile.user = user  # onetoonefield comes here
+            
+            profile.save() # save the user 
+
+            username = form.cleaned_data.get('username') #clean the data
+            password = form.cleaned_data.get('password1')  
+            user = authenticate(username = username, password = password)  
+            messages.success(request,"Account created successfully: {username}")       
+            login(request,user)
+            
             return redirect('login')
     else: 
         form = SignupForm()
-        #info_form = InfoProfile(data=request.POST)
+        profile_form = UserProfileForm()
 
-    return render(request,'account/signup.html', {'form': form})
-    #return render(request,'account/signup.html', {'form': form,'info_form':info_form})
+    #return render(request,'account/signup.html', {'form': form})
+    return render(request,'account/signup.html', {'form': form,'profile_form':profile_form})
 
 
-def login(request):
+#def login(request):
     
-    return render(request,'account/login.html')
+ #   return render(request,'account/login.html')

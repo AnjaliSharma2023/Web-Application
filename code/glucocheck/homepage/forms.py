@@ -4,9 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 
 class SignupForm(UserCreationForm):
-    username = forms.CharField(required =True)
+
     email=forms.EmailField(required =True)
-    birth_date = forms.DateField(label ='Date of birth',widget = forms.SelectDateWidget(years=range(1910, 2003)))
+    birth_date = forms.DateField(label ='Date of birth',help_text='Required. Format: YYYY_MM_DD')
     state = forms.CharField(max_length = 20)
    
 
@@ -21,22 +21,21 @@ class SignupForm(UserCreationForm):
             'state',
         ) 
 
-
-'''class InfoProfile(forms.ModelForm):
-    class Meta():
-        model = UserProfile
-        fields =('birth_date','state')
-
-
-
-
-
     def save(self, commit =True):
-        user = super(SignupForm,self).save(commit= False)
+        user = super().save(commit= False)
         
+        user.email = self.cleaned_data['email']
+        user.birth_date = self.cleaned_data['birth_date']
+        user.state = self.cleaned_data['state']
 
         if commit: 
             user.save()
 
-        #return user
-    '''
+        return user
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta():
+        model = UserProfile
+        fields = ('birth_date','state')
+
