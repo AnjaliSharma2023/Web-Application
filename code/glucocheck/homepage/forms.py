@@ -6,10 +6,9 @@ from .models import UserProfile
 class SignupForm(UserCreationForm):
 
     email=forms.EmailField(required =True)
-    birth_date = forms.DateField(label ='Date of birth',help_text='Required. Format: YYYY_MM_DD')
+    birth_date = forms.DateField(label ='Date of birth',help_text='Required. Format: MM-DD-YYYY')
     state = forms.CharField(max_length = 20)
-   
-
+ 
     class Meta:
         model = User
         fields = (
