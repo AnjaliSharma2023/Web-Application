@@ -6,6 +6,7 @@ from django.contrib.auth import login, authenticate,logout
 
 # Create your views here.
 
+
 def homepage(request):
     ''' Snippet of the code for inputting the user name into the template
     if request.user.is_authenticated:
