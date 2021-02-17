@@ -6,7 +6,7 @@ from .models import UserProfile
 class SignupForm(UserCreationForm):
 
     email=forms.EmailField(required =True)
-    birth_date = forms.DateField(label ='Date of birth',help_text='Required. Format: MM-DD-YYYY')
+    birth_date = forms.DateField(input_formats=['%d/%m/%Y'])
     state = forms.CharField(max_length = 20)
  
     class Meta:
@@ -33,7 +33,7 @@ class SignupForm(UserCreationForm):
         return user
 
 
-class UserProfileForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm): #
     class Meta():
         model = UserProfile
         fields = ('birth_date','state')
