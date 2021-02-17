@@ -45,13 +45,11 @@ def signup(request):
             return redirect('login')
     else: 
         form = SignupForm()
-<<<<<<< HEAD
         profile_form = UserProfileForm()
 
     #return render(request,'account/signup.html', {'form': form})
     return render(request,'account/signup.html', {'form': form,'profile_form':profile_form})
-=======
-        #info_form = InfoProfile(data=request.POST)
+        
     
     context={'form': form, 
              'form_title': 'Sign Up',
@@ -60,8 +58,6 @@ def signup(request):
              'username': 'Sign-In/Up',
              'active': 'Authentication'}
     return render(request,'account/signupNEW.html', context)
-    #return render(request,'account/signup.html', {'form': form,'info_form':info_form})
->>>>>>> 0ebef7eac8da68ad09cd1ba1db5efd997caf3929
 
 
 #def login(request):
