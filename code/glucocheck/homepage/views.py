@@ -41,8 +41,14 @@ def signup(request):
     else: 
         form = SignupForm()
         #info_form = InfoProfile(data=request.POST)
-
-    return render(request,'account/signup.html', {'form': form})
+    
+    context={'form': form, 
+             'form_title': 'Sign Up',
+             'submit_value': 'Register Account',
+             'additional_html': 'account/signup_extra.html',
+             'username': 'Sign-In/Up',
+             'active': 'Authentication'}
+    return render(request,'account/signupNEW.html', context)
     #return render(request,'account/signup.html', {'form': form,'info_form':info_form})
 
 
