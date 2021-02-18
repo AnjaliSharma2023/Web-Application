@@ -6,11 +6,14 @@ from datetime import date
 
 from localflavor.us.forms import USStateSelect
 
-
+'''class DateInput(forms.DateInput):
+    input_type = 'date'
+'''
 class SignupForm(UserCreationForm):
     username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
     email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
     
+    #birth_date = forms.DateField(widget=DateInput())
     birth_date = forms.DateField(widget = forms.SelectDateWidget(attrs={'placeholder':'Birth Date'}), label='calendar-alt.svg')
     
     state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
