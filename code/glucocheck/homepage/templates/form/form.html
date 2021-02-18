@@ -5,17 +5,19 @@
 	<h3 class="no_icon">{{form_title}}</h3>
 	{% csrf_token %}
 	<!--Create form input, one row per field-->
-	{% for field in form %}
-	<div class="row">
-		<!--Pull icon path from the label attribute and include it-->
-		<div class="column">
-			{% with "icons/"|add:field.label as icon_path %}
-				{% include icon_path %}
-			{% endwith %}
+	{% for form in forms %}
+		{% for field in form %}
+		<div class="row">
+			<!--Pull icon path from the label attribute and include it-->
+			<div class="column">
+				{% with "icons/"|add:field.label as icon_path %}
+					{% include icon_path %}
+				{% endwith %}
+			</div>
+			<!--Display the input field-->
+			{{field}}
 		</div>
-		<!--Display the input field-->
-		{{field}}
-	</div>
+		{% endfor %}
 	{% endfor %}
 	<!--Submit button with its value pulled from context-->
 	<div class="row">
@@ -27,6 +29,8 @@
 	{% endif %}
 	
 	<!--Display form errors, may need to be placed in a div-->
-	{{form.errors}}
+	{% for form in forms %}
+		{{form.errors}}
+	{% endfor %}
 	</form>
 </div>
