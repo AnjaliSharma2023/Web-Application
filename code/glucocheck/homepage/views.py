@@ -26,7 +26,7 @@ def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         profile_form = UserProfileForm(request.POST)
-
+        
         if form.is_valid() and profile_form.is_valid():   #validation of both forms
             user = form.save()
             user.save()
@@ -48,10 +48,10 @@ def signup(request):
         profile_form = UserProfileForm()
 
     #return render(request,'account/signup.html', {'form': form})
-    return render(request,'account/signup.html', {'form': form,'profile_form':profile_form})
+    #return render(request,'account/signup.html', {'form': form,'profile_form':profile_form})
         
     
-    '''context={'form': form, 
+    context={'form': form, 
              'profile_form':profile_form,
              'form_title': 'Sign Up',
              'submit_value': 'Register Account',
@@ -61,6 +61,6 @@ def signup(request):
     return render(request,'account/signupNEW.html', context)
 
 
-def login(request):
+'''def login(request):
     
     return render(request,'account/login.html')'''

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 
+
 class SignupForm(UserCreationForm):
     username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
     email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
@@ -31,6 +32,7 @@ class SignupForm(UserCreationForm):
         
         user.email = self.cleaned_data['email']
         user.birth_date = self.cleaned_data['birth_date']
+        
         user.state = self.cleaned_data['state']
 
         if commit: 
