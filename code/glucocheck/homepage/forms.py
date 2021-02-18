@@ -16,10 +16,9 @@ class SignupForm(UserCreationForm):
     #birth_date = forms.DateField(widget=DateInput())
     birth_date = forms.DateField(widget = forms.SelectDateWidget(attrs={'placeholder':'Birth Date'}), label='calendar-alt.svg')
     
-    state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
     #state = USStateSelect(required =True, widget=forms.TextInput(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
-    password1 = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Password'}), label='key.svg')
-    password2 = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
     #check = forms.BooleanField(required =True)
     '''
     email=forms.EmailField(required =True)
@@ -33,16 +32,9 @@ class SignupForm(UserCreationForm):
             'email',
             'password1',
             'password2',
-            'birth_date',
-            'state',
         ) 
 
-    def clean_birth_date(self):
-        birth_date = self.cleaned_data['birth_date']
-        today = date.today()
-        if (birth_date.year + 18, birth_date.month, birth_date.day) > (today.year, today.month, today.day):
-            raise forms.ValidationError('Must be at least 18 years old to register')
-        return birth_date
+    
 
     def save(self, commit =True):
         user = super().save(commit= False)
@@ -51,7 +43,7 @@ class SignupForm(UserCreationForm):
         
         #user.birth_date = self.cleaned_data['birth_date']
         
-        user.state = self.cleaned_data['state']
+        #user.state = self.cleaned_data['state']
 
         if commit: 
             user.save()
@@ -59,8 +51,25 @@ class SignupForm(UserCreationForm):
         return user
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 class UserProfileForm(forms.ModelForm): #
+    birth_date = forms.DateField(widget = DateInput(attrs={'placeholder':'Birth Date'}), label='calendar-alt.svg')
+    state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
+    
     class Meta():
         model = UserProfile
         fields = ('birth_date','state')
+        
+    def clean_birth_date(self):
+        birth_date = self.cleaned_data['birth_date']
+        today = date.today()
+        if (birth_date.year + 18, birth_date.month, birth_date.day) > (today.year, today.month, today.day):
+            raise forms.ValidationError('Must be at least 18 years old to register')
+        return birth_date
+        
+class LoginForm(forms.Form):
+    username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
+    password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import SignupForm,UserProfileForm
+from .forms import SignupForm,UserProfileForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate,logout
 
@@ -51,8 +51,7 @@ def signup(request):
     #return render(request,'account/signup.html', {'form': form,'profile_form':profile_form})
         
     
-    context={'form': form, 
-             'profile_form':profile_form,
+    context={'forms': [form, profile_form], 
              'form_title': 'Sign Up',
              'submit_value': 'Register Account',
              'additional_html': 'account/signup_extra.html',
@@ -61,6 +60,24 @@ def signup(request):
     return render(request,'account/signupNEW.html', context)
 
 
-'''def login(request):
-    
-    return render(request,'account/login.html')'''
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        
+        if form.is_valid():
+            '''
+            Authenticate user here and redirect
+            '''
+            
+            return redirect("")
+    else:
+        form = LoginForm()
+        
+    context = {'forms': [form], # A list of all forms used
+               'form_title': 'Login', # The title at the top of the form
+               'submit_value': 'Login', # The value on the button for the form
+               'additional_html': 'account/login_extra.html', # Additional html to be placed under the button
+               'username': 'Sign-In/Up', # Fills in the header 'Sign-In/Up' link
+               'active': 'Sign-In/Up', # tell which tab is being displayed for different coloring
+    }
+    return render(request,'account/loginNEW.html', context)
