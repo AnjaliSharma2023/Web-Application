@@ -6,7 +6,7 @@
 	padding: 64px;
 }
 
-/* Clear floats */
+/*Necessary for column division*/
 .container .row:after {
   content: "";
   display: table;
@@ -27,7 +27,8 @@
   padding: 20px;
 }
 
-.container .row h2, p {
+/*Color content text*/
+.container .row h2, .container .row p {
 	color: black;
 	text-align: left;
 }

@@ -1,15 +1,14 @@
-<html>
-<head>
+{% extends "base/base.html" %}
+
+{% block extra_style %}
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'homepage/style.css' %}">
-	<title>Homepage</title>
-</head>
- 
-<body>
-	<!--Import header-->
-	{% include "header/header.html" %}
-	
-	<!--Page Content-->
+{% endblock %}
+{% block title %}Homepage{% endblock %}
+
+
+<!--Page Content-->
+{% block content %}
 	<div class="container">
 		<div class="row">
 			<div class="column-33">
@@ -57,10 +56,5 @@
 			</div>
 		</div>
 	</div>
-	<!--End Page Content-->
-	
-	<!--Import footer-->
-	{% include "footer/footer.html" %}
-	
-</body>
-</html>
+{% endblock %}
+<!--End Page Content-->

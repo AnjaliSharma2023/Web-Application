@@ -1,15 +1,15 @@
-<html>
-<head>
-	<title>Sign Up</title>
-</head>
+{% extends "base/base.html" %}
 
-<body>
-	<!--Import header-->
-	{% include "header/header.html" %}
-	
+{% block extra_style %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'form/style.css' %}">
+{% endblock %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
 	<!--Import Form content-->
 	{% include "form/form.html" %}
+{% endblock %}
 	
-	<!--Import footer-->
-	{% include "footer/footer.html" %}
-</body>
+

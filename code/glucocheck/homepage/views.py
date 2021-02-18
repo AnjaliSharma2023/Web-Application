@@ -57,7 +57,7 @@ def signup(request):
              'submit_value': 'Register Account',
              'additional_html': 'account/signup_extra.html',
              'username': 'Sign-In/Up',
-             'active': 'Authentication'}
+             'active': 'Sign-In/Up'}
     return render(request,'account/signupNEW.html', context)
 
 
