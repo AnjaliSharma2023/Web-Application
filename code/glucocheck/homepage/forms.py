@@ -39,7 +39,7 @@ class SignupForm(UserCreationForm):
         
         #user.birth_date = self.cleaned_data['birth_date']
         
-        #user.state = self.cleaned_data['state']
+        user.state = self.cleaned_data['state']
 
         if commit: 
             user.save()
@@ -47,11 +47,8 @@ class SignupForm(UserCreationForm):
         return user
 
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
-
 class UserProfileForm(forms.ModelForm): #
-    birth_date = forms.DateField(widget = DateInput(attrs={'placeholder':'Birth Date'}), label='calendar-alt.svg')
+    birth_date = forms.DateField(widget = forms.DateInput(attrs={'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
     state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
     
     class Meta():
