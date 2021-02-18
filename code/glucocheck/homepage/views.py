@@ -40,7 +40,7 @@ def signup(request):
             password = form.cleaned_data.get('password1')  
             user = authenticate(username = username, password = password)  
             messages.success(request,"Account created successfully: {username}")       
-            login(request,user)
+            #login(request,user)
             
             return redirect('login')
     else: 

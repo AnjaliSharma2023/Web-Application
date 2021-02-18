@@ -6,15 +6,10 @@ from datetime import date
 
 from localflavor.us.forms import USStateSelect
 
-'''class DateInput(forms.DateInput):
-    input_type = 'date'
-'''
+
 class SignupForm(UserCreationForm):
     username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
     email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
-    
-    #birth_date = forms.DateField(widget=DateInput())
-    birth_date = forms.DateField(widget = forms.SelectDateWidget(attrs={'placeholder':'Birth Date'}), label='calendar-alt.svg')
     
     #state = USStateSelect(required =True, widget=forms.TextInput(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
     password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
@@ -43,7 +38,7 @@ class SignupForm(UserCreationForm):
         
         #user.birth_date = self.cleaned_data['birth_date']
         
-        user.state = self.cleaned_data['state']
+        
 
         if commit: 
             user.save()
@@ -60,6 +55,7 @@ class UserProfileForm(forms.ModelForm): #
         fields = ('birth_date','state')
         
     def clean_birth_date(self):
+
         birth_date = self.cleaned_data['birth_date']
         today = date.today()
         if (birth_date.year + 18, birth_date.month, birth_date.day) > (today.year, today.month, today.day):
