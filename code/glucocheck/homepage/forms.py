@@ -4,13 +4,14 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 #from django.contrib.localflavor.us.us_states import STATE_CHOICES
 
-    
+
 from localflavor.us.forms import USStateSelect
 
 # from django.contrib.localflavor.us.models import USStateField
 class SignupForm(UserCreationForm):
     username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
     email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
+    #birth_date = forms.DateField(widget=forms.SelectDateWidget)
     birth_date = forms.DateField(widget = forms.SelectDateWidget(attrs={'placeholder':'Birth Date'}), label='calendar-alt.svg')
     #state = USStateField(choices = STATE_CHOICES)
     state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
@@ -38,7 +39,7 @@ class SignupForm(UserCreationForm):
         
         user.email = self.cleaned_data['email']
         user.birth_date = self.cleaned_data['birth_date']
-        
+        user.set_adult()
         user.state = self.cleaned_data['state']
 
         if commit: 
