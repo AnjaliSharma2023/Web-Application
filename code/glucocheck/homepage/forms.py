@@ -39,7 +39,7 @@ class SignupForm(UserCreationForm):
         
         #user.birth_date = self.cleaned_data['birth_date']
         
-        user.state = self.cleaned_data['state']
+        #user.state = self.cleaned_data['state']
 
         if commit: 
             user.save()
