@@ -2,13 +2,19 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
+#from django.contrib.localflavor.us.us_states import STATE_CHOICES
 
+    
+from localflavor.us.forms import USStateSelect
 
+# from django.contrib.localflavor.us.models import USStateField
 class SignupForm(UserCreationForm):
     username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
     email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
     birth_date = forms.DateField(widget = forms.SelectDateWidget(attrs={'placeholder':'Birth Date'}), label='calendar-alt.svg')
-    state = forms.CharField(max_length = 20,required =True, widget=forms.TextInput(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
+    #state = USStateField(choices = STATE_CHOICES)
+    state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
+    #state = USStateSelect(required =True, widget=forms.TextInput(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
     password1 = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Password'}), label='key.svg')
     password2 = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
     '''
