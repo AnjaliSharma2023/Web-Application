@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .forms import SignupForm,UserProfileForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate,logout
+from django.core.mail import EmailMessage
 
 # Create your views here.
 
@@ -34,7 +35,10 @@ def signup(request):
             profile=profile_form.save(commit=False) # do not save to databse now
             profile.user = user  # onetoonefield comes here
             
+            user.is_active = False
+
             profile.save() # save the user 
+
 
             username = form.cleaned_data.get('username') #clean the data
             password = form.cleaned_data.get('password1')  

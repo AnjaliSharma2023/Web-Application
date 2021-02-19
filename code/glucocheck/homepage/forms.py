@@ -14,7 +14,7 @@ class SignupForm(UserCreationForm):
     #state = USStateSelect(required =True, widget=forms.TextInput(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
     password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
     password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
-    #check = forms.BooleanField(required =True)
+    
     '''
     email=forms.EmailField(required =True)
     birth_date = forms.DateField(input_formats=['%d/%m/%Y'])
@@ -49,7 +49,7 @@ class SignupForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm): #
     birth_date = forms.DateField(widget = forms.DateInput(attrs={'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
     state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
-    
+    check = forms.BooleanField(required =True)
     class Meta():
         model = UserProfile
         fields = ('birth_date','state')
