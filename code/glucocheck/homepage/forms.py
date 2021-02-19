@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 from datetime import date
+from .widgets import CheckboxLink
 
 from localflavor.us.forms import USStateSelect
 
@@ -14,7 +15,6 @@ class SignupForm(UserCreationForm):
     #state = USStateSelect(required =True, widget=forms.TextInput(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
     password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
     password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
-    #check = forms.BooleanField(required =True)
     '''
     email=forms.EmailField(required =True)
     birth_date = forms.DateField(input_formats=['%d/%m/%Y'])
@@ -49,6 +49,7 @@ class SignupForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm): #
     birth_date = forms.DateField(widget = forms.DateInput(attrs={'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
     state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
+    signup_confirmation = forms.BooleanField(required =True, widget=CheckboxLink(link_text='TNC', side_text='Have you have read and agree to the ', wrap_elem='div', wrap_elem_attrs={'class':'column'}, link_attrs={'href':"{% url 'login' %}"}), label="user.svg")
     
     class Meta():
         model = UserProfile

@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .forms import SignupForm,UserProfileForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate,logout
+from .models import UserProfile
 
 # Create your views here.
 
@@ -37,7 +38,7 @@ def signup(request):
             profile.save() # save the user 
 
             username = form.cleaned_data.get('username') #clean the data
-            password = form.cleaned_data.get('password1')  
+            password = form.cleaned_data.get('password1')
             user = authenticate(username = username, password = password)  
             messages.success(request,"Account created successfully: {username}")       
             #login(request,user)
@@ -65,6 +66,20 @@ def login(request):
         form = LoginForm(request.POST)
         
         if form.is_valid():
+            username = form.cleaned_data.get('username')
+            user = authenticate(username = username, password = form.cleaned_data.get('password'))
+            if user is not None:
+                print(UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'))
+                if UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'):
+                    login(request, user)
+                    return redirect('/')
+                else:
+                    messages.info(request, 'Your account is not authenticated')
+                
+            else:
+                messages.info(request, 'Username OR password is incorrect')
+                
+            request.user
             '''
             Authenticate user here and redirect
             '''
