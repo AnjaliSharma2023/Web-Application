@@ -45,11 +45,11 @@ class SignupForm(UserCreationForm):
 
         return user
 
-
+# new form for the profile
 class UserProfileForm(forms.ModelForm): #
-    birth_date = forms.DateField(widget = forms.DateInput(attrs={'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
+    birth_date = forms.DateField(required=True,widget = forms.DateInput(attrs={'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
     state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
-    check = forms.BooleanField(required =True)
+    #check = forms.BooleanField(required =True)
     class Meta():
         model = UserProfile
         fields = ('birth_date','state')

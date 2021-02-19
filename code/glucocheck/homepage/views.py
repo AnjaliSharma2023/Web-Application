@@ -1,10 +1,18 @@
+from django.utils.encoding import force_text
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import SignupForm,UserProfileForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate,logout
 from django.core.mail import EmailMessage
-
+from .tokens import account_activation_token
+from .forms import SignupForm,UserProfileForm, LoginForm
 # Create your views here.
 
 
@@ -21,30 +29,61 @@ def homepage(request):
                'active': 'Home'}
     return render(request, 'homepage/homepage.html', context)
 
+def activation_sent_view(request):
+    return render(request, 'activation_sent.html')
+    
+def activate(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    # checking if the user exists, if the token is valid.
+    if user is not None and account_activation_token.check_token(user, token):
+        # if valid set active true 
+        user.is_active = True
+        # set signup_confirmation true
+        user.profile.signup_confirmation = True
+        user.save()
+        login(request, user)
+        return redirect('/')
+    else:
+        return render(request, 'activation_invalid.html')
 
 def signup(request):
 
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = SignupForm(request.POST) 
         profile_form = UserProfileForm(request.POST)
         
         if form.is_valid() and profile_form.is_valid():   #validation of both forms
-            user = form.save()
-            user.save()
+            
+            user = form.save() #return user from the form save
+      
             # creating new profile using data from form
-            profile=profile_form.save(commit=False) # do not save to databse now
-            profile.user = user  # onetoonefield comes here
+            profile=profile_form.save(commit=False) 
+            profile.user = user  # onetoonefield relationship works here
             
             user.is_active = False
-
+            user.save()
             profile.save() # save the user 
 
+            current_site = get_current_site(request)
+            subject = 'Please Activate Your Account'
+            message = render_to_string('account_activation_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            user.email_user(subject, message)
 
             username = form.cleaned_data.get('username') #clean the data
             password = form.cleaned_data.get('password1')  
             user = authenticate(username = username, password = password)  
             messages.success(request,"Account created successfully: {username}")       
-            #login(request,user)
+            login(request,user)
             
             return redirect('login')
     else: 
