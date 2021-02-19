@@ -11,8 +11,13 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate,logout
 from django.core.mail import EmailMessage
+<<<<<<< HEAD
 from .tokens import account_activation_token
 from .forms import SignupForm,UserProfileForm, LoginForm
+=======
+from .models import UserProfile
+
+>>>>>>> a661fe800ff14cabb08485038f421bcd2ee3c126
 # Create your views here.
 
 
@@ -108,9 +113,20 @@ def login(request):
         form = LoginForm(request.POST)
         
         if form.is_valid():
-            '''
-            Authenticate user here and redirect
-            '''
+            username = form.cleaned_data.get('username')
+            user = authenticate(username = username, password = form.cleaned_data.get('password'))
+            if user is not None:
+                print(UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'))
+                if UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'):
+                    login(request, user)
+                    return redirect('/')
+                else:
+                    messages.info(request, 'Your account is not authenticated')
+                
+            else:
+                messages.info(request, 'Username OR password is incorrect')
+                
+            request.user
             
             return redirect("")
     else:

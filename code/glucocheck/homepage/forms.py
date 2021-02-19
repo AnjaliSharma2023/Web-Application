@@ -3,23 +3,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 from datetime import date
-
+from .widgets import CheckboxLink
 from localflavor.us.forms import USStateSelect
 
 
 class SignupForm(UserCreationForm):
     username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
     email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
-    
-    #state = USStateSelect(required =True, widget=forms.TextInput(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
     password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
     password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
     
-    '''
-    email=forms.EmailField(required =True)
-    birth_date = forms.DateField(input_formats=['%d/%m/%Y'])
-    state = forms.CharField(max_length = 20)
-    '''
     class Meta:
         model = User
         fields = (
@@ -49,7 +42,12 @@ class SignupForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm): #
     birth_date = forms.DateField(required=True,widget = forms.DateInput(attrs={'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
     state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
+<<<<<<< HEAD
     #check = forms.BooleanField(required =True)
+=======
+    signup_confirmation = forms.BooleanField(required =True, widget=CheckboxLink(link_text='TNC', side_text='Have you have read and agree to the ', wrap_elem='div', wrap_elem_attrs={'class':'column'}, link_attrs={'href':"{% url 'login' %}"}), label="user.svg")
+    
+>>>>>>> a661fe800ff14cabb08485038f421bcd2ee3c126
     class Meta():
         model = UserProfile
         fields = ('birth_date','state')

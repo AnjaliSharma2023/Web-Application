@@ -1,0 +1,27 @@
+{% if widget.wrap_elem.tag != None %}<{{widget.wrap_elem.tag}}
+{% for name, value in widget.wrap_elem.attrs.items %}
+    {% if value is not False %} {{ name }}
+         {% if value is not True %}="{{ value }}"{% endif %}
+    {% endif %} 
+{% endfor %}>{% endif %}<input type="{{ widget.type }}"
+          name="{{ widget.name }}"
+	  {% if widget.value != None %}
+	    value="{{ widget.value }}"
+	  {% endif %}
+	  {% include "django/forms/widgets/attrs.html" %} />{% if widget.wrap_elem.tag != None %}</{{widget.wrap_elem.tag}}>{% endif %}
+{% if widget.wrap_elem.tag != None %}<{{widget.wrap_elem.tag}}
+{% for name, value in widget.wrap_elem.attrs.items %}
+    {% if value is not False %} {{ name }}
+         {% if value is not True %}="{{ value }}"{% endif %}
+    {% endif %}
+{% endfor %}>{% endif %}<p name="{{ widget.text.name }}" 
+{% for name, value in widget.text.attrs.items %}
+    {% if value is not False %} {{ name }}
+         {% if value is not True %}="{{ value }}"{% endif %}
+    {% endif %}
+{% endfor %} >{{ widget.text.value }}{% if widget.link.attrs.href != None %}<a name="{{ widget.link.name }}"
+{% for name, value in widget.link.attrs.items %}
+    {% if value is not False %} {{ name }}
+         {% if value is not True %}="{{ value }}"{% endif %}
+    {% endif %}
+{% endfor %} >{{ widget.link.value }}</a>{% endif %}</p>{% if widget.wrap_elem.tag != None %}</{{widget.wrap_elem.tag}}>{% endif %}
