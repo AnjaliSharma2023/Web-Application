@@ -1,5 +1,8 @@
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils import six
+try:
+    from django.utils import six
+except ImportError:
+    import six
 
 
 # extend the PasswordResetTokenGenerator to create a unique token generator
