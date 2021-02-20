@@ -42,12 +42,10 @@ class SignupForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm): #
     birth_date = forms.DateField(required=True,widget = forms.DateInput(attrs={'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
     state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
-<<<<<<< HEAD
-    #check = forms.BooleanField(required =True)
-=======
+
     signup_confirmation = forms.BooleanField(required =True, widget=CheckboxLink(link_text='TNC', side_text='Have you have read and agree to the ', wrap_elem='div', wrap_elem_attrs={'class':'column'}, link_attrs={'href':"{% url 'login' %}"}), label="user.svg")
     
->>>>>>> a661fe800ff14cabb08485038f421bcd2ee3c126
+
     class Meta():
         model = UserProfile
         fields = ('birth_date','state')

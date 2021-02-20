@@ -11,13 +11,12 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import login, authenticate,logout
 from django.core.mail import EmailMessage
-<<<<<<< HEAD
+
 from .tokens import account_activation_token
 from .forms import SignupForm,UserProfileForm, LoginForm
-=======
+
 from .models import UserProfile
 
->>>>>>> a661fe800ff14cabb08485038f421bcd2ee3c126
 # Create your views here.
 
 
@@ -35,7 +34,7 @@ def homepage(request):
     return render(request, 'homepage/homepage.html', context)
 
 def activation_sent_view(request):
-    return render(request, 'activation_sent.html')
+    return render(request, 'account/activation_sent.html')
     
 def activate(request, uidb64, token):
     User = get_user_model()
@@ -52,9 +51,13 @@ def activate(request, uidb64, token):
         user.profile.signup_confirmation = True
         user.save()
         login(request, user)
-        return redirect('/')
+        
+        return render(request,'account/account_activation_email.html')
     else:
-        return render(request, 'activation_invalid.html')
+        return HttpResponse('Activation link is invalid!')
+        #return redirect('/')
+    #else:
+    #     return render(request, 'activation_invalid.html')
 
 def signup(request):
 
@@ -71,34 +74,32 @@ def signup(request):
             profile.user = user  # onetoonefield relationship works here
             
             user.is_active = False
-            user.save()
+
+            
             profile.save() # save the user 
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Account'
-            message = render_to_string('account_activation_email.html', {
+            message = render_to_string('account/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject, message)
-
-            username = form.cleaned_data.get('username') #clean the data
-            password = form.cleaned_data.get('password1')  
-            user = authenticate(username = username, password = password)  
-            messages.success(request,"Account created successfully: {username}")       
-            login(request,user)
             
-            return redirect('login')
+            #username = form.cleaned_data.get('username') #clean the data
+            #password = form.cleaned_data.get('password1')  
+            #user = authenticate(username = username, password = password)  
+            messages.success(request,"Account created successfully: {username}")       
+            #login(request,user)
+            return redirect('activation_sent')
+            # return redirect('login')
     else: 
         form = SignupForm()
         profile_form = UserProfileForm()
 
-    #return render(request,'account/signup.html', {'form': form})
-    #return render(request,'account/signup.html', {'form': form,'profile_form':profile_form})
-        
-    
+
     context={'forms': [form, profile_form], 
              'form_title': 'Sign Up',
              'submit_value': 'Register Account',
