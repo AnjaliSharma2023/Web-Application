@@ -9,7 +9,8 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from django.contrib.auth import login, authenticate,logout
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login as auth_login
 from django.core.mail import EmailMessage
 
 from .tokens import account_activation_token
@@ -29,7 +30,12 @@ def homepage(request):
         
     The 'activate' context item represents which navbar is selected and therefore should be coloured differently
     '''
-    context = {'username': 'Sign-In/Up',
+    # test code
+    if request.user.is_authenticated:
+        username = 'Logged in'
+    else:
+        username = 'Not logged in'
+    context = {'username': username,
                'active': 'Home'}
     return render(request, 'homepage/homepage.html', context)
 
@@ -50,7 +56,7 @@ def activate(request, uidb64, token):
         # set signup_confirmation true
         user.profile.signup_confirmation = True
         user.save()
-        login(request, user)
+        auth_login(request, user)
         
         return render(request,'account/account_activation_email.html')
     else:
@@ -115,21 +121,22 @@ def login(request):
         
         if form.is_valid():
             username = form.cleaned_data.get('username')
-            user = authenticate(username = username, password = form.cleaned_data.get('password'))
+            user = authenticate(request, username = username, password = form.cleaned_data.get('password'))
             if user is not None:
-                print(UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'))
-                if UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'):
-                    login(request, user)
-                    return redirect('/')
-                else:
-                    messages.info(request, 'Your account is not authenticated')
-                
+                #print(UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'))
+                #if UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'):
+                auth_login(request, user)
+                if form.cleaned_data.get('remember_me') == False:
+                    request.session.set_expiry(0)
+                return redirect('/')
+                #else:
+                    #messages.info(request, 'Your account is not authenticated')
+                #pass
             else:
                 messages.info(request, 'Username OR password is incorrect')
                 
-            request.user
             
-            return redirect("")
+            return redirect("/")
     else:
         form = LoginForm()
         

@@ -29,6 +29,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Set session age to 1 month by default, is reset at login according to input
+SESSION_COOKIE_AGE = 15#60 * 60 * 24 * 30
+
 
 
 

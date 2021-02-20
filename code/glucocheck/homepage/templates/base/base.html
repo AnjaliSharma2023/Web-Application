@@ -19,15 +19,16 @@
 			<!--Nav Items-->
 			<ul>
 				{% if active == 'Sign-In/Up' %}
-					<li><a class='active' href="{% url 'signup' %}">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
+					<li><a class='active' href="{% url 'login' %}">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
 				{% else %}
-					<li><a href="{% url 'signup' %}">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
+					<li><a href="{% url 'login' %}">{{username}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
 				{% endif %}
-				
+				{% if username != "Sign-In/Up" %}
 				{% if active == 'Dashboard' %}
 					<li><a class='active' href="#dashboard">Dashboard</a></li>
 				{% else %}
 					<li><a href="#dashboard">Dashboard</a></li>
+				{% endif %}
 				{% endif %}
 				
 				{% if active == 'Home' %}
