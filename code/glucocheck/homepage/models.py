@@ -20,9 +20,11 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-'''@receiver(post_save, sender=User)
-def update_profile_signal(sender, instance, created, **kwargs):
+
+
+'''
+@receiver(post_save, sender=User)
+def user_to_inactive(sender, instance, created, update_fields, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
-    instance.profile.save()
+        instance.is_active = False
 '''

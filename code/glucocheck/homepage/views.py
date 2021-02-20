@@ -12,10 +12,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django.core.mail import EmailMessage
-
 from .tokens import account_activation_token
 from .forms import SignupForm,UserProfileForm, LoginForm
-
 from .models import UserProfile
 
 # Create your views here.
@@ -49,12 +47,16 @@ def activate(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
+
     # checking if the user exists, if the token is valid.
     if user is not None and account_activation_token.check_token(user, token):
+
         # if valid set active true 
         user.is_active = True
+
         # set signup_confirmation true
         UserProfile.signup_confirmation = True
+
         user.save()
         auth_login(request, user)
         
@@ -73,16 +75,13 @@ def signup(request):
         
         if form.is_valid() and profile_form.is_valid():   #validation of both forms
             
-            user = form.save() #return user from the form save
-      
-            # creating new profile using data from form
-            profile=profile_form.save(commit=False) 
-            profile.user = user  # onetoonefield relationship works here
+            user.is_active = False                  # Deactivate account till it is confirmed
+            user = form.save()                      #return user from the form save
             
-            user.is_active = False
-
+            profile=profile_form.save(commit=False) # creating new profile using data from form
+            profile.user = user                     # onetoonefield relationship works here
             
-            profile.save() # save the user 
+            profile.save()                          # save the user 
 
             current_site = get_current_site(request)
             subject = 'Please Activate Your Account'
@@ -92,17 +91,16 @@ def signup(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            #to_email = form.cleaned_data.get('email')
-            
-            user.email_user(subject, message)
-            
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(subject,message,to=[to_email])
+            email.send(fail_silently=False)
             #username = form.cleaned_data.get('username') #clean the data
             #password = form.cleaned_data.get('password1')  
             #user = authenticate(username = username, password = password)  
-            messages.success(request,"Account created successfully: {username}")       
-            #login(request,user)
-            #return redirect('activation_sent')
-            #return redirect('login')
+            #messages.success(request,"Account created successfully")       
+            auth_login(request,user)
+            return redirect('activation_sent')
+          
     else: 
         form = SignupForm()
         profile_form = UserProfileForm()
