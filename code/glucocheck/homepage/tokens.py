@@ -7,11 +7,12 @@ except ImportError:
 
 # extend the PasswordResetTokenGenerator to create a unique token generator
 
-class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
+class AccountActivationTokenGenerator(PasswordResetTokenGenerator): # 
     def _make_hash_value(self, user, timestamp):
         return (
             six.text_type(user.pk) + six.text_type(timestamp) +
-            six.text_type(user.userprofile.signup_confirmation)
+            six.text_type(user.is_active)
+            #six.text_type(user.userprofile.signup_confirmation)
         )
 
 account_activation_token = AccountActivationTokenGenerator()

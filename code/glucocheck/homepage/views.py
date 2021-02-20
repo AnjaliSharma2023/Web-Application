@@ -54,7 +54,7 @@ def activate(request, uidb64, token):
         # if valid set active true 
         user.is_active = True
         # set signup_confirmation true
-        user.profile.signup_confirmation = True
+        UserProfile.signup_confirmation = True
         user.save()
         auth_login(request, user)
         
@@ -92,6 +92,8 @@ def signup(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
+            #to_email = form.cleaned_data.get('email')
+            
             user.email_user(subject, message)
             
             #username = form.cleaned_data.get('username') #clean the data
@@ -99,8 +101,8 @@ def signup(request):
             #user = authenticate(username = username, password = password)  
             messages.success(request,"Account created successfully: {username}")       
             #login(request,user)
-            return redirect('activation_sent')
-            # return redirect('login')
+            #return redirect('activation_sent')
+            #return redirect('login')
     else: 
         form = SignupForm()
         profile_form = UserProfileForm()
