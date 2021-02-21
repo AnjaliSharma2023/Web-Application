@@ -9,12 +9,9 @@ from django.dispatch import receiver
 
 class UserProfile(models.Model):  
     user = models.OneToOneField(User,on_delete= models.CASCADE)# relationship of user attribute with User model 
-    # every profile associated with one user and every user will have one profile
-    first_name = models.CharField(max_length=100, blank=True)
-    last_name = models.CharField(max_length=100, blank=True)                        
+    # every profile associated with one user and every user will have one profile                      
     birth_date = models.DateField(null=True, blank=True)
     state = models.CharField(max_length=200)
-    signup_confirmation = models.BooleanField(default=False)
 
 
     def __str__(self):

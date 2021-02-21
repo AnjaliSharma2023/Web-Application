@@ -53,8 +53,6 @@ def activate(request, uidb64, token):
         # if valid set active true 
         user.is_active = True
 
-        # set signup_confirmation true
-        UserProfile.signup_confirmation = True
 
         user.save()
         auth_login(request, user)
