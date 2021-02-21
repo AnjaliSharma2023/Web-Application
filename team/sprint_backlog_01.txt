@@ -46,16 +46,11 @@ Items that are now in the past; only the *product owner* may move user stories t
 
 Website
 
-Setup homepage HTML and CSS
-Add links to app functions  
+Setup homepage HTML and CSS 
 
 Signup
-Creation of form 
-Creation of superuser admin 
-Database creation and link with the user input 
-Validation of user account
-Setup of signup and login page 
-Geofenced Distribution: As a developer, I want to make sure the customer has a valid zip code so that they are in a jurisdiction covered by the legal disclaimer.
+
+Geofenced Distribution
 
 
 ===
@@ -63,24 +58,12 @@ Doing
 
 The *one* story—and any subitems—that are presently in progress. Only the dev team may pull an item into this category and they may freely create subitems, as needed: this is the place to break a story down.
 ••• (1) Geofenced Distribution: As a developer, I want to make sure the customer has a valid zip code so that they are in a jurisdiction covered by the legal disclaimer. - Done
-•• (5) Secure Login: As a developer, I want to provide privacy and protection for my customers so that their information is not shared.
+•• (5) Secure Login: As a developer, I want to provide privacy and protection for my customers so that their information is not shared. - Done
 
-• (5) Website: 
-•• Setup homepage HTML and CSS - Kai McGregor, 2/12 Ready for input
-•• Add links to app functions - Kai McGregor, 2/12 Done (placeholders for now)
-
-•• (2) Signup:
-Creation of form - Done
-Creation of superuser admin - Done
-Database creation and link with the user input - Done
-Validation of user account
-Setup of signup and login page - Done
+• (2) Legal Disclaimer: As a lawyer, I want to read a disclaimer so that my client's PHI is protected. (1. Protects PHI according to HIPAA. 2. Uses proven language. 3. Is prominently displayed.)
 
 ===
 Do
 
 The agreed-upon user stories for the sprint, ready for future work by the development team. The team may add to this list by mutual agreement at any time but no extra work may be pushed to the team during a sprint.
-
-• (2) Legal Disclaimer: As a lawyer, I want to read a disclaimer so that my client's PHI is protected. (1. Protects PHI according to HIPAA. 2. Uses proven language. 3. Is prominently displayed.)
 •• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.)
-•• (2) Advertising: As a potential customer, I want to be made aware of GlucoCheck so that I can try it out. (1. Is a coordinated digital campaign. 2. Generates through-traffic to the website. 3. Links up with a trial offer.)
