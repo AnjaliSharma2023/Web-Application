@@ -47,15 +47,10 @@ Items that are now in the past; only the *product owner* may move user stories t
 Website
 
 Setup homepage HTML and CSS
-Add links to app functions  
 
 Signup
-Creation of form 
-Creation of superuser admin 
-Database creation and link with the user input 
-Validation of user account
-Setup of signup and login page 
-Geofenced Distribution: As a developer, I want to make sure the customer has a valid zip code so that they are in a jurisdiction covered by the legal disclaimer.
+ 
+Geofenced Distribution
 
 
 ===
