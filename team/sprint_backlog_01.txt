@@ -45,11 +45,11 @@ Done
 Items that are now in the past; only the *product owner* may move user stories to this category when they meet the acceptance criteria or, in the case of dev-team-created subitems, the internal definition of done.
 
 Website
-
-Setup homepage HTML and CSS 
+=======
+Setup homepage HTML and CSS
 
 Signup
-
+ 
 Geofenced Distribution
 
 
