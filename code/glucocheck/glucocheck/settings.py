@@ -29,10 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Set session age to 1 month by default, is reset at login according to input
-SESSION_COOKIE_AGE = 15#60 * 60 * 24 * 30
+# Set session age to 1 month by default, is reset at login according to input on remember me
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
-
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
 
 
 # Application definition

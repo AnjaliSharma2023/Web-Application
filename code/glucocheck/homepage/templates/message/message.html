@@ -1,0 +1,23 @@
+{% extends "base/base.html" %}
+
+{% block extra_style %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'message/style.css' %}">
+{% endblock %}
+
+{% block title %}{{page_title}}{% endblock %}
+
+{% block content %}
+	<div class="center">
+		<ul>
+			<li>
+				<h3>{{message_title}}</h3>
+			</li>
+			{% for line in message_text %}
+				<li>
+					<p>{{line}}</p>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}

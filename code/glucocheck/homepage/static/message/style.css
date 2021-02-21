@@ -1,0 +1,29 @@
+.center {
+	box-sizing: border-box;
+	margin: auto;
+	width: 400px;
+	padding: 20px;
+	background-color: #DFEFC7;
+	display: flex;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.center ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.center ul h3 {
+	width: 352px;
+	text-align: center;
+	color: #652D90;
+}
+
+.center ul p {
+	width: 352px;
+	color: black;
+}

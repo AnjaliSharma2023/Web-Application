@@ -16,8 +16,14 @@ from .tokens import account_activation_token
 from .forms import SignupForm,UserProfileForm, LoginForm
 from .models import UserProfile
 
-# Create your views here.
-
+# helper function to fill the account_nav context for the header
+def get_account_nav(user):
+    if user.is_authenticated:
+        account_nav = str(user)
+    else:
+        account_nav = 'Login'
+    
+    return account_nav
 
 def homepage(request):
     ''' Snippet of the code for inputting the user name into the template
@@ -28,17 +34,10 @@ def homepage(request):
         
     The 'activate' context item represents which navbar is selected and therefore should be coloured differently
     '''
-    # test code
-    if request.user.is_authenticated:
-        username = 'Logged in'
-    else:
-        username = 'Not logged in'
-    context = {'username': username,
+    context = {'account_nav': get_account_nav(request.user),
                'active': 'Home'}
     return render(request, 'homepage/homepage.html', context)
-
-def activation_sent_view(request):
-    return render(request, 'account/activation_sent.html')
+  
     
 def activate(request, uidb64, token):
     User = get_user_model()
@@ -60,12 +59,26 @@ def activate(request, uidb64, token):
         user.save()
         auth_login(request, user)
         
-        return render(request,'account/account_activation_email.html')
+        context = {
+            'account_nav': get_account_nav(request.user),
+            'active': None,
+            'page_title': 'Notice',
+            'message_title': 'Notice',
+            'message_text': [f'Hello {request.user},','Your account has been activated!']
+        }
+        
+        return render(request,'message/message.html', context)
     else:
-        return HttpResponse('Activation link is invalid!')
-        #return redirect('/')
-    #else:
-    #     return render(request, 'activation_invalid.html')
+        context = {
+            'account_nav': get_account_nav(request.user),
+            'active': None,
+            'page_title': 'Notice',
+            'message_title': 'Notice',
+            'message_text': ['The activation link is invalid']
+        }
+        
+        return render(request,'message/message.html', context)
+        
 
 def signup(request):
 
@@ -75,9 +88,10 @@ def signup(request):
         
         if form.is_valid() and profile_form.is_valid():   #validation of both forms
             
-            user.is_active = False                  # Deactivate account till it is confirmed
-            user = form.save()                      #return user from the form save
-            
+                            # Deactivate account till it is confirmed
+            user = form.save(commit=False)                      #return user from the form save
+            user.is_active = False  
+            user.save()
             profile=profile_form.save(commit=False) # creating new profile using data from form
             profile.user = user                     # onetoonefield relationship works here
             
@@ -93,13 +107,16 @@ def signup(request):
             })
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(subject,message,to=[to_email])
-            email.send(fail_silently=False)
-            #username = form.cleaned_data.get('username') #clean the data
-            #password = form.cleaned_data.get('password1')  
-            #user = authenticate(username = username, password = password)  
-            #messages.success(request,"Account created successfully")       
-            auth_login(request,user)
-            return redirect('activation_sent')
+            email.send(fail_silently=False) 
+            
+            context = {
+                'account_nav': get_account_nav(request.user),
+                'active': None,
+                'page_title': 'Notice',
+                'message_title': 'Notice',
+                'message_text': [f'Activation link sent to {to_email}! Please check your email and activate your account.']
+            }
+            return render(request, 'message/message.html', context)
           
     else: 
         form = SignupForm()
@@ -110,9 +127,9 @@ def signup(request):
              'form_title': 'Sign Up',
              'submit_value': 'Register Account',
              'additional_html': 'account/signup_extra.html',
-             'username': 'Sign-In/Up',
-             'active': 'Sign-In/Up'}
-    return render(request,'account/signupNEW.html', context)
+             'account_nav': 'Sign-Up',
+             'active': 'Login'}
+    return render(request,'account/signup.html', context)
 
 
 def login(request):
@@ -123,20 +140,35 @@ def login(request):
             username = form.cleaned_data.get('username')
             user = authenticate(request, username = username, password = form.cleaned_data.get('password'))
             if user is not None:
-                #print(UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'))
-                #if UserProfile.objects.raw(f'select signup_confirmation from homepage_userprofile where user_id={username}'):
-                auth_login(request, user)
-                if form.cleaned_data.get('remember_me') == False:
-                    request.session.set_expiry(0)
-                return redirect('/')
-                #else:
-                    #messages.info(request, 'Your account is not authenticated')
-                #pass
+                if user.is_active:
+                    auth_login(request, user)
+                    if form.cleaned_data.get('remember_me') == False:
+                        request.session.set_expiry(0)
+                    return redirect('/')
+                else:
+                    context = {
+                        'account_nav': get_account_nav(request.user),
+                        'active': None,
+                        'page_title': 'Notice',
+                        'message_title': 'Notice',
+                        'message_text': [f'Hello {user},', 'Your account has not been activated yet. Please do so by clicking the link sent to your email.']
+                    }
+                    return render(request,'message/message.html', context)
             else:
-                messages.info(request, 'Username OR password is incorrect')
+                context = {
+                    'account_nav': get_account_nav(request.user),
+                    'active': None,
+                    'page_title': 'Notice',
+                    'message_title': 'Notice',
+                    'message_text': ['Your username OR password is incorrect.']
+                }
+                
+                return render(request,'message/message.html', context)
                 
             
-            return redirect("/")
+    elif request.user.is_authenticated:
+        logout(request)
+        form = LoginForm()
     else:
         form = LoginForm()
         
@@ -144,7 +176,7 @@ def login(request):
                'form_title': 'Login', # The title at the top of the form
                'submit_value': 'Login', # The value on the button for the form
                'additional_html': 'account/login_extra.html', # Additional html to be placed under the button
-               'username': 'Sign-In/Up', # Fills in the header 'Sign-In/Up' link
-               'active': 'Sign-In/Up', # tell which tab is being displayed for different coloring
+               'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
+               'active': 'Login', # tell which tab is being displayed for different coloring
     }
-    return render(request,'account/loginNEW.html', context)
+    return render(request,'account/login.html', context)
