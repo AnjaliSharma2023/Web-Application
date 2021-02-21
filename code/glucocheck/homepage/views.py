@@ -138,32 +138,15 @@ def login(request):
         
         if form.is_valid():
             username = form.cleaned_data.get('username')
-            user = authenticate(request, username = username, password = form.cleaned_data.get('password'))
-            if user is not None:
-                if user.is_active:
-                    auth_login(request, user)
-                    if form.cleaned_data.get('remember_me') == False:
+            password = form.cleaned_data.get('password')
+            
+            auth_login(request, authenticate(request, username=username, password=password))
+            
+            if form.cleaned_data.get('remember_me') == False:
                         request.session.set_expiry(0)
-                    return redirect('/')
-                else:
-                    context = {
-                        'account_nav': get_account_nav(request.user),
-                        'active': None,
-                        'page_title': 'Notice',
-                        'message_title': 'Notice',
-                        'message_text': [f'Hello {user},', 'Your account has not been activated yet. Please do so by clicking the link sent to your email.']
-                    }
-                    return render(request,'message/message.html', context)
-            else:
-                context = {
-                    'account_nav': get_account_nav(request.user),
-                    'active': None,
-                    'page_title': 'Notice',
-                    'message_title': 'Notice',
-                    'message_text': ['Your username OR password is incorrect.']
-                }
-                
-                return render(request,'message/message.html', context)
+            
+            return redirect('/')
+            
                 
             
     elif request.user.is_authenticated:

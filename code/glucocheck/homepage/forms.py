@@ -5,6 +5,7 @@ from .models import UserProfile
 from datetime import date
 from .widgets import CheckboxLink
 from localflavor.us.forms import USStateSelect
+from django.contrib.auth import authenticate
 
 
 class SignupForm(UserCreationForm):
@@ -62,5 +63,17 @@ class LoginForm(forms.Form):
     username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
     password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
     remember_me = forms.BooleanField(required =False, widget=CheckboxLink(side_text='Remember me', wrap_elem='div', wrap_elem_attrs={'class':'column'}), label="user.svg")
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get("username")
+        password = cleaned_data.get("password")
+        
+        user = authenticate(username = username, password = password)
+        if user is not None:
+            if user.is_active == False:
+                raise forms.ValidationError('Your account is not authenticated, please click the link in your email')
+        else:
+            raise forms.ValidationError('Your username OR password is incorrect')
     
 

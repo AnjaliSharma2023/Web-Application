@@ -30,7 +30,9 @@
 	
 	<!--Display form errors, may need to be placed in a div-->
 	{% for form in forms %}
-		{{form.errors}}
+		{% for name, error in form.errors.items %}
+			{{error}}
+		{% endfor %}
 	{% endfor %}
 	</form>
 </div>

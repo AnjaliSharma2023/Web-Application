@@ -87,3 +87,10 @@ input.no_icon {
 p.no_icon {
 	text-align: center;
 }
+
+.center ul.errorlist {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
