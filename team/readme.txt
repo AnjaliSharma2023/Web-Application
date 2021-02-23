@@ -149,12 +149,12 @@ Monday (2021-02-22)
 1. **10 pm daily scrum**: what did you do, what are you going to do, and what do you need to get there?
 
 ---
-Wednesday (2021-02-23)
+Wednesday (2021-02-24)
 
 1. **10 pm sprint review**: demo the product, get feedback, and adjust the *product* backlog
 
 ---
-Thursday (2021-02-24)
+Thursday (2021-02-25)
 
 1. **10 pm sprint retrospective**: what worked, what didn't, and how can we improve?
 
