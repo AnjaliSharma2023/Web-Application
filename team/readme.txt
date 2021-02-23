@@ -140,6 +140,24 @@ Wednesday (2021-02-17)
 
 1. **10 pm daily scrum** on Teams: what did you do, what are you going to do, and what do you need to get there?
 
+===
+Week 5 (2021-02-21)
+
+---
+Monday (2021-02-22)
+
+1. **10 pm daily scrum**: what did you do, what are you going to do, and what do you need to get there?
+
+---
+Wednesday (2021-02-23)
+
+1. **10 pm sprint review**: demo the product, get feedback, and adjust the *product* backlog
+
+---
+Thursday (2021-02-24)
+
+1. **10 pm sprint retrospective**: what worked, what didn't, and how can we improve?
+
 +++
 Ground Rules
 
@@ -158,4 +176,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-02-14
+**meta_updated**: 2021-02-22
