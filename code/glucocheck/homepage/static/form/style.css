@@ -85,6 +85,10 @@
     
 }
 
+/*Added CSS for dealing with the CheckBoxLink widget*/
+.row .form-group {
+	height: 38px;
+}
 /*Add padding to the icon column*/
 .row .column {
 	float: left;
