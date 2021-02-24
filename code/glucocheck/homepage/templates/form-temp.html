@@ -24,7 +24,7 @@
                     <input type="submit" class="btn btn-primary">{{submit_value}}</input>
                     {% for form in forms %}
                     {% for name, error in form.errors.items %}
-                    	{{error}}
+                    {{error}}
                     {% endfor %}
                     {% endfor %}
                 </div>

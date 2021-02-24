@@ -3,6 +3,9 @@
 	{% block style %}
 		{% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'base/style.css' %}">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;700&display=swap" rel="stylesheet">
+    	<link href="https://fonts.googleapis.com/css2?family=Nixie+One&family=Stint+Ultra+Expanded&display=swap" rel="stylesheet">
 	{% endblock %}
 	
 	{% block extra_style %}
@@ -13,31 +16,42 @@
 <body>
 	<!--Navigation Bar-->
 	{% block header %}
-		<div class="header">
-			<p>GlucoCheck</p>
-			<i>some slogan here w/ extra styling</i>
-			<!--Nav Items-->
-			<ul>
-				{% if active == 'Login' %}
-					<li><a class='active' href="{% url 'login' %}">{{account_nav}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
-				{% else %}
-					<li><a href="{% url 'login' %}">{{account_nav}}</a></li> <!--Either "Welcome username" or "Sign-In/Up" depending on if the user is signed in-->
-				{% endif %}
-				{% if account_nav != "Login" and account_nav != "Sign-Up" %}
-				{% if active == 'Dashboard' %}
-					<li><a class='active' href="#dashboard">Dashboard</a></li>
-				{% else %}
-					<li><a href="#dashboard">Dashboard</a></li>
-				{% endif %}
-				{% endif %}
-				
-				{% if active == 'Home' %}
-					<li><a class="active" href="{% url 'homepage' %}">Home</a></li>
-				{% else %}
-					<li><a href="{% url 'homepage' %}">Home</a></li>
-				{% endif %}
-			</ul>
-		</div>
+	<section id="header">
+        <div class="header">
+            <div class="navbar">
+                <img src="{% static 'images/glucochecklogo.png' %}" class="logo">
+                <ul>
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">DASHBOARD</a></li>
+                    <li><a href="#">ABOUT US</a></li>
+                    <li><a href="#">CONTACT</a></li>
+                    <li><a href="#">GETTING STARTED</a></li>
+                    <li><a href="#">LOG IN</a></li>
+                </ul>
+         
+            </div>
+    
+            <div class="header-text">
+                <div class="title">
+                    Welcome To
+                    <div class="slider">
+                        <div>GlucoCheck</div>
+                        <div>New Technology</div>
+                        <div>Future</div> 
+                    </div>
+                </div>
+                <div>
+                <p>This is the beginning of a new experience that helps you to track and improve your health.</p>
+                <button class="common-btn">Get Started</button>
+                </div>
+            </div>
+            
+                
+                
+            </div>
+                
+    
+    </section>
 	{% endblock %}
 	
 	<div id="spacer_top">
@@ -52,46 +66,40 @@
 	
 	<!--Footer-->
 	{% block footer %}
-		<div class="footer">
-			<div class="column">
-				<h2>Learn More</h2>
-				<ul>
-					<li><a href="#tutorial">Getting Started</a></li>
-					<li><a href="#legal_disclaimer">Legal Disclaimer</a></li>
-				</ul>
+	<section id="footer">
+		<div class="container footer-row">
+			<hr>
+			<div class="footer-left-col">
+				<div class="footer-links">
+					<div class="link-title">
+						<h4>Terms of Use</h4>
+						<small>Cookie Policy</small><br>
+						<small>HIPPA</small>
+					</div>
+					<div class="link-title">
+						<h4>Contact</h4>
+						<small>support@glucocheck.com</small><br>
+						<small>Copyright © 2021 GlucoCheck</small>
+					</div>
+					
+					
+				</div>
 			</div>
-			<div class="column">
-				<h2>Contact Us</h2>
-				<ul>
-					<li><a href="#support">Customer Support</a></li>
-					<li><a href="#bug_report">Report a Bug(will prob just be bundled with customer support)</a></li>
-				</ul>
+			<div class="footer-right-col">
+				<div class="footer-info">
+					<div class="copyright-text">
+						<img src="{% static 'images/glucochecklogo.png' %}" class="footer-logo">
+					   
+					</div>
+				</div>
 			</div>
-			<p>GlucoCheck</p>
-			<i>© 2021-2025 GlucoCheck Development Team and individual contributors. GlucoCheck is a registered trademark of the GlucoCheck Development Team.</i>
 		</div>
+		
+		
+		
+		
+		</section>
 	{% endblock %}
 </body>
-<script>
-	//Size the spacers if there is no scroll bar on the page
-	if ((document.body.scrollHeight > document.body.clientHeight) == false) {
-		//Select the content, header, footer, and spacer elements
-		var spacer_top = document.getElementById("spacer_top");
-		var spacer_bottom = document.getElementById("spacer_bottom");
-		var content = document.getElementById("content");
-		var header = document.getElementsByClassName("header")[0];
-		var footer = document.getElementsByClassName("footer")[0];
-		
-		//get the visible height of all content displayed in pixels
-		var visible_height = content.offsetHeight + header.offsetHeight + footer.offsetHeight;
-		var spacer_top_height = Math.floor((window.innerHeight - visible_height)/2);
-		var spacer_bottom_height = (spacer_top_height + ((window.innerHeight - visible_height) % 2));
-		
-		
-		//Set the new spacer height
-		//The -20 is arrived at through trial and error, I think some margin somewhere throws the number off, idk
-		spacer_top.style.height = spacer_top_height - 20;
-		spacer_bottom.style.height = spacer_bottom_height - 20;
-	}
-</script>
+
 </html>
