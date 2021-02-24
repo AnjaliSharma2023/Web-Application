@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate
 
 
 class SignupForm(UserCreationForm):
-    username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
+    username = forms.CharField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Username'}), label='user.svg')
     email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
     password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
     password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
@@ -60,8 +60,8 @@ class UserProfileForm(forms.ModelForm): #
         return birth_date
         
 class LoginForm(forms.Form):
-    username = forms.CharField(required =True, widget=forms.TextInput(attrs={'placeholder':'Username'}), label='user.svg')
-    password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
+    username = forms.CharField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Username'}), label='user.svg')
+    password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}), label='key.svg')
     remember_me = forms.BooleanField(required =False, widget=CheckboxLink(side_text='Remember me', wrap_elem='div', wrap_elem_attrs={'class':'column'}), label="user.svg")
     
     def clean(self):

@@ -18,7 +18,7 @@
 								<div class="form-group">{{field}}</div>
 							{% endfor %}
 						{% endfor %}
-						<input type="submit" class="btn btn-primary">{{submit_value}}</input>
+						<input type="submit" class="btn btn-primary" value={{submit_value}}>
 						{% for form in forms %}
 							{% for name, error in form.errors.items %}
 								{{error}}

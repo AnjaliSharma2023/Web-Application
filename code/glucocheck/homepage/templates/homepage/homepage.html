@@ -1,60 +1,47 @@
 {% extends "base/base.html" %}
 
-{% block extra_style %}
+{% block style %}
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'homepage/style.css' %}">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nixie+One&family=Stint+Ultra+Expanded&display=swap" rel="stylesheet">
 {% endblock %}
 {% block title %}Homepage{% endblock %}
 
 
 <!--Page Content-->
-{% block content %}
-	<div class="container">
-		<div class="row">
-			<div class="column-33">
-				<img src="" alt="">
-			</div>
-			<div class="column-66">
-				<h2>Visualization</h2>
-				<p>And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization</p>
-			</div>
-		</div>
-	</div>
-	
-	<div class="container">
-		<div class="row">
-			<div class="column-66">
-				<h2>Visualization</h2>
-				<p>And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization</p>
-			</div>
-			<div class="column-33">
-				<img src="" alt="">
-			</div>
-		</div>
-	</div>
-	
-	<div class="container">
-		<div class="row">
-			<div class="column-33">
-				<img src="" alt="">
-			</div>
-			<div class="column-66">
-				<h2>Visualization</h2>
-				<p>And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization</p>
-			</div>
-		</div>
-	</div>
-	
-	<div class="container">
-		<div class="row">
-			<div class="column-66">
-				<h2>Visualization</h2>
-				<p>And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization, And here goes our write-up on the visualization</p>
-			</div>
-			<div class="column-33">
-				<img src="" alt="">
-			</div>
-		</div>
-	</div>
+{% block header %}
+	<section id="header">
+        <div class="header">
+            <div class="navbar">
+                <img src="{% static 'images/glucochecklogo.png' %}" class="logo">
+                <ul>
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">DASHBOARD</a></li>
+                    <li><a href="#">ABOUT US</a></li>
+                    <li><a href="#">CONTACT</a></li>
+                    <li><a href="#">GETTING STARTED</a></li>
+                    <li><a href="#">LOG IN</a></li>
+                </ul>
+         
+            </div>
+    
+            <div class="header-text">
+                <div class="title">
+                    Welcome To
+                    <div class="slider">
+                        <div>GlucoCheck</div>
+                        <div>New Technology</div>
+                        <div>Future</div> 
+                    </div>
+                </div>
+                <div>
+					<p>This is the beginning of a new experience that helps you to track and improve your health.</p>
+					<button class="common-btn">Get Started</button>
+                </div>
+            </div> 
+        </div>
+    </section>
 {% endblock %}
 <!--End Page Content-->
