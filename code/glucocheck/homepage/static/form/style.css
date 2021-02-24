@@ -84,3 +84,25 @@
     100%{transform: translateY(-20px);}
     
 }
+
+/*Add padding to the icon column*/
+.row .column {
+	float: left;
+}
+
+/*Size the checkbox input*/
+.row .column input[type=checkbox] {
+	box-sizing: border-box;
+	height: 15px;
+	width: 15px;
+	margin-top: 8px;
+}
+
+/*Size and center the accompanying text for the CheckBoxLink widget*/
+.row .column p {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	margin-top: 3px;
+	margin-left: 10px;
+}

@@ -251,5 +251,5 @@ def reset_password_email(request):
                'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
                'active': None, # tell which tab is being displayed for different coloring
     }
-    return render(request,'account/reset_password.html', context)
+    return render(request,'account/get_email.html', context)
             

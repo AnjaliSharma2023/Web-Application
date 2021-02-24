@@ -10,9 +10,9 @@ from django.contrib.auth import authenticate
 
 class SignupForm(UserCreationForm):
     username = forms.CharField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Username'}), label='user.svg')
-    email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
-    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label='key.svg')
-    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
+    email=forms.EmailField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), label='envelope.svg')
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}), label='key.svg')
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password Confirmation'}), label='key.svg')
     
     class Meta:
         model = User
@@ -41,8 +41,8 @@ class SignupForm(UserCreationForm):
 
 # new form for the profile
 class UserProfileForm(forms.ModelForm): #
-    birth_date = forms.DateField(required=True,widget = forms.DateInput(attrs={'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
-    state = forms.CharField(required =True, widget=USStateSelect(attrs={'placeholder':'State'}), label='map-marker-alt.svg')
+    birth_date = forms.DateField(required=True,widget = forms.DateInput(attrs={'class':'form-control', 'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
+    state = forms.CharField(required =True, widget=USStateSelect(attrs={'class':'form-control', 'placeholder':'State'}), label='map-marker-alt.svg')
 
     signup_confirmation = forms.BooleanField(required =True, widget=CheckboxLink(link_text='TNC', side_text='Have you have read and agree to the ', wrap_elem='div', wrap_elem_attrs={'class':'column'}, link_attrs={'href':"{% url 'login' %}"}), label="user.svg")
     
@@ -77,8 +77,8 @@ class LoginForm(forms.Form):
             raise forms.ValidationError('Your username OR password is incorrect')
             
 class ResetPassword(forms.Form):
-    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'New Password'}), label='key.svg')
-    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'New Password'}), label='key.svg')
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password Confirmation'}), label='key.svg')
     
     def clean(self):
         cleaned_data = super().clean()
@@ -89,7 +89,7 @@ class ResetPassword(forms.Form):
             raise forms.ValidationError('Your passwords do not match, please try again')
             
 class ResetPasswordEmail(forms.Form):
-    email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
+    email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), label='envelope.svg')
     
     def clean_email(self):
         email = self.cleaned_data['email']
