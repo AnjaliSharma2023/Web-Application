@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django.core.mail import EmailMessage
 from .tokens import account_activation_token
-from .forms import SignupForm,UserProfileForm, LoginForm
+from .forms import SignupForm,UserProfileForm, LoginForm, ResetPassword, ResetPasswordEmail
 from .models import UserProfile
 
 # helper function to fill the account_nav context for the header
@@ -52,7 +52,6 @@ def activate(request, uidb64, token):
 
         # if valid set active true 
         user.is_active = True
-
 
         user.save()
         auth_login(request, user)
@@ -141,11 +140,9 @@ def login(request):
             auth_login(request, authenticate(request, username=username, password=password))
             
             if form.cleaned_data.get('remember_me') == False:
-                        request.session.set_expiry(0)
+                request.session.set_expiry(0)
             
             return redirect('/')
-            
-                
             
     elif request.user.is_authenticated:
         logout(request)
@@ -161,3 +158,98 @@ def login(request):
                'active': 'Login', # tell which tab is being displayed for different coloring
     }
     return render(request,'account/login.html', context)
+  
+def tnc(request):
+    context = {'account_nav': get_account_nav(request.user),
+               'active': None}
+    return render(request, 'tnc/tnc.html', context)
+  
+def reset_password(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    # checking if the user exists, if the token is valid.
+    if user is not None and account_activation_token.check_token(user, token):
+        if request.method == 'POST':
+            form = ResetPassword(request.POST)
+            
+            if form.is_valid():
+                user.set_password(form.cleaned_data.get('password1'))
+                user.save()
+                
+                context = {
+                    'account_nav': get_account_nav(request.user),
+                    'active': None,
+                    'page_title': 'Notice',
+                    'message_title': 'Notice',
+                    'message_text': ['Account password reset']
+                }
+        
+                return render(request,'message/message.html', context)
+                
+        else:
+            form = ResetPassword()
+            
+        context = {'forms': [form], # A list of all forms used
+                   'form_title': 'Reset Password', # The title at the top of the form
+                   'submit_value': 'Reset Password', # The value on the button for the form
+                   'additional_html': None, # Additional html to be placed under the button
+                   'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
+                   'active': None, # tell which tab is being displayed for different coloring
+        }
+        return render(request,'account/reset_password.html', context)
+    else:
+        context = {
+            'account_nav': get_account_nav(request.user),
+            'active': None,
+            'page_title': 'Notice',
+            'message_title': 'Notice',
+            'message_text': ['The URL/token is invalid']
+        }
+        
+        return render(request,'message/message.html', context)
+
+def reset_password_email(request):
+    if request.method == 'POST':
+        form = ResetPasswordEmail(request.POST)
+        
+        if form.is_valid():
+            user_email = form.cleaned_data.get('email')
+            
+            current_site = get_current_site(request)
+            user = User.objects.get(email=user_email)
+            subject = 'Reset Password Link'
+            message = render_to_string('account/reset_password_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            
+            email = EmailMessage(subject,message,to=[user_email])
+            email.send(fail_silently=False) 
+            
+            context = {
+                'account_nav': get_account_nav(request.user),
+                'active': None,
+                'page_title': 'Notice',
+                'message_title': 'Notice',
+                'message_text': [f'Reset password link sent to {user_email}! Please check your email to reset your password.']
+            }
+            return render(request, 'message/message.html', context)
+    else:
+        form = ResetPasswordEmail()
+    
+    context = {'forms': [form], # A list of all forms used
+               'form_title': 'Input Email', # The title at the top of the form
+               'submit_value': 'Send Reset Link', # The value on the button for the form
+               'additional_html': None, # Additional html to be placed under the button
+               'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
+               'active': None, # tell which tab is being displayed for different coloring
+    }
+    return render(request,'account/reset_password.html', context)
+            

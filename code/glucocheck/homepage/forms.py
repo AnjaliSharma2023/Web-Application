@@ -75,5 +75,30 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError('Your account is not authenticated, please click the link in your email')
         else:
             raise forms.ValidationError('Your username OR password is incorrect')
+            
+class ResetPassword(forms.Form):
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'New Password'}), label='key.svg')
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password Confirmation'}), label='key.svg')
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get('password1')
+        password2 = cleaned_data.get('password2')
+    
+        if password1 != password2:
+            raise forms.ValidationError('Your passwords do not match, please try again')
+            
+class ResetPasswordEmail(forms.Form):
+    email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'placeholder':'Email'}), label='envelope.svg')
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        
+        try:
+            User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise forms.ValidationError('This email is not associated with a user')
+            
+        return email
     
 
