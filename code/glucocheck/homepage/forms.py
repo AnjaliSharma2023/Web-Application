@@ -44,7 +44,7 @@ class UserProfileForm(forms.ModelForm): #
     birth_date = forms.DateField(required=True,widget = forms.DateInput(attrs={'class':'form-control', 'placeholder':'Birth Date', 'onfocus':"(this.type='date')", 'onfocusout':"(this.type='text')"}), label='calendar-alt.svg')
     state = forms.CharField(required =True, widget=USStateSelect(attrs={'class':'form-control', 'placeholder':'State'}), label='map-marker-alt.svg')
 
-    signup_confirmation = forms.BooleanField(required =True, widget=CheckboxLink(link_text='TNC', side_text='Have you have read and agree to the ', wrap_elem='div', wrap_elem_attrs={'class':'column'}, link_attrs={'href':"../tnc/"}), label="user.svg")
+    signup_confirmation = forms.BooleanField(required =True, widget=CheckboxLink(link_text='TNC', side_text='Have you have read and agree to the ', wrap_elem='div', wrap_elem_attrs={'class':'column'}, link_attrs={'target':'_blank', 'rel':'noreferrer noopener', 'href':"../tnc/"}), label="user.svg")
     
 
     class Meta():
