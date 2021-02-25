@@ -19,9 +19,9 @@ from .models import UserProfile
 # helper function to fill the account_nav context for the header
 def get_account_nav(user):
     if user.is_authenticated:
-        account_nav = str(user)
+        account_nav = str(user).upper()
     else:
-        account_nav = 'Login'
+        account_nav = 'LOGIN'
     
     return account_nav
 
@@ -34,8 +34,7 @@ def homepage(request):
         
     The 'activate' context item represents which navbar is selected and therefore should be coloured differently
     '''
-    context = {'account_nav': get_account_nav(request.user),
-               'active': 'Home'}
+    context = {'account_nav': get_account_nav(request.user)}
     return render(request, 'homepage/homepage.html', context)
   
     
@@ -58,20 +57,18 @@ def activate(request, uidb64, token):
         
         context = {
             'account_nav': get_account_nav(request.user),
-            'active': None,
             'page_title': 'Notice',
             'message_title': 'Notice',
-            'message_text': [f'Hello {request.user},','Your account has been activated!']
+            'message_text': [f'Hello {request.user},','Your account has been activated!'],
         }
         
         return render(request,'message/message.html', context)
     else:
         context = {
             'account_nav': get_account_nav(request.user),
-            'active': None,
             'page_title': 'Notice',
             'message_title': 'Notice',
-            'message_text': ['The activation link is invalid']
+            'message_text': ['The activation link is invalid'],
         }
         
         return render(request,'message/message.html', context)
@@ -108,10 +105,9 @@ def signup(request):
             
             context = {
                 'account_nav': get_account_nav(request.user),
-                'active': None,
                 'page_title': 'Notice',
                 'message_title': 'Notice',
-                'message_text': [f'Activation link sent to {to_email}! Please check your email and activate your account.']
+                'message_text': [f'Activation link sent to {to_email}! Please check your email and activate your account.'],
             }
             return render(request, 'message/message.html', context)
           
@@ -125,7 +121,7 @@ def signup(request):
              'submit_value': 'Register Account',
              'additional_html': 'account/signup_extra.html',
              'account_nav': 'Sign-Up',
-             'active': 'Login'}
+    }
     return render(request,'account/signup.html', context)
 
 
@@ -155,13 +151,11 @@ def login(request):
                'submit_value': 'Login', # The value on the button for the form
                'additional_html': 'account/login_extra.html', # Additional html to be placed under the button
                'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
-               'active': 'Login', # tell which tab is being displayed for different coloring
     }
     return render(request,'account/login.html', context)
   
 def tnc(request):
-    context = {'account_nav': get_account_nav(request.user),
-               'active': None}
+    context = {'account_nav': get_account_nav(request.user),}
     return render(request, 'tnc/tnc.html', context)
   
 def reset_password(request, uidb64, token):
@@ -183,10 +177,9 @@ def reset_password(request, uidb64, token):
                 
                 context = {
                     'account_nav': get_account_nav(request.user),
-                    'active': None,
                     'page_title': 'Notice',
                     'message_title': 'Notice',
-                    'message_text': ['Account password reset']
+                    'message_text': ['Account password reset'],
                 }
         
                 return render(request,'message/message.html', context)
@@ -199,13 +192,11 @@ def reset_password(request, uidb64, token):
                    'submit_value': 'Reset Password', # The value on the button for the form
                    'additional_html': None, # Additional html to be placed under the button
                    'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
-                   'active': None, # tell which tab is being displayed for different coloring
         }
         return render(request,'account/reset_password.html', context)
     else:
         context = {
             'account_nav': get_account_nav(request.user),
-            'active': None,
             'page_title': 'Notice',
             'message_title': 'Notice',
             'message_text': ['The URL/token is invalid']
@@ -235,7 +226,6 @@ def reset_password_email(request):
             
             context = {
                 'account_nav': get_account_nav(request.user),
-                'active': None,
                 'page_title': 'Notice',
                 'message_title': 'Notice',
                 'message_text': [f'Reset password link sent to {user_email}! Please check your email to reset your password.']
@@ -249,7 +239,6 @@ def reset_password_email(request):
                'submit_value': 'Send Reset Link', # The value on the button for the form
                'additional_html': None, # Additional html to be placed under the button
                'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
-               'active': None, # tell which tab is being displayed for different coloring
     }
     return render(request,'account/get_email.html', context)
             

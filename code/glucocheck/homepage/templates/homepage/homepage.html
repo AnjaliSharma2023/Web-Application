@@ -17,12 +17,12 @@
             <div class="navbar">
                 <img src="{% static 'images/glucochecklogo.png' %}" class="logo">
                 <ul>
-                    <li><a href="#">HOME</a></li>
+                    <li><a href="{% url 'homepage' %}">HOME</a></li>
                     <li><a href="#">DASHBOARD</a></li>
                     <li><a href="#">ABOUT US</a></li>
                     <li><a href="#">CONTACT</a></li>
                     <li><a href="#">GETTING STARTED</a></li>
-                    <li><a href="#">LOG IN</a></li>
+                    <li><a href="{% url 'login' %}">{{account_nav}}</a></li>
                 </ul>
          
             </div>
