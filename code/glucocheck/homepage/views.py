@@ -120,7 +120,7 @@ def signup(request):
              'form_title': 'Sign Up',
              'submit_value': 'Register Account',
              'additional_html': 'account/signup_extra.html',
-             'account_nav': 'Sign-Up',
+             'account_nav': 'SIGN-UP',
     }
     return render(request,'account/signup.html', context)
 
