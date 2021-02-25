@@ -19,7 +19,7 @@ from .models import UserProfile
 # helper function to fill the account_nav context for the header
 def get_account_nav(user):
     if user.is_authenticated:
-        account_nav = str(user).upper()
+        account_nav = f'hi {str(user)}, logout?'.upper()
     else:
         account_nav = 'LOGIN'
     
