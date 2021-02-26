@@ -19,12 +19,12 @@ class test_login_form_errors(TestCase):
         user_login = LoginForm(data={'username':'someUser', 'password':'wrongPassword'})
         # Gets the number of form errors
         num_errors = len(user_login.errors.as_data()['__all__'])
-        # Gets the first error from the top of the '__all__' item in the dictionary
-        form_error = str(user_login.errors.as_data()['__all__'][0])
-        self.assertTrue(form_error == "['Your username OR password is incorrect']" and num_errors == 1)
+        # Gets the first error message from the top of the '__all__' item in the dictionary
+        form_error = user_login.errors.as_data()['__all__'][0].message
+        self.assertTrue(form_error == "Your username OR password is incorrect" and num_errors == 1)
     
     def test_unathenticated_user(self):
         user_login = LoginForm(data={'username':'unAuthUser', 'password':'somePassword'})
         num_errors = len(user_login.errors.as_data()['__all__'])
-        form_error = str(user_login.errors.as_data()['__all__'][0])
-        self.assertTrue(form_error == "['Your account is not authenticated, please click the link in your email']" and num_errors == 1)
+        form_error = user_login.errors.as_data()['__all__'][0].message
+        self.assertTrue(form_error == "Your account is not authenticated, please click the link in your email" and num_errors == 1)
