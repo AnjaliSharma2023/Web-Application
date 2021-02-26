@@ -22,22 +22,15 @@ class SignupForm(UserCreationForm):
             'password1',
             'password2',
         ) 
-
     
-
-    def save(self, commit =True):
-        user = super().save(commit= False)
+    def clean_email(self):
+        email = self.cleaned_data['email']
         
-        user.email = self.cleaned_data['email']
-        
-        #user.birth_date = self.cleaned_data['birth_date']
-        
-        
-
-        if commit: 
-            user.save()
-
-        return user
+        try:
+            User.objects.get(email=email)
+            raise forms.ValidationError('A user with that email already exists')
+        except User.DoesNotExist:
+            return email
 
 # new form for the profile
 class UserProfileForm(forms.ModelForm): #
