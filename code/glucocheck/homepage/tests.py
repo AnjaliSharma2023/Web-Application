@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from homepage.forms import LoginForm
 from django.contrib.auth.models import User
-from django.forms import ValidationError
 
 # Create your tests here.
 class test_login_form_errors(TestCase):
