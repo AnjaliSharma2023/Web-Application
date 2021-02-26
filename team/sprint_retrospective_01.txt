@@ -1,0 +1,44 @@
+Sprint Retrospective 01
+
+https://github.com/bizzlebin/team_6/blob/master/team/sprint_retrospective_01.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-02-25
+
++++
+Description
+
+Highlights of the team's (and scrum framework's) efficiency, effectiveness, and issues during the sprint.
+
++++
++
+
+• Organized goals
+• Collaboration
+• Cross-functional team
+• Artifacts
+
++++
+-
+
+• Backlog was not updated sufficiently or promptly
+•• Insufficient subitems
+•• Difficulty in signing off work
+• Git difficulties
+
++++
+Δ
+
+• Sprint planning meeting with explicit subtasks from day 1
+• Updated backlog flow
+• Create a general definition of done
+
++++
+?
+
+• How much can non-dev team members contribute?
