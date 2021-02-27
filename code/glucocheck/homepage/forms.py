@@ -31,6 +31,29 @@ class SignupForm(UserCreationForm):
             raise forms.ValidationError('A user with that email already exists')
         except User.DoesNotExist:
             return email
+            
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+        
+        uppercase = False
+        lowercase = False
+        number = False
+        
+        for letter in password1:
+            if uppercase == False and letter.isupper():
+                uppercase = True
+            
+            if lowercase == False and letter.islower():
+                lowercase = True
+            
+            if number == False and letter.isnumeric():
+                number = True
+        
+        if password1 == password2 and (len(password1) < 6 or uppercase == False or lowercase == False or number == False):
+            raise forms.ValidationError('Your password must be at least 6 letters long and contain at least one uppercase letter, one lowercase letter, and one digit')
+            
 
 # new form for the profile
 class UserProfileForm(forms.ModelForm): #
@@ -71,15 +94,34 @@ class LoginForm(forms.Form):
             
 class ResetPassword(forms.Form):
     password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'New Password'}), label='key.svg')
-    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password Confirmation'}), label='key.svg')
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password Confirmation'}), label='key.svg')        
     
     def clean(self):
         cleaned_data = super().clean()
         password1 = cleaned_data.get('password1')
         password2 = cleaned_data.get('password2')
-    
+        
         if password1 != password2:
-            raise forms.ValidationError('Your passwords do not match, please try again')
+            raise forms.ValidationError('The two password fields didn’t match.')
+        
+        uppercase = False
+        lowercase = False
+        number = False
+        
+        for letter in password1:
+            if uppercase == False and letter.isupper():
+                uppercase = True
+            
+            if lowercase == False and letter.islower():
+                lowercase = True
+            
+            if number == False and letter.isnumeric():
+                number = True
+        
+        if len(password1) < 6 or uppercase == False or lowercase == False or number == False:
+            raise forms.ValidationError('Your password must be at least 6 letters long and contain at least one uppercase letter, one lowercase letter, and one digit')
+            
+        
             
 class ResetPasswordEmail(forms.Form):
     email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), label='envelope.svg')
