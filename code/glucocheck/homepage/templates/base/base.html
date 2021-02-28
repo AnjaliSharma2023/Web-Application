@@ -19,7 +19,9 @@
 	<section id="header">
         <div class="header">
             <div class="navbar">
-                <img src="{% static 'images/glucochecklogo.png' %}" class="logo">
+				
+                <img src="{% static 'images/glucochecklogo.png' %}" class="logo" , onclick= "location.href= '{% url 'homepage' %} '">
+				
                 <ul>
                     <li><a href="{% url 'homepage' %}">HOME</a></li>
                     <li><a href="#">DASHBOARD</a></li>
@@ -46,9 +48,11 @@
 			<div class="footer-left-col">
 				<div class="footer-links">
 					<div class="link-title">
-						<h4>Terms of Use</h4>
+						<h4><a href="{% url 'tnc' %}">Legal Disclaimer</a></h4>
+						<small>Privacy Policy</small><br>
+						<small>Terms of Use</small><br>
 						<small>Cookie Policy</small><br>
-						<small>HIPPA</small>
+						<small>HIPAA Privacy</small>
 					</div>
 					<div class="link-title">
 						<h4>Contact</h4>
