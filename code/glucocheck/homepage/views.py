@@ -117,12 +117,13 @@ def signup(request):
 
 
     context={'forms': [form, profile_form], 
+             'page_title': 'Sign Up',
              'form_title': 'Sign Up',
              'submit_value': 'Register Account',
              'additional_html': 'account/signup_extra.html',
              'account_nav': 'SIGN-UP',
     }
-    return render(request,'account/signup.html', context)
+    return render(request,'form/form.html', context)
 
 
 def login(request):
@@ -147,12 +148,13 @@ def login(request):
         form = LoginForm()
         
     context = {'forms': [form], # A list of all forms used
+               'page_title': 'Login',
                'form_title': 'Login', # The title at the top of the form
                'submit_value': 'Login', # The value on the button for the form
                'additional_html': 'account/login_extra.html', # Additional html to be placed under the button
                'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
     }
-    return render(request,'account/login.html', context)
+    return render(request,'form/form.html', context)
   
 def tnc(request):
     context = {'account_nav': get_account_nav(request.user),}
@@ -188,12 +190,13 @@ def reset_password(request, uidb64, token):
             form = ResetPassword()
             
         context = {'forms': [form], # A list of all forms used
+                   'page_title': 'Reset Password',
                    'form_title': 'Reset Password', # The title at the top of the form
                    'submit_value': 'Reset Password', # The value on the button for the form
                    'additional_html': None, # Additional html to be placed under the button
                    'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
         }
-        return render(request,'account/reset_password.html', context)
+        return render(request,'form/form.html', context)
     else:
         context = {
             'account_nav': get_account_nav(request.user),
@@ -235,10 +238,11 @@ def reset_password_email(request):
         form = ResetPasswordEmail()
     
     context = {'forms': [form], # A list of all forms used
+               'page_title': 'Input Email',
                'form_title': 'Input Email', # The title at the top of the form
                'submit_value': 'Send Reset Link', # The value on the button for the form
                'additional_html': None, # Additional html to be placed under the button
                'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
     }
-    return render(request,'account/get_email.html', context)
+    return render(request,'form/form.html', context)
             
