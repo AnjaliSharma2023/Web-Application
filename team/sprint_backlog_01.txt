@@ -44,20 +44,21 @@ Done
 
 Items that are now in the past; only the *product owner* may move user stories to this category when they meet the acceptance criteria or, in the case of dev-team-created subitems, the internal definition of done.
 
+(2021-02-28)
+••• (1) Geofenced Distribution - Done
+•• (2) Sign Up - Done
+•• (5) Secure Login - Done
+• (2) Legal Disclaimer - Done   
+• (5) Website - Done
 
-Sign Up
-
-Geofenced Distribution
 
 
 ===
 Doing
 
 The *one* story—and any subitems—that are presently in progress. Only the dev team may pull an item into this category and they may freely create subitems, as needed: this is the place to break a story down.
-••• (1) Geofenced Distribution: As a developer, I want to make sure the customer has a valid zip code so that they are in a jurisdiction covered by the legal disclaimer. - Done
-•• (5) Secure Login: As a developer, I want to provide privacy and protection for my customers so that their information is not shared. - Done
 
-• (2) Legal Disclaimer: As a lawyer, I want to read a disclaimer so that my client's PHI is protected. (1. Protects PHI according to HIPAA. 2. Uses proven language. 3. Is prominently displayed.)
+
 
 ===
 Do
