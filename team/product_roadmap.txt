@@ -86,8 +86,8 @@ Week 1.1 (2021-02-07)
 Week 1.2 (2021-02-14)
 
 •• (2) Sign Up: As a customer, I want to create an account so that I can access the GlucoCheck app. (1. Is able to capture and transmit personal account details, including e-mail address. 2. Verifies date of birth. 3. Verifies acceptance of terms. 4. Creates username and password. 5. Sends verification to customer.)
-••• (1) Geofenced Distribution: As a developer, I want to make sure the customer has a valid zip code so that they are in a jurisdiction covered by the legal disclaimer. (1. References a list of valid zip codes. 2. Denies any zip code that is not on the list.)
-•• (5) Secure Login: As a developer, I want to provide privacy and protection for my customers so that their information is not shared. (1. Directs the customer to a secure login form. 2. Rejects incorrect username/password combos. 3. Accepts correct username/password combos. 4. Can reset passwords. 5. Can remember passwords. 6. Transmits data over TLS.)
+••• (1) Geofenced Distribution: As a developer, I want to make sure the customer has a valid US State so that they are in a jurisdiction covered by the legal disclaimer. (1. References a list of valid US States. 2. Denies any State that is not on the list.)
+•• (5) Secure Login: As a developer, I want to provide privacy and protection for my customers so that their information is not shared. (1. Directs the customer to a secure login form. 2. Rejects incorrect username/password combos. 3. Accepts correct username/password combos. 4. Can reset passwords. 5. Can remember passwords.)
 
 ---
 Week 1.3 (2021-02-21)
@@ -147,3 +147,5 @@ Unscheduled
 •• (1) Links To Professional Medical Help: As a developer, I want to provide links to professional health services so that I can reduce app support complexity. (1. From a recognized medical authority or governmental agency.)
 •• (1) Export Health Data: As a customer, I want to be able to download my health data so that I have my own, portable copy. (1. Returns all captured health data in a single download. 2. Supports a standardized or basic plaintext-readable file format.)
 • (2) Hire or Provide Tech Support: As a developer, I want to provide a way for customers to receive extra support so that they are retained and have a positive impression of the app. (1. Accessible via e-mail or form submission. 2. Sends to internal or 3rd-party ticketing system. 3. Clearly delineates what type of support can and cannot be provided.)
+
+•• Model production server: Transmits data over TLS.
