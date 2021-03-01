@@ -64,4 +64,3 @@ The *one* story—and any subitems—that are presently in progress. Only the de
 Do
 
 The agreed-upon user stories for the sprint, ready for future work by the development team. The team may add to this list by mutual agreement at any time but no extra work may be pushed to the team during a sprint.
-•• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.)
