@@ -153,6 +153,11 @@ Wednesday (2021-02-24)
 
 1. **10 pm sprint review**: demo the product, get feedback, and adjust the *product* backlog
 
+---
+Thursday (2021-02-25)
+
+1. **10 pm sprint retrospective**: what worked, what didn't, and how can we improve?
+
 ===
 Week 6 (2021-02-28)
 
@@ -185,4 +190,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-02-28
+**meta_updated**: 2021-03-01
