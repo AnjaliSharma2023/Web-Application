@@ -205,13 +205,13 @@
     flex-wrap: wrap;
 }
 
-.link-title h4{
+.link-title h4 a{
     color: #fab3c4;
+	text-decoration: none;
     margin-bottom: 20px;
     justify-content: space-between;
     flex-wrap: wrap;
 }
-
 .link-title small{
     font-size: 13px;
     color:cornflowerblue;
