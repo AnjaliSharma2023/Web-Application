@@ -92,7 +92,6 @@ class test_signup_form_errors(TestCase):
         username_input = SignupForm(data ={'username' : 'username', 'email':'test@gmail.com','password1': 'testPassword1','password2':'testPassword1'})
         num_errors = get_num_errors(username_input)
         form_error = username_input.errors.as_data()['username'][0].message
-       
         self.assertTrue(form_error == "A user with that username already exists." and num_errors == 1)
 
 
@@ -136,7 +135,6 @@ class test_birth_date(TestCase):
         birth_date = date.today()
         birth_date = birth_date.replace(year=date.today().year - 19)
         birth_date_input = UserProfileForm(data ={'birth_date':birth_date, 'state': 'New Jersey','signup_confirmation':'True'})
-       
         self.assertTrue(birth_date_input.is_valid())
         
     def test_incorrect_birth_date(self):
