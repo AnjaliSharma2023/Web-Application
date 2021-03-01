@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from homepage.forms import LoginForm, ResetPasswordEmail, ResetPassword
+from homepage.forms import LoginForm, ResetPasswordEmail, ResetPassword, SignupForm
 from django.contrib.auth.models import User
 
 def get_num_errors(form):
@@ -74,3 +74,17 @@ class test_reset_password(TestCase):
         num_errors = get_num_errors(password_input)
         form_error = password_input.errors.as_data()['__all__'][0].message
         self.assertTrue(form_error == 'Your password must be at least 6 letters long and contain at least one uppercase letter, one lowercase letter, and one digit' and num_errors == 1)
+# create a class that inherit from TestCase
+class test_signup_form_errors(TestCase):
+
+    def test_correct_username(self):
+        username_input = SignupForm(data ={'username' : 'username', 'email':'test@gmail.com','password1': 'testPassword1','password2':'testPassword1'})
+        self.assertTrue(username_input.is_valid())
+
+    '''def test_incorrect_username(self):
+        username_input = SignupForm(data ={'username' : 'username', 'email':'test@gmail.com','password1': 'testPassword1','password2':'testPassword1'})
+        num_errors = get_num_errors(username_input)
+        form_error = username_input.errors.as_data()[0].message
+        self.assertTrue(form_error == "This field is required" and num_errors == 1)
+
+'''
