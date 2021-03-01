@@ -44,12 +44,12 @@ Done
 
 Items that are now in the past; only the *product owner* may move user stories to this category when they meet the acceptance criteria or, in the case of dev-team-created subitems, the internal definition of done.
 
-(2021-02-28)
-••• (1) Geofenced Distribution - Done
-•• (2) Sign Up - Done
-•• (5) Secure Login - Done
-• (2) Legal Disclaimer - Done   
-• (5) Website - Done
+
+**02/28/2021**••• (1) Geofenced Distribution 
+**02/28/2021**•• (2) Sign Up 
+**02/28/2021**•• (5) Secure Login 
+**02/28/2021**• (2) Legal Disclaimer    
+**02/28/2021**• (5) Website 
 
 
 
