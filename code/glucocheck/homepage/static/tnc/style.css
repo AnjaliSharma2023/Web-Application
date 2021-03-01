@@ -34,7 +34,7 @@
     margin-top: 20px;
 }
 
-hr{
+.section hr{
     width: 100%;
     border: 0;
     border-top: 1px solid  #8cc63e;
@@ -44,7 +44,7 @@ hr{
     margin-left: 50px;
 }
 
-a{
+.section a{
     text-decoration: none;
     color: blue;
     font-family: 'Quicksand', sans-serif;
