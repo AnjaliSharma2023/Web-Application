@@ -2,14 +2,32 @@ from django.test import TestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from homepage.forms import LoginForm, ResetPasswordEmail, ResetPassword
 from django.contrib.auth.models import User
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
+import sys
+from contextlib import contextmanager
 
+# Get the number of errors from a form
 def get_num_errors(form):
     num_errors = 0
     for name, errors in form.errors.as_data().items():
         num_errors += len(errors)
     
     return num_errors
-
+   
+# Overwrite the console output in order to suppress unexplained errors  
+@contextmanager
+def suppress_stderr():
+    "Temporarly suppress writes to stderr"
+    class Null:
+        write = lambda *args: None
+    err, sys.stderr = sys.stderr, Null
+    try:
+        yield
+    finally:
+        sys.stderr = err
+        
 # Create your tests here.
 class test_login_form_errors(TestCase):
     @classmethod
@@ -74,3 +92,28 @@ class test_reset_password(TestCase):
         num_errors = get_num_errors(password_input)
         form_error = password_input.errors.as_data()['__all__'][0].message
         self.assertTrue(form_error == 'Your password must be at least 6 letters long and contain at least one uppercase letter, one lowercase letter, and one digit' and num_errors == 1)
+        
+class test_login_live(StaticLiveServerTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        
+        chrome_options = Options()
+        # Option to suppress 'DevTools listening on...' message
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        # Set browser to headless
+        chrome_options.headless = True
+        cls.selenium = webdriver.Chrome(chrome_options=chrome_options)
+        
+        cls.selenium.implicitly_wait(10)
+    
+    @classmethod
+    def tearDownClass(cls):
+        with suppress_stderr():
+            cls.selenium.quit()
+            
+        super().tearDownClass()
+    
+    def test_homepage(self):
+        self.selenium.get(self.live_server_url)
+        time.sleep(2)
