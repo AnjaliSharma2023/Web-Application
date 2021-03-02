@@ -1,12 +1,14 @@
 from django.test import TestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from homepage.forms import LoginForm, ResetPasswordEmail, ResetPassword
+from homepage.forms import LoginForm, ResetPasswordEmail, ResetPassword, SignupForm, UserProfileForm
 from django.contrib.auth.models import User
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
 import sys
 from contextlib import contextmanager
+from datetime import date
+
 
 # Get the number of errors from a form
 def get_num_errors(form):
@@ -29,7 +31,7 @@ def suppress_stderr():
         sys.stderr = err
         
 # Create your tests here.
-class test_login_form_errors(TestCase):
+class test_login_form(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Creates users for testing
@@ -92,7 +94,71 @@ class test_reset_password(TestCase):
         num_errors = get_num_errors(password_input)
         form_error = password_input.errors.as_data()['__all__'][0].message
         self.assertTrue(form_error == 'Your password must be at least 6 letters long and contain at least one uppercase letter, one lowercase letter, and one digit' and num_errors == 1)
+
+# create a class that inherit from TestCase
+class test_signup_form_errors(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        # Creates users for testing
+        User.objects.create_user(username='username', email='wrong@gmail.com', password='somePassword')
+
+    def test_correct_input(self):
+        username_input = SignupForm(data ={'username' : 'userName', 'email':'test@gmail.com','password1': 'testPassword1','password2':'testPassword1'})
+        self.assertTrue(username_input.is_valid())
+
+    def test_incorrect_username(self):
+        username_input = SignupForm(data ={'username' : 'username', 'email':'test@gmail.com','password1': 'testPassword1','password2':'testPassword1'})
+        num_errors = get_num_errors(username_input)
+        form_error = username_input.errors.as_data()['username'][0].message
+        self.assertTrue(form_error == "A user with that username already exists." and num_errors == 1)
+
+
+    def test_correct_signup_email(self):
+        signup_email_input = SignupForm(data ={'username' : 'userName', 'email':'test@gmail.com','password1': 'testPassword1','password2':'testPassword1'})
+        self.assertTrue(signup_email_input.is_valid())
+
+    def test_incorrect_signup_email(self):
+        signup_email_input = SignupForm(data ={'username' : 'userName', 'email':'wrong@gmail.com','password1': 'testPassword1','password2':'testPassword1'})
+        num_error = get_num_errors(signup_email_input)
+        form_error = signup_email_input.errors.as_data()['email'][0].message
+        self.assertTrue(form_error ==  'A user with that email already exists' and num_error ==1)
+
+    def test_bad_format_signup_email(self):
+        signup_email_input = SignupForm(data ={'username' : 'userName', 'email':'notAnEmail','password1': 'testPassword1','password2':'testPassword1'})
+        num_errors = get_num_errors(signup_email_input)
+        form_error = signup_email_input.errors.as_data()['email'][0].message
+        self.assertTrue(form_error == "Enter a valid email address." and num_errors == 1)
         
+    def test_mismatching_signup_passwords(self):
+        signup_password_input = SignupForm(data ={'username' : 'userName', 'email':'test@gmail.com','password1': 'somePassword1','password2':'anotherPassword1'})
+        num_errors = get_num_errors(signup_password_input)
+        form_error = signup_password_input.errors.as_data()['password2'][0].message
+        self.assertTrue(form_error == "The two password fields didn’t match." and num_errors == 1)
+        
+    def test_insecure_signup_password(self):
+        signup_password_input = SignupForm(data ={'username' : 'userName', 'email':'test@gmail.com','password1': 'somepassword','password2':'somepassword'})
+        num_errors = get_num_errors(signup_password_input)
+        form_error = signup_password_input.errors.as_data()['__all__'][0].message
+        self.assertTrue(form_error == 'Your password must be at least 6 letters long and contain at least one uppercase letter, one lowercase letter, and one digit' and num_errors == 1)
+
+class test_user_profile_form(TestCase):
+
+    def test_correct_birth_date(self):
+        birth_date = date.today()
+        birth_date = birth_date.replace(year=date.today().year - 19)
+        birth_date_input = UserProfileForm(data ={'birth_date':birth_date, 'state': 'New Jersey','signup_confirmation':'True'})
+        self.assertTrue(birth_date_input.is_valid())
+        
+    def test_incorrect_birth_date(self):
+        birth_date = date.today()
+        birth_date = birth_date.replace(year=date.today().year - 17)
+        birth_date_input = UserProfileForm(data ={'birth_date':birth_date, 'state': 'New Jersey','signup_confirmation':'True'})
+        num_errors = get_num_errors(birth_date_input)
+        form_error = birth_date_input.errors.as_data()['birth_date'][0].message
+        self.assertTrue(form_error == 'Must be at least 18 years old to register' and num_errors == 1)
+
+ 
 class test_login_live(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
