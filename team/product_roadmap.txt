@@ -102,7 +102,6 @@ Week 2.1 (2021-02-28)
 
 
 •• (2) Testing Multiple Browsers: As a developer, I want to ensure a pleasant, functional experience across browsers so that I can gain and retain more customers. (1. Supports Chrome and at least one other browser. 2. Ensures all functional tests complete. 3. Ensures that design is similar and does not produce jarring nonconformities.)
-•• (2) Accessibility Audit: As a developer, I want to meet the needs of users with disabilities so that they are able to use the functionality of the website. (1. Identifies the needs of colorblind and other visually-impaired users. 2. Ensure best practices are followed. 3. Produces a report with some type of accessibility score.)
 •• (1) Reliability Audit: As a developer, I want to ensure the website is continually available to customers so that they can continue to utilize the app. (1. Reports on webpage traffic. 2. Produces a report to determine if 3 9s uptime has been met.)
 •• (1) Check Website Responsiveness: As a developer, I want the website to load quickly so that customers don't become frustrated. (1. Achieves page load time of < 1 s. 2. Achieves visualization load time of < 1 s.)
 
@@ -144,6 +143,7 @@ Week 3.3 (2021-04-11)
 ===
 Unscheduled
 
+•• (2) Accessibility Audit: As a developer, I want to meet the needs of users with disabilities so that they are able to use the functionality of the website. (1. Identifies the needs of colorblind and other visually-impaired users. 2. Ensure best practices are followed. 3. Produces a report with some type of accessibility score.)
 •• (1) Links To Professional Medical Help: As a developer, I want to provide links to professional health services so that I can reduce app support complexity. (1. From a recognized medical authority or governmental agency.)
 •• (1) Export Health Data: As a customer, I want to be able to download my health data so that I have my own, portable copy. (1. Returns all captured health data in a single download. 2. Supports a standardized or basic plaintext-readable file format.)
 • (2) Hire or Provide Tech Support: As a developer, I want to provide a way for customers to receive extra support so that they are retained and have a positive impression of the app. (1. Accessible via e-mail or form submission. 2. Sends to internal or 3rd-party ticketing system. 3. Clearly delineates what type of support can and cannot be provided.)
