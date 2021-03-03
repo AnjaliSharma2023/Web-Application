@@ -16,8 +16,13 @@ from homepage.tokens import account_activation_token
 from homepage.forms import SignupForm,UserProfileForm, LoginForm, ResetPasswordForm, EmailInputForm
 from homepage.models import UserProfile
 
-# helper function to fill the account_nav context for the header
+
 def get_account_nav(user):
+    '''Return the header navigation text based on if the user is logged in or not.
+
+    Keyword arguments:
+    user -- the user object attached to the request
+    '''
     if user.is_authenticated:
         account_nav = f'hi {str(user)}, logout?'.upper()
     else:
@@ -25,20 +30,25 @@ def get_account_nav(user):
     
     return account_nav
 
+
 def homepage(request):
-    ''' Snippet of the code for inputting the user name into the template
-    if request.user.is_authenticated:
-        context = {'username': f'Welcome {request.user.name}!', 'active': 'Home'} # or however you reference the user name
-    else:
-        context = {'username': 'Sign-In/Up', 'active': 'Home'}
-        
-    The 'activate' context item represents which navbar is selected and therefore should be coloured differently
+    '''Renders the homepage view ('/') with needed context.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
     '''
     context = {'account_nav': get_account_nav(request.user)}
     return render(request, 'homepage/homepage.html', context)
   
-    
+  
 def activate(request, uidb64, token):
+    '''Activates the user associated with the uidb64 and token and displays a success/error message ('/activate/<uidb64>/<token>').
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    uidb64 -- the encoded user id
+    token -- the token consisting of the userid, timestamp, and user.is_active bool hashed
+    '''
     User = get_user_model()
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
@@ -53,7 +63,6 @@ def activate(request, uidb64, token):
         user.is_active = True
 
         user.save()
-        auth_login(request, user)
         
         context = {
             'account_nav': get_account_nav(request.user),
@@ -73,8 +82,13 @@ def activate(request, uidb64, token):
         
         return render(request,'message/message.html', context)
         
-
+        
 def signup(request):
+    '''Renders the signup form view ('/signup') with needed context and sends a confirmation email if successful.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
     if request.method == 'POST':
         form = SignupForm(request.POST) 
         profile_form = UserProfileForm(request.POST)
@@ -126,6 +140,11 @@ def signup(request):
 
 
 def login(request):
+    '''Renders the login form view ('/login') with needed context and logs the user out if they are already logged in.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
     if request.method == 'POST':
         form = LoginForm(request.POST)
         
@@ -155,11 +174,25 @@ def login(request):
     }
     return render(request,'form/form.html', context)
   
+  
 def tnc(request):
+    '''Renders the terms and conditions view ('/tnc') with needed context.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
     context = {'account_nav': get_account_nav(request.user),}
     return render(request, 'tnc/tnc.html', context)
   
+  
 def reset_password(request, uidb64, token):
+    '''Renders reset password form view ('/reset-password/<uidb64>/<token>') for the user associated with the uidb64 and token and displays a success/error message.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    uidb64 -- the encoded user id
+    token -- the token consisting of the userid, timestamp, and user.is_active bool hashed
+    '''
     User = get_user_model()
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
@@ -206,7 +239,13 @@ def reset_password(request, uidb64, token):
         
         return render(request,'message/message.html', context)
 
+
 def email_input(request):
+    '''Renders the email input form view for resetting passwords ('/email-input') with needed context.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
     if request.method == 'POST':
         form = EmailInputForm(request.POST)
         
