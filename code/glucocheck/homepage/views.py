@@ -12,9 +12,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django.core.mail import EmailMessage
-from .tokens import account_activation_token
-from .forms import SignupForm,UserProfileForm, LoginForm, ResetPassword, ResetPasswordEmail
-from .models import UserProfile
+from homepage.tokens import account_activation_token
+from homepage.forms import SignupForm,UserProfileForm, LoginForm, ResetPasswordForm, EmailInputForm
+from homepage.models import UserProfile
 
 # helper function to fill the account_nav context for the header
 def get_account_nav(user):
@@ -75,7 +75,6 @@ def activate(request, uidb64, token):
         
 
 def signup(request):
-
     if request.method == 'POST':
         form = SignupForm(request.POST) 
         profile_form = UserProfileForm(request.POST)
@@ -171,7 +170,7 @@ def reset_password(request, uidb64, token):
     # checking if the user exists, if the token is valid.
     if user is not None and account_activation_token.check_token(user, token):
         if request.method == 'POST':
-            form = ResetPassword(request.POST)
+            form = ResetPasswordForm(request.POST)
             
             if form.is_valid():
                 user.set_password(form.cleaned_data.get('password1'))
@@ -187,7 +186,7 @@ def reset_password(request, uidb64, token):
                 return render(request,'message/message.html', context)
                 
         else:
-            form = ResetPassword()
+            form = ResetPasswordForm()
             
         context = {'forms': [form], # A list of all forms used
                    'page_title': 'Reset Password',
@@ -207,9 +206,9 @@ def reset_password(request, uidb64, token):
         
         return render(request,'message/message.html', context)
 
-def reset_password_email(request):
+def email_input(request):
     if request.method == 'POST':
-        form = ResetPasswordEmail(request.POST)
+        form = EmailInputForm(request.POST)
         
         if form.is_valid():
             user_email = form.cleaned_data.get('email')
@@ -235,7 +234,7 @@ def reset_password_email(request):
             }
             return render(request, 'message/message.html', context)
     else:
-        form = ResetPasswordEmail()
+        form = EmailInputForm()
     
     context = {'forms': [form], # A list of all forms used
                'page_title': 'Input Email',
