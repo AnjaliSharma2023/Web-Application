@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-
 # Create your models here.
 
 class UserProfile(models.Model):  
@@ -12,16 +8,56 @@ class UserProfile(models.Model):
     # every profile associated with one user and every user will have one profile                      
     birth_date = models.DateField(null=True, blank=True)
     state = models.CharField(max_length=200)
+    unit = models.CharField(max_length = 20)
 
 
     def __str__(self):
         return self.user.username
 
 
+'''class Unit(models.Model):
 
+    unit_category = models.CharField(unique=True, max_length=20)
+    unit_name = models.CharField(unique=True, max_length=20)
+
+    def __str__(self):
+        return self.unit_name
 '''
-@receiver(post_save, sender=User)
-def user_to_inactive(sender, instance, created, update_fields, **kwargs):
-    if created:
-        instance.is_active = False
-'''
+
+class RecordingCategory(models.Model):
+
+    name = models.CharField(unique=True,max_length=255)
+    
+    def __str__(self):
+        return self.name
+
+class Glucose(models.Model):
+    user = models.ForeignKey(User, on_delete= models.DO_NOTHING)
+    glucose_reading = models.PositiveIntegerField()
+    record_datetime = models.DateTimeField()
+    #record_time = models.TimeField()
+    notes = models.TextField()
+    categories = models.ForeignKey(RecordingCategory, on_delete= models.DO_NOTHING)
+
+    #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
+
+    def __str__(self):
+        return self.glucose_reading
+
+class Carbohydrate(models.Model):
+    user = models.ForeignKey(User, on_delete= models.DO_NOTHING)
+    reading = models.PositiveIntegerField()
+    record_datetime = models.DateTimeField()
+
+    #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
+
+    def __str__(self):
+        return self.reading
+
+class Insulin(models.Model):
+
+    user = models.ForeignKey(User, on_delete= models.DO_NOTHING)
+    dosage =models.PositiveIntegerField()
+    record_datetime = models.DateTimeField()
+  
+    #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
