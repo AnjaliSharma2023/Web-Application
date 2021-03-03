@@ -1,0 +1,102 @@
+Sprint Backlog 02
+
+https://github.com/bizzlebin/team_6/blob/master/team/sprint_backlog_02.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-03-01
+
++++
+Description
+
+The development team's sprint backlog for sprint 2, which can be subdivided into smaller and smaller chunks—even into tasks instead of stories.
+
++++
+Overview
+
+**Sprint**: 2
+**Start date**: 2021-02-28
+**End date**: 2021-03-27
+**Goal**: Add data entry and visualization to the app and make sure the experience is accessible, clear, and robust.
+
++++
+Backlog
+
+///
+The sprint backlog format supplements the product backlog format, allowing a quick overview of all subtasks for a given user story. Instead of using bullet points, all tasks are given the NKMF-standard shorthand for authorship info: either a "+" (task created), "=" (task in progress), or "#" (task completed). The parentheses hold the date the item was last modified (ISO 8601 as always, please—it is the worldwide standard!), the task follows, and the person who last updated the task should be in parenthesis at the end. It is recommended that a person only have 1 or 2 in-progress tasks ("=") at a time so as not to lock anyone else out of a task unnecessarily, though tasks can be shared if they are very large (better to break them down, though, normally). For example:
+
+"""
+•• (2) Management Infrastructure: As a scrum master, I want...
++ (2021-01-31) Create critical path algorithm (Jeremiah)
+# (2021-02-14) Create sprint backlog format (Jeremiah)
+= (2021-02-14) Update schedule (Jeremiah)
+"""
+\\\
+
+===
+Done
+
+Items that are now in the past; the team may move user stories to this category whenever they think they meet the acceptance criteria. Once verified, the *product owner* must put the story inside a description list, with the term (or key) being the date the story was accepted.
+
+///
+Definition Of Done
+
+1. Each acceptance criteria has been fully met.
+2. Each acceptance criteria has at least 1 test.
+3. All tests pass.
+4. All custom classes and functions have at least a minimal docstring.
+5. The feature is live in the repo, either currently deployed or ready to deploy immediately.
+\\\
+
+===
+Doing
+
+The *one* story—and any subitems—that are presently in progress. Only the dev team may pull an item into this category and they may freely create subitems, as needed: this is the place to break a story down.
+
+•• (5) Visualize Health Data: As a customer, I want visual charts and graphs so that I can see my health data history and look for trends. (1. Produces custom visuals for health data. 2. Displays bar graph showing if health data is in range. 3. Displays a whisker plot, showing a spread of values over time. 4. Displays a scatter plot showing glucose, insulin, and carb values over time.)
++ (2021-03-01) Create database tables (Team)
++ (2021-03-01) Install/integrate/test graphing library (Team)
++ (2021-03-01) Create default view/ranges (Team)
++ (2021-03-01) Design (Team)
+
+===
+Do
+
+The agreed-upon user stories for the sprint, ready for future work by the development team. The team may add to this list by mutual agreement at any time but no extra work may be pushed to the team during a sprint.
+
+•• (2) Testing Multiple Browsers: As a developer, I want to ensure a pleasant, functional experience across browsers so that I can gain and retain more customers. (1. Supports Chrome and at least one other browser. 2. Ensures all functional tests complete. 3. Ensures that design is similar and does not produce jarring nonconformities.)
++ (2021-03-01) URL integration tests (Team)
+
+•• (1) Reliability Audit: As a developer, I want to ensure the website is continually available to customers so that they can continue to utilize the app. (1. Reports on webpage traffic. 2. Produces a report to determine if 3 9s uptime has been met.)
++ (2021-03-01) Create report format (Team)
++ (2021-03-01) Create task schedule (Team)
++ (2021-03-01) Research host API/reporting (Team)
+
+•• (1) Check Website Responsiveness: As a developer, I want the website to load quickly so that customers don't become frustrated. (1. Achieves page load time of < 1 s. 2. Achieves visualization load time of < 1 s.)
++ (2021-03-01) Create default visualization test case (Team)
+
+•• (2) Freemium Model: As a customer, I want to be able to use some of GlucoCheck's features for free so that I do not have to pay for them. (1. Is built into the website and/or backend. 2. Provides at least 1 paid tier. 3. Locks non-paying users out of paid tiers.).
++ (2021-03-01) Create a list of tiers (Team)
++ (2021-03-01) Create a list of paid/locked features (Team)
++ (2021-03-01) Sales page (Team)
++ (2021-03-01) Paypal integration (Team)
+
+•• (2) Input Health Data Manually: As a customer, I want to input health data manually so that it is saved for me. (1. Provides interface for data entry. 2. Saves the health data.)
++ (2021-03-01) Design interface (Team)
++ (2021-03-01) Create and enforce ranges (Team)
++ (2021-03-01) Handle different units (Team)
+
+••• (2) Input Health Data Via API: As a developer, I want to automate data entry so that advanced users or hardware can quickly and accurately input large amounts of health data. (1. Provides a public-facing API that allows programmatic mass data entry after authentication. 2. Documents the API for users.)
++ (2021-03-01) Determine protocol (Team)
++ (2021-03-01) Ensure connection security (Team)
++ (2021-03-01) Validate the data (Team)
+
+•• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so that I can understand my health better. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
++ (2021-03-01) Create a glossary page (Team)
+
+•• (2) Provide Optimum Metrics: As a customer, I want to understand the optimum range for health data so that I can keep the numbers in check. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all metrics used on the website. 4. Contextualized and/or integrated into the visualization.)
+= (2021-03-01) Create a list of metrics: carbs and blood glucose (Kai)
