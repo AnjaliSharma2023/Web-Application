@@ -64,6 +64,8 @@ def activate(request, uidb64, token):
 
         user.save()
         
+        auth_login(request, user)
+        
         context = {
             'account_nav': get_account_nav(request.user),
             'page_title': 'Notice',
