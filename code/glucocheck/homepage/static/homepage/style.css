@@ -72,7 +72,7 @@
 }
 .title{
     font-size: 30px;
-    line-height: 60px;
+    line-height: 150px;
     font-weight: bold;
     height: 100px;
     color: #262261;
@@ -90,39 +90,41 @@
 
     margin-top: 180px;
     margin-left: 10px;
+    line-height: 150px;
     animation: slider 6s linear infinite;
 }
 
 
 @keyframes slider{
-    0%{ margin-top: -240px; }
-    5%{ margin-top: -120px; }
-    30%{ margin-top: -120px; }
-    35%{ margin-top: -60px; }
-    65%{ margin-top: -60px; }
+    0%{ margin-top: -450px; }
+    5%{ margin-top: -300px; }
+    30%{ margin-top: -300px; }
+    35%{ margin-top: -150px; }
+    65%{ margin-top: -150px; }
     70%{ margin-top: 0px; }
     100%{ margin-top: 0px; }
 }
 
 .header-text p{
-    max-width: 350px;
+    max-width: 400px;
     margin: 20px;
-    font-weight: 100;
+    
     line-height: 25px;
-    font-size: 15px;
+    font-size: 22px;
     color: #262261 
     
 }
 
 .common-btn{
-    padding: 18px 40px;
+    padding: 10px 40px;
     margin: 20px;
     font-size: 16px;
     letter-spacing: 1px;
+    border-radius: 20em;
     border: 2px solid #000;
     color: #262261;
     cursor: pointer;
-    background: linear-gradient(to left, transparent 50%, #f67c92 50%);
+    background: linear-gradient(to left,  #f67c92 50% ,transparent 50%);
     background-size: 200%;
     background-position: right;
     transition: background-position 0.5s;
@@ -174,7 +176,7 @@
 .container.footer-row hr{
     width: 100%;
     border: 0;
-    border-top: 2px solid #262261;
+    border-top: 1px solid #262261;
 }
 
 .footer-row{
@@ -213,15 +215,26 @@
     flex-wrap: wrap;
 	font-size: 18px;
 }
+.link-title h4{
+    color: #fab3c4;
+	text-decoration: none;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+	font-size: 18px;
+}
 
 .link-title small a {
+    font-size: 15px;
 	text-decoration: none;
-    color: blue;
+    color:cornflowerblue;
     font-family: 'Quicksand', sans-serif;
 }
 
 .link-title small{
-    font-size: 16px;
+    font-size: 15px;
+    text-decoration: none;
     color:cornflowerblue;
+    font-family: 'Quicksand', sans-serif;
 }
 /*End footer*/
