@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile
+from homepage.models import UserProfile
 from datetime import date
-from .widgets import CheckboxLink
+from homepage.widgets import CheckboxLink
 from localflavor.us.forms import USStateSelect
 from django.contrib.auth import authenticate
 
@@ -92,7 +92,7 @@ class LoginForm(forms.Form):
         else:
             raise forms.ValidationError('Your username OR password is incorrect')
             
-class ResetPassword(forms.Form):
+class ResetPasswordForm(forms.Form):
     password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'New Password'}), label='key.svg')
     password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password Confirmation'}), label='key.svg')        
     
@@ -123,7 +123,7 @@ class ResetPassword(forms.Form):
             
         
             
-class ResetPasswordEmail(forms.Form):
+class EmailInputForm(forms.Form):
     email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), label='envelope.svg')
     
     def clean_email(self):

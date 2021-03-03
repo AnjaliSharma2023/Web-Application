@@ -2,12 +2,13 @@ from django import forms
 from django.template import loader
 from django.utils.safestring import mark_safe
 
-def boolean_check(v):
-    return not (v is False or v is None or v == '')
 
 class CheckboxLink(forms.widgets.Input):
     template_name = 'widgets/CheckboxLink.html'
     input_type = 'checkbox'
+    
+    def boolean_check(self, v):
+        return not (v is False or v is None or v == '')
     
     def get_context(self, name, value, attrs):
         if self.check_test(value):
@@ -57,5 +58,5 @@ class CheckboxLink(forms.widgets.Input):
         
         # check_test is a callable that takes a value and returns True
         # if the checkbox should be checked for that value.
-        self.check_test = boolean_check if check_test is None else check_test
+        self.check_test = self.boolean_check if check_test is None else check_test
         

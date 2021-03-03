@@ -99,15 +99,27 @@
     flex-wrap: wrap;
 }
 
-.link-title small a {
+.link-title h4{
+    color: #fab3c4;
 	text-decoration: none;
-    color: blue;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+	font-size: 18px;
+}
+
+.link-title small a {
+    font-size: 15px;
+	text-decoration: none;
+    color:cornflowerblue;
     font-family: 'Quicksand', sans-serif;
 }
 
 .link-title small{
-    font-size: 16px;
+    font-size: 15px;
+    text-decoration: none;
     color:cornflowerblue;
+    font-family: 'Quicksand', sans-serif;
 }
 
 
