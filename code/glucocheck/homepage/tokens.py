@@ -4,8 +4,6 @@ try:
 except ImportError:
     import six
 
-# creation of unique token that will use in email confirmation url
-# extend the PasswordResetTokenGenerator to create a unique token generator
 
 class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
     '''Creates a token related to the user used for account activation and password resetting.'''

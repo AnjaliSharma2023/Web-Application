@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     # every profile associated with one user and every user will have one profile                      
     birth_date = models.DateField(null=True, blank=True)
     state = models.CharField(max_length=200)
-    unit = models.CharField(max_length = 20)
+    #unit = models.CharField(max_length = 20)
 
 
     def __str__(self):
