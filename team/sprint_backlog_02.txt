@@ -63,6 +63,11 @@ The *one* story—and any subitems—that are presently in progress. Only the de
 + (2021-03-01) Create default view/ranges (Team)
 + (2021-03-01) Design (Team)
 
+•• (2) Input Health Data Manually: As a customer, I want to input health data manually so that it is saved for me. (1. Provides interface for data entry. 2. Saves the health data.)
+= (2021-03-01) Design interface (Anjali/Kai)
++ (2021-03-01) Create and enforce ranges (Team)
++ (2021-03-01) Handle different units (Team)
+
 ===
 Do
 
@@ -84,11 +89,6 @@ The agreed-upon user stories for the sprint, ready for future work by the develo
 + (2021-03-01) Create a list of paid/locked features (Team)
 + (2021-03-01) Sales page (Team)
 + (2021-03-01) Paypal integration (Team)
-
-•• (2) Input Health Data Manually: As a customer, I want to input health data manually so that it is saved for me. (1. Provides interface for data entry. 2. Saves the health data.)
-+ (2021-03-01) Design interface (Team)
-+ (2021-03-01) Create and enforce ranges (Team)
-+ (2021-03-01) Handle different units (Team)
 
 ••• (2) Input Health Data Via API: As a developer, I want to automate data entry so that advanced users or hardware can quickly and accurately input large amounts of health data. (1. Provides a public-facing API that allows programmatic mass data entry after authentication. 2. Documents the API for users.)
 + (2021-03-01) Determine protocol (Team)
