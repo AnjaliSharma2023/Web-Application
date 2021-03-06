@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from homepage.models import UserProfile
 from datetime import date
-from homepage.widgets import CheckboxLink
+from homepage.widgets import CheckboxLink, InputWithSelector
 from localflavor.us.forms import USStateSelect
 from django.contrib.auth import authenticate
 
@@ -210,6 +210,8 @@ class EmailInputForm(forms.Form):
     email -- a form email field for the user's email
     '''
     email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), label='envelope.svg')
+    testWidget = forms.CharField(widget=InputWithSelector(forms.TextInput, [('1','mg/dL'),('2','mmo/L')], attrs={'placeholder':'glucose'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
+    
     
     def clean_email(self):
         '''Cleans the input email by ensuring it is associated with a user.
