@@ -6,6 +6,7 @@ from datetime import date
 from homepage.widgets import CheckboxLink, InputWithSelector
 from localflavor.us.forms import USStateSelect
 from django.contrib.auth import authenticate
+from homepage.fields import FloatWithUnitField, IntWithUnitField
 
 
 class SignupForm(UserCreationForm):
@@ -210,7 +211,7 @@ class EmailInputForm(forms.Form):
     email -- a form email field for the user's email
     '''
     email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), label='envelope.svg')
-    #testWidget = forms.CharField(widget=InputWithSelector(forms.TextInput, [('1','mg/dL'),('2','mmo/L')], attrs={'placeholder':'glucose'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
+    #testWidget = FloatWithUnitField(widget=InputWithSelector(forms.TextInput, [(1,'mg/dL'),(2,'mmo/L')], attrs={'placeholder':'glucose'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
     
     
     def clean_email(self):
