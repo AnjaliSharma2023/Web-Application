@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from homepage.models import UserProfile, Glucose
+from homepage.models import UserProfile, Glucose, Carbohydrate, Insulin
 from datetime import date
 from homepage.widgets import CheckboxLink, InputWithSelector
 from localflavor.us.forms import USStateSelect
@@ -260,3 +260,29 @@ class GlucoseReadingForm(forms.ModelForm):
         '''
         model = Glucose
         fields = ('glucose_reading','record_datetime','notes','categories')
+
+
+class CarbReadingForm(forms.ModelForm):
+
+    carb_reading = forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Carbs Value'}))
+    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
+    
+
+    class Meta():
+               
+        model = Carbohydrate
+        fields = ('carb_reading','record_datetime')
+
+
+
+class InsulinReadingForm(forms.ModelForm):
+    
+    dosage =forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Insulin'}))
+    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
+    
+    class Meta():
+               
+        model = Insulin
+        fields = ('dosage','record_datetime')
+
+        

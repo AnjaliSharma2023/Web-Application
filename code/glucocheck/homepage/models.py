@@ -46,13 +46,13 @@ class Glucose(models.Model):
 
 class Carbohydrate(models.Model):
     user = models.ForeignKey(User, on_delete= models.DO_NOTHING)
-    reading = models.PositiveIntegerField()
+    carb_reading = models.PositiveIntegerField()
     record_datetime = models.DateTimeField()
 
     #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
 
     def __str__(self):
-        return self.reading
+        return self.carb_reading
 
 class Insulin(models.Model):
 
