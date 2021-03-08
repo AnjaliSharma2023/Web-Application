@@ -1,0 +1,12 @@
+{% spaceless %}
+{% for widget in widget.subwidgets %}
+	{% if wrap_elem.tag != None %}<{{ wrap_elem.tag }}
+		{% for name, value in wrap_elem.attrs.items %}
+			{% if value is not False %} {{ name }}
+				{% if value is not True %}="{{ value }}"{% endif %}
+			{% endif %} 
+		{% endfor %}>{% endif %}
+		{% include widget.template_name %}
+		{% if wrap_elem.tag != None %}</{{ wrap_elem.tag }}>{% endif %}
+{% endfor %}
+{% endspaceless %}
