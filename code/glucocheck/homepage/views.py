@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django.core.mail import EmailMessage
 from homepage.tokens import account_activation_token
-from homepage.forms import SignupForm,UserProfileForm, LoginForm, ResetPasswordForm, EmailInputForm
+from homepage.forms import SignupForm,UserProfileForm, LoginForm, ResetPasswordForm, EmailInputForm, GlucoseReadingForm, CarbReadingForm,InsulinReadingForm
 from homepage.models import UserProfile
 
 
@@ -285,3 +285,45 @@ def email_input(request):
     }
     return render(request,'form/form.html', context)
             
+
+
+
+def glucose_input(request):
+
+    form = GlucoseReadingForm()
+
+    if request.method == 'POST':
+
+        form = GlucoseReadingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('')
+    else:
+        form = GlucoseReadingForm()
+
+def carbs_input(request):
+
+    form = CarbReadingForm()
+
+    if request.method == 'POST':
+
+        form = CarbReadingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('')
+    else:
+        form = CarbReadingForm()
+
+def insulin_input(request):
+
+    form = InsulinReadingForm()
+
+    if request.method == 'POST':
+
+        form = InsulinReadingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('')
+    else:
+        form = InsulinReadingForm()
+

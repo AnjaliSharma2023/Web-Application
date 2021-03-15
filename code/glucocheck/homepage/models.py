@@ -25,8 +25,18 @@ class UserProfile(models.Model):
 '''
 
 class RecordingCategory(models.Model):
+    categories_choices =[
+        ('fasting','Fasting'),
+        ('before breakfast','Before Breakfast'),
+        ('after breakfast','After Breakfast'),
+        ('before lunch','Before Lunch'),
+        ('after lunch','After Lunch'),
+        ('snacks','Snacks'),
+        ('before dinner','Before Dinner'),
+        ('after dinner','After Dinner'),
+    ]
 
-    name = models.CharField(unique=True,max_length=255)
+    name = models.CharField(choices = categories_choices,unique=True,max_length=255)
     
     def __str__(self):
         return self.name
@@ -37,7 +47,7 @@ class Glucose(models.Model):
     record_datetime = models.DateTimeField()
     #record_time = models.TimeField()
     notes = models.TextField()
-    categories = models.ForeignKey(RecordingCategory, on_delete= models.DO_NOTHING)
+    categories = models.ManyToManyField(RecordingCategory)
 
     #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
 
