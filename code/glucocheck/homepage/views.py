@@ -97,9 +97,8 @@ def signup(request):
         
         if form.is_valid() and profile_form.is_valid():   #validation of both forms
             
-                            # Deactivate account till it is confirmed
-            user = form.save(commit=False)                      #return user from the form save
-            user.is_active = False  
+            user = form.save(commit=False)          #return user from the form save
+            user.is_active = False                  # Deactivate account till it is confirmed 
             user.save()
             profile=profile_form.save(commit=False) # creating new profile using data from form
             profile.user = user                     # onetoonefield relationship works here

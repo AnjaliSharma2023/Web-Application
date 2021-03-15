@@ -1,11 +1,12 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from homepage.models import UserProfile
+from homepage.models import UserProfile, Glucose
 from datetime import date
 from homepage.widgets import CheckboxLink, InputWithSelector
 from localflavor.us.forms import USStateSelect
 from django.contrib.auth import authenticate
+from homepage.fields import FloatWithUnitField, IntWithUnitField
 
 
 class SignupForm(UserCreationForm):
@@ -210,7 +211,7 @@ class EmailInputForm(forms.Form):
     email -- a form email field for the user's email
     '''
     email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), label='envelope.svg')
-    #testWidget = forms.CharField(widget=InputWithSelector(forms.TextInput, [('1','mg/dL'),('2','mmo/L')], attrs={'placeholder':'glucose'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
+    #testWidget = FloatWithUnitField(widget=InputWithSelector(forms.TextInput, [(1,'mg/dL'),(2,'mmo/L')], attrs={'placeholder':'glucose'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
     
     
     def clean_email(self):
@@ -227,3 +228,35 @@ class EmailInputForm(forms.Form):
             raise forms.ValidationError('This email is not associated with a user')
             
         return email
+
+
+
+class GlucoseReadingForm(forms.ModelForm):
+
+    categories_choices =[
+        ('fasting','Fasting'),
+        ('before breakfast','Before Breakfast'),
+        ('after breakfast','After Breakfast'),
+        ('before lunch','Before Lunch'),
+        ('after lunch','After Lunch'),
+        ('snacks','Snacks'),
+        ('before dinner','Before Dinner'),
+        ('after dinner','After Dinner'),
+    ]
+    
+    glucose_reading = forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Glucose Value'}))
+    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
+    notes = forms.CharField(required=False, widget= forms.Textarea(attrs={'class':'form-control', 'placeholder':'Notes'}))
+    categories = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Notes'}),choices=categories_choices)
+    
+    
+
+    class Meta():
+        '''Meta data on the form.
+        
+        Instance variables:
+        model -- the model the form relates to
+        fields -- the model fields the form fields relate to
+        '''
+        model = Glucose
+        fields = ('glucose_reading','record_datetime','notes','categories')
