@@ -1,7 +1,8 @@
 from homepage.tests.visualization_setup.classes import SetupVisualizationDatasets
 
-class test_class(SetupVisualizationDatasets):
+class TestData(SetupVisualizationDatasets):
     def test_something(self):
         print()
-        input('Press enter to continue')
+        print(f'Server url: {self.live_server_url}')
+        input('Press enter to exit')
         print()

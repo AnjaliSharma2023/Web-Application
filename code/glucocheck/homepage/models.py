@@ -47,12 +47,12 @@ class Glucose(models.Model):
     record_datetime = models.DateTimeField()
     #record_time = models.TimeField()
     notes = models.TextField()
-    categories = models.ManyToManyField(RecordingCategory)
+    categories = models.ForeignKey(RecordingCategory, on_delete= models.DO_NOTHING, null=True)
 
     #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
 
     def __str__(self):
-        return self.glucose_reading
+        return str(self.glucose_reading)
 
 class Carbohydrate(models.Model):
     user = models.ForeignKey(User, on_delete= models.DO_NOTHING)
@@ -62,12 +62,15 @@ class Carbohydrate(models.Model):
     #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
 
     def __str__(self):
-        return self.carb_reading
+        return str(self.carb_reading)
 
 class Insulin(models.Model):
 
     user = models.ForeignKey(User, on_delete= models.DO_NOTHING)
-    dosage =models.PositiveIntegerField()
+    dosage = models.FloatField()
     record_datetime = models.DateTimeField()
+    
+    def __str__(self):
+        return str(self.dosage)
   
     #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
