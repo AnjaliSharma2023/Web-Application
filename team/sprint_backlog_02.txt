@@ -62,6 +62,7 @@ The *one* story—and any subitems—that are presently in progress. Only the de
 + (2021-03-01) Install/integrate/test graphing library (Team)
 + (2021-03-01) Create default view/ranges (Team)
 = (2021-03-01) Design (Elmehdi)
+# (2021-03-16) Generate input data for visualization testing (Kai)
 
 •• (2) Input Health Data Manually: As a customer, I want to input health data manually so that it is saved for me. (1. Provides interface for data entry. 2. Saves the health data.)
 = (2021-03-01) Design interface (Anjali/Kai)
