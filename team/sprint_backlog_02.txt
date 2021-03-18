@@ -58,7 +58,7 @@ Doing
 The *one* story—and any subitems—that are presently in progress. Only the dev team may pull an item into this category and they may freely create subitems, as needed: this is the place to break a story down.
 
 •• (5) Visualize Health Data: As a customer, I want visual charts and graphs so that I can see my health data history and look for trends. (1. Produces custom visuals for health data. 2. Displays bar graph showing if health data is in range. 3. Displays a whisker plot, showing a spread of values over time. 4. Displays a scatter plot showing glucose, insulin, and carb values over time.)
-= (2021-03-01) Create database tables (Anjali)
+# (2021-03-17) Create database tables (Anjali)
 + (2021-03-01) Install/integrate/test graphing library (Team)
 + (2021-03-01) Create default view/ranges (Team)
 = (2021-03-01) Design (Elmehdi)
