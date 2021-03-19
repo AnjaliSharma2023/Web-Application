@@ -8,9 +8,27 @@ from math import ceil
 
 
 class SetupVisualizationDatasets(StaticLiveServerTestCase):
+    '''A class for initializing test glucose, insulin, and carbohydrate data for multiple users in a live test server.
+    
+    Public methods:
+    setUpTestData -- Generates test data for a number of users
+    setUpClass -- Initializes the live tests server, database, and test data
+    '''
+    
     @staticmethod
     def setUpTestData(num_users):
+        '''Adds a number of users and their associated glucose, insulin, and carbohydrate data to the database.
+        
+        Keyword Arguments:
+        num_users -- the number of users to create
+        '''
         def _getCategory(mealtime, behavior_score):
+            '''Returns the glucose category based on the time of day and behavior score of the user.
+            
+            Keyword Arguments:
+            mealtime -- a string with the name of the mealtime: [breakfast, snack1, lunch, snack2, dinner, bedtime]
+            behavior_score -- the competency of the user: int 0-100 (inclusive)
+            '''
             category = randint(0, 100)
             if mealtime in ['snack1', 'snack2']:
                 category = 6
@@ -46,6 +64,14 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             return RecordingCategory.objects.get(pk=category)
             
         def _glucoseRangesAndTime(prev_reading, user_range, day, hour_range):
+            '''Returns the glucose range and time of reading.
+            
+            Keyword Arguments:
+            prev_reading -- the model object of the previous reading, or None if there isn't one
+            user_range -- a string with the name of the user's range: [perfect, good, bad, awful]
+            day -- the day of the reading
+            hour_range -- the hour range the reading can be within, effectively [x, y+1] due to the random number of minutes added
+            '''
             if prev_reading is None:
                 lower_range = ranges['glucose'][user_range][0]
                 upper_range = ranges['glucose'][user_range][1]
@@ -82,6 +108,15 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             return time, lower_range, upper_range
             
         def _carbRangesAndTime(glucose_reading, user_range, day, hour_range, behavior_score):
+            '''Returns the carbohydrate range and time of reading.
+            
+            Keyword Arguments:
+            glucose_reading -- the model object of the associated glucose reading, or None if there isn't one
+            user_range -- a string with the name of the user's range: [perfect, good, bad, awful]
+            day -- the day of the reading
+            hour_range -- the hour range the reading can be within, effectively [x, y+1] due to the random number of minutes added
+            behavior_score -- the competency of the user: int 0-100 (inclusive)
+            '''
             if glucose_reading is None:
                 hour = randint(hour_range[0], hour_range[1])
                 if hour >= 24:
@@ -113,6 +148,14 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             return time, lower_range, upper_range
             
         def _dosageTime(glucose_reading, carb_reading, user_range, behavior_score):
+            '''Returns the time of the insulin dosage.
+            
+            Keyword Arguments:
+            glucose_reading -- the model object of the associated glucose reading, or None if there isn't one
+            carbohydrate_reading -- the model object of the associated carbohydrate reading, or None if there isn't one
+            user_range -- a string with the name of the user's range: [perfect, good, bad, awful]
+            behavior_score -- the competency of the user: int 0-100 (inclusive)
+            '''
             if glucose_reading is not None:
                 time = glucose_reading.record_datetime + timedelta(minutes=ceil(randint(0,5) * behavior_score/100), seconds=randint(0,59))
             else:
@@ -125,6 +168,14 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             return time
                 
         def _createUser(user_num, behavior_score, new_user_range, num_days):
+            '''Creates a user in the database, with the user_num denoting the user, and returns a list with the user behavior score and range.
+            
+            Keyword Arguments:
+            user_num -- the number of the user, appended to the username and password
+            behavior_score -- the competency of the user: int 0-100 (inclusive)
+            new_user_range -- a string with the name of the user's range: [perfect, good, bad, awful]
+            num_days -- the number of days to fill glucose, insulin, and carbohydrate data for
+            '''
             birth_date = datetime.today().replace(year=datetime.today().year - 19)
             
             new_user = User.objects.create_user(username=f'test_user{user_num}', password=f'testPassword{user_num}', email=f'testEmail{user_num}@gmail.com')
@@ -363,7 +414,7 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                 user_range = 'awful'
                 
             user_list.append({'user_range': user_range, 'behavior_score': behavior_score})
-            num_days = randint(1,5)
+            num_days = randint(1,180)
             
             _createUser(user_num, behavior_score, user_range, num_days)
             
@@ -371,6 +422,11 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
     
     @classmethod
     def setUpClass(cls):
+        '''Initializes the live server, database, testdata, and prints the user list.
+        
+        Keyword Arguments:
+        cls -- the associated class of the method
+        '''
         super().setUpClass()
         cls.user_list = cls.setUpTestData(3)
         print(User.objects.all())
