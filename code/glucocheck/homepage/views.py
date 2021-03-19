@@ -14,7 +14,9 @@ from django.contrib.auth import login as auth_login
 from django.core.mail import EmailMessage
 from homepage.tokens import account_activation_token
 from homepage.forms import SignupForm,UserProfileForm, LoginForm, ResetPasswordForm, EmailInputForm, GlucoseReadingForm, CarbReadingForm,InsulinReadingForm
-from homepage.models import UserProfile
+from homepage.models import UserProfile, Glucose, Carbohydrate, Insulin
+from django.db.models import Avg, Min, Max
+from datetime import date
 
 
 def get_account_nav(user):
@@ -327,3 +329,23 @@ def insulin_input(request):
     else:
         form = InsulinReadingForm()
 
+
+def dashboard(request, uidb64, token):
+
+    #current_day = datetime.date.today()
+    #previous_day = now - timedelta(days = 90)
+
+    start_date = request.POST.get("startdate","")
+    end_date = request.POST.get("enddate","")
+
+    avg_glucose = Glucose.objects.filter(record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading'))
+
+    min_glucose = Glucose.objects.filter(record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading'))
+
+    max_glucose = Glucose.objects.filter(record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading'))
+
+    #a1c= Glucose.objects.filter(user=request.user,record_datetime__gt=previous_day,record_datetime__lt=current_day).aggregate(Avg('glucose_reading'))
+    
+    eag = avg_glucose.get('glucose_reading__avg')
+    a1c = round(((eag +  46.7)/ 28.7),1)
+   
