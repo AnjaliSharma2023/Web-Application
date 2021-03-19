@@ -249,7 +249,7 @@ class GlucoseReadingForm(forms.ModelForm):
     notes = forms.CharField(required=False, widget= forms.Textarea(attrs={'class':'form-control', 'placeholder':'Notes'}))
     categories = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Notes'}),choices=categories_choices)
     
-    
+
 
     class Meta():
         '''Meta data on the form.

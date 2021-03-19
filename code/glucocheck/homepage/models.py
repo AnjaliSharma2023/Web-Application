@@ -46,7 +46,7 @@ class Glucose(models.Model):
     glucose_reading = models.PositiveIntegerField()
     record_datetime = models.DateTimeField()
     #record_time = models.TimeField()
-    notes = models.TextField()
+    notes = models.TextField(blank=True)
     categories = models.ForeignKey(RecordingCategory, on_delete= models.DO_NOTHING, null=True)
 
     #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
