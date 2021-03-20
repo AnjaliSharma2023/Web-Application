@@ -212,7 +212,7 @@ class EmailInputForm(forms.Form):
     '''
     email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), label='envelope.svg')
     #testWidget = FloatWithUnitField(widget=InputWithSelector(forms.TextInput, [(1,'mg/dL'),(2,'mmo/L')], attrs={'placeholder':'glucose'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
-    
+    glucose_reading = IntWithUnitField(required=True, widget=InputWithSelector(forms.NumberInput, [('mg/dL','mg/dL'),('mmo/L','mmo/L')], attrs={'placeholder':'glucose', 'class':'form-control'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
     
     def clean_email(self):
         '''Cleans the input email by ensuring it is associated with a user.
@@ -228,6 +228,20 @@ class EmailInputForm(forms.Form):
             raise forms.ValidationError('This email is not associated with a user')
             
         return email
+        
+    def clean_glucose_reading(self):
+        someValue = self.cleaned_data['glucose_reading']
+        if someValue[1] == 'mmo/L':
+            someValue = someValue[0] * 18
+        else:
+            someValue = someValue[0]
+            
+        print(someValue)
+        print(type(someValue))
+        
+        return (someValue, 'mmo/L')
+        
+        
 
 
 
@@ -244,7 +258,8 @@ class GlucoseReadingForm(forms.ModelForm):
         ('after dinner','After Dinner'),
     ]
     
-    glucose_reading = forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Glucose Value'}))
+    glucose_reading = IntWithUnitField(required=True, widget=InputWithSelector(forms.NumberInput, [('mg/dL','mg/dL'),('mmo/L','mmo/L')], attrs={'placeholder':'glucose', 'class':'form-control'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
+    #glucose_reading = IntWithUnitField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Glucose Value'}))
     record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
     notes = forms.CharField(required=False, widget= forms.Textarea(attrs={'class':'form-control', 'placeholder':'Notes'}))
     categories = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Notes'}),choices=categories_choices)
@@ -264,7 +279,7 @@ class GlucoseReadingForm(forms.ModelForm):
 
 class CarbReadingForm(forms.ModelForm):
 
-    carb_reading = forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Carbs Value'}))
+    carb_reading = forms.IntegerField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Carbs Value'}))
     record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
     
 

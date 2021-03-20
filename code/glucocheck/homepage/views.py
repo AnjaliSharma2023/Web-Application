@@ -16,7 +16,8 @@ from homepage.tokens import account_activation_token
 from homepage.forms import SignupForm,UserProfileForm, LoginForm, ResetPasswordForm, EmailInputForm, GlucoseReadingForm, CarbReadingForm,InsulinReadingForm
 from homepage.models import UserProfile, Glucose, Carbohydrate, Insulin
 from django.db.models import Avg, Min, Max
-from datetime import date
+from datetime import date, timedelta, datetime
+from django.http import JsonResponse
 
 
 def get_account_nav(user):
@@ -41,6 +42,27 @@ def homepage(request):
     '''
     context = {'account_nav': get_account_nav(request.user)}
     return render(request, 'homepage/homepage.html', context)
+
+def test(request):
+    context = {}
+    return render(request, 'test/test.html', context)
+    
+def test_data(request):
+    test_date = date(2021, 3, 10)
+    test_datetime = datetime(2021, 3, 10)
+    user_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=test_date,record_datetime__lt=test_date+timedelta(days=1))
+    data = []
+    for item in user_objects:
+        data.append([item.record_datetime.timestamp() * 1000, item.glucose_reading])
+        
+    min = test_datetime.timestamp() * 1000
+    max = datetime(2021, 3, 11).timestamp() * 1000
+    chart = {'data':data, 'min':min, 'max':max}
+    
+    for item in user_objects:
+        print(item.record_datetime)
+    
+    return JsonResponse(chart)
   
   
 def activate(request, uidb64, token):
