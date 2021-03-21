@@ -13,6 +13,11 @@ urlpatterns = [
     path('tnc/', views.tnc, name='tnc'),
     path('test/', views.test, name='test'),
     path('test-data/', views.test_data, name='test_data'),
+    path('glucose-input/', views.glucose_input, name='glucose_input'),
+    path('carbs-input/', views.carbs_input, name='carbs_input'),
+    path('insulin-input/', views.insulin_input, name='insulin_input'),
+
+    
 ]
     
 
