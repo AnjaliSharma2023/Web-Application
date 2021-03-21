@@ -52,20 +52,69 @@ def test_data(request):
     test_datetime = datetime(2021, 3, 5)
     user_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=test_datetime,record_datetime__lt=test_datetime+timedelta(days=10))
     data = []
-    box_data = {'Night':{'items':[]},'Morning':{'items':[]},'Evening':{'items':[]},'Afternoon':{'items':[]}}
+    box_data = {'Night':{'items':[]},'Morning':{'items':[]},'Afternoon':{'items':[]},'Evening':{'items':[]}}
+    bar_data = {'Night': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Morning': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Afternoon': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Evening': {'inrange':0, 'belowrange':0, 'aboverange':0}}
     for item in user_objects:
+        # Scatter plot code
         data.append([item.record_datetime.timestamp()*1000, item.glucose_reading])
         
         # Box plot code
         if item.record_datetime.hour < 6:
             box_data['Night']['items'].append(item)
+            # Bar chart code
+            if item.glucose_reading < 80:
+                bar_data['Night']['belowrange'] += 1
+            elif item.glucose_reading > 160:
+                bar_data['Night']['aboverange'] += 1
+            else:
+                bar_data['Night']['inrange'] += 1
+                
         elif item.record_datetime.hour < 12:
             box_data['Morning']['items'].append(item)
+            # Bar chart code
+            if item.glucose_reading < 80:
+                bar_data['Morning']['belowrange'] += 1
+            elif item.glucose_reading > 160:
+                bar_data['Morning']['aboverange'] += 1
+            else:
+                bar_data['Morning']['inrange'] += 1
         elif item.record_datetime.hour < 18:
-            box_data['Evening']['items'].append(item)
-        else:
             box_data['Afternoon']['items'].append(item)
+            # Bar chart code
+            if item.glucose_reading < 80:
+                bar_data['Afternoon']['belowrange'] += 1
+            elif item.glucose_reading > 160:
+                bar_data['Afternoon']['aboverange'] += 1
+            else:
+                bar_data['Afternoon']['inrange'] += 1
+        else:
+            box_data['Evening']['items'].append(item)
+            # Bar chart code
+            if item.glucose_reading < 80:
+                bar_data['Evening']['belowrange'] += 1
+            elif item.glucose_reading > 160:
+                bar_data['Evening']['aboverange'] += 1
+            else:
+                bar_data['Evening']['inrange'] += 1
+    
+    bar_plot = {'data':[]}
+    inrange = {'name': 'In-range', 'color': '#00FF00','data':[]}
+    aboverange = {'name': 'Above-range', 'color':'#FFFF00', 'data':[]}
+    belowrange = {'name': 'Below-range', 'color':'#FF0000', 'data':[]}
+    for section, value in bar_data.items():
+        total = value['inrange'] + value['belowrange'] + value['aboverange']
+        if total == 0:
+            total = 1
+            
+        inrange['data'].append(value['inrange']/total*100)
+        aboverange['data'].append(value['aboverange']/total*100)
+        belowrange['data'].append(value['belowrange']/total*100)
         
+    bar_plot['data'].append(aboverange)
+    bar_plot['data'].append(inrange)
+    bar_plot['data'].append(belowrange)
+    
+    # Scatter plot code
     min = test_datetime.timestamp() * 1000
     max = datetime(2021, 3, 15).timestamp() * 1000
     
@@ -83,6 +132,9 @@ def test_data(request):
         ordered = [item.glucose_reading for item in value['items']]
         ordered.sort()
         len_items = len(ordered)
+        if len_items == 0:
+            box_plot['data'].append([])
+            continue
         
         if len_items % 2 != 0: # Odd
             box_data[section]['Q2'] = ordered[len_items // 2]
@@ -109,7 +161,7 @@ def test_data(request):
         
         index += 1
     
-    chart = {'data':data, 'min':min, 'max':max, 'plotlines':plotlines, 'box_plot':box_plot}
+    chart = {'data':data, 'min':min, 'max':max, 'plotlines':plotlines, 'box_plot':box_plot, 'bar_plot':bar_plot}
     
     # progress circle pass in text, color (red, yellow, green), and the percentage to fill the circle
     

@@ -11,6 +11,7 @@
 	<div id = "container" style = "width: 550px; height: 400px; margin: 0 auto"></div>
 	<div id = "container2" style = "height: 400px"></div>
 	<div id="container3" style = "width: 550px"></div>
+	<div id="container4" style = "width: 550px"></div>
 	<script>
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', '/test-data/');
@@ -171,7 +172,7 @@
 						enabled: false
 					},
 					xAxis: {
-						categories: ['Night', 'Morning', 'Evening', 'Afternoon'],
+						categories: ['Night', 'Morning', 'Afternoon', 'Evening'],
 						title: {
 							text: 'Time'
 						}
@@ -214,9 +215,40 @@
 					}]
 					
 				};
+				
+				// Stacked bar plot
+				chart4 = {
+					chart: {
+						type: 'bar'
+					},
+					title: {
+						text: 'Percentage Glucose in Range'
+					},
+					xAxis: {
+						categories: ['Night', 'Morning', 'Afternoon', 'Evening']
+					},
+					yAxis: {
+						min: 0,
+						max:100,
+						title: {
+							text: 'Percent Values in Range (80-160 mg/dL)'
+						}
+					},
+					legend: {
+						reversed: true
+					},
+					plotOptions: {
+						series: {
+							stacking: 'normal'
+						}
+					},
+					series: data.bar_plot.data
+				};
+				
 				Highcharts.chart('container', chart);
 				Highcharts.chart('container2', chart2);
 				Highcharts.chart('container3', chart3);
+				Highcharts.chart('container4', chart4);
 			}
 			else {
 				alert('Request failed.  Returned status of ' + xhr.status);
