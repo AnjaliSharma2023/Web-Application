@@ -109,7 +109,6 @@ def test_data(request):
         
         index += 1
     
-    print(box_plot)
     chart = {'data':data, 'min':min, 'max':max, 'plotlines':plotlines, 'box_plot':box_plot}
     
     # progress circle pass in text, color (red, yellow, green), and the percentage to fill the circle
