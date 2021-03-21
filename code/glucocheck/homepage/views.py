@@ -18,6 +18,7 @@ from homepage.models import UserProfile, Glucose, Carbohydrate, Insulin
 from django.db.models import Avg, Min, Max
 from datetime import date, timedelta, datetime
 from django.http import JsonResponse
+import pandas as pd
 
 
 def get_account_nav(user):
@@ -48,19 +49,70 @@ def test(request):
     return render(request, 'test/test.html', context)
     
 def test_data(request):
-    test_date = date(2021, 3, 10)
-    test_datetime = datetime(2021, 3, 10)
-    user_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=test_date,record_datetime__lt=test_date+timedelta(days=1))
+    test_datetime = datetime(2021, 3, 5)
+    user_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=test_datetime,record_datetime__lt=test_datetime+timedelta(days=10))
     data = []
+    box_data = {'Night':{'items':[]},'Morning':{'items':[]},'Evening':{'items':[]},'Afternoon':{'items':[]}}
     for item in user_objects:
-        data.append([item.record_datetime.timestamp() * 1000, item.glucose_reading])
+        data.append([item.record_datetime.timestamp()*1000, item.glucose_reading])
+        
+        # Box plot code
+        if item.record_datetime.hour < 6:
+            box_data['Night']['items'].append(item)
+        elif item.record_datetime.hour < 12:
+            box_data['Morning']['items'].append(item)
+        elif item.record_datetime.hour < 18:
+            box_data['Evening']['items'].append(item)
+        else:
+            box_data['Afternoon']['items'].append(item)
         
     min = test_datetime.timestamp() * 1000
-    max = datetime(2021, 3, 11).timestamp() * 1000
-    chart = {'data':data, 'min':min, 'max':max}
+    max = datetime(2021, 3, 15).timestamp() * 1000
     
-    for item in user_objects:
-        print(item.record_datetime)
+    plotlines = []
+    for day in pd.date_range(start=test_datetime,end=datetime(2021, 3, 15)).to_pydatetime():
+        plotlines.append(day.timestamp() * 1000)
+    
+    # Box plot code
+    box_plot = {}
+    box_plot['data'] = []
+    box_plot['outliers'] = []
+    index = 0
+    for section, value in box_data.items():
+        
+        ordered = [item.glucose_reading for item in value['items']]
+        ordered.sort()
+        len_items = len(ordered)
+        
+        if len_items % 2 != 0: # Odd
+            box_data[section]['Q2'] = ordered[len_items // 2]
+        else:
+            box_data[section]['Q2'] = (ordered[len_items // 2] + ordered[len_items // 2 - 1]) / 2
+            
+        len_items_half = len_items // 2
+        if len_items_half % 2 != 0:
+            box_data[section]['Q1'] = ordered[len_items_half // 2]
+            box_data[section]['Q3'] = ordered[-(len_items_half // 2 + 1)]
+        else:
+            box_data[section]['Q1'] = (ordered[len_items_half // 2] + ordered[len_items_half // 2 - 1]) / 2
+            box_data[section]['Q3'] = (ordered[-(len_items_half // 2 + 1)] + ordered[-(len_items_half // 2)]) / 2
+        
+        iqr = box_data[section]['Q3'] - box_data[section]['Q1']
+        box_data[section]['lower limit'] = box_data[section]['Q1'] - 1.5 * iqr
+        box_data[section]['upper limit'] = box_data[section]['Q3'] + 1.5 * iqr
+        
+        for item in value['items']:
+            if item.glucose_reading < box_data[section]['lower limit'] or item.glucose_reading > box_data[section]['upper limit']:
+                box_plot['outliers'].append([index, item.glucose_reading])
+        
+        box_plot['data'].append([box_data[section]['lower limit'], box_data[section]['Q1'], box_data[section]['Q2'], box_data[section]['Q3'], box_data[section]['upper limit']])
+        
+        index += 1
+    
+    print(box_plot)
+    chart = {'data':data, 'min':min, 'max':max, 'plotlines':plotlines, 'box_plot':box_plot}
+    
+    # progress circle pass in text, color (red, yellow, green), and the percentage to fill the circle
     
     return JsonResponse(chart)
   

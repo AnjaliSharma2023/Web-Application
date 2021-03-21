@@ -2,18 +2,30 @@
 
 {% block extra_style %}
 	<script src = "https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+	
 {% endblock %}
 
 {% block content %}
 	<div id = "container" style = "width: 550px; height: 400px; margin: 0 auto"></div>
+	<div id = "container2" style = "height: 400px"></div>
+	<div id="container3" style = "width: 550px"></div>
 	<script>
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', '/test-data/');
 		xhr.onload = function() {
 			if (xhr.status === 200) {
 				var data = JSON.parse(xhr.responseText);
-				for (let index = 0; index < data.data.length; index++) {
-					console.log(Date.UTC(data.data[index][0]));
+				
+				// Scatter plot
+				var plotlines = [];
+				for (let index=0; index < data.plotlines.length; index++) {
+					plotlines.push({
+							color: '#808080', // Red
+							width: 1,
+							value: data.plotlines[index] // Position, you'll have to translate this to the values on your x axis
+						});
 				}
 				
 				chart = {
@@ -21,8 +33,14 @@
 						type: 'scatter',
 						zoomType: 'x'
 					},
+					legend: {
+						enabled: false
+					},
 					title: {
 					   text: 'Glucose Values for 3/10/2021'   
+					},
+					time: {
+						useUTC: false
 					},
 					xAxis: {
 					   type: 'datetime',
@@ -30,8 +48,10 @@
 						  enabled: true,
 						  text: 'Time'
 					   },
-					   //min: data.min,
-					   //max: data.max,
+					   min: data.min,
+					   max: data.max,
+					   
+					   plotLines: plotlines
 					   
 					},
 					yAxis: {
@@ -39,11 +59,18 @@
 						  text: 'Glucose (mg/dL)'
 					   },
 					   min:40,
-					   max:400
-					},
-					
-					scrollbar: {
-						enabled: true
+					   max:400,
+					   
+					   plotLines: [{
+							color: '#FF0000', // Red
+							width: 1,
+							value: 80 // Position, you'll have to translate this to the values on your x axis
+						},
+						{
+							color: '#FF0000', // Red
+							width: 1,
+							value: 160 // Position, you'll have to translate this to the values on your x axis
+						}]
 					},
 					
 					plotOptions: {
@@ -66,7 +93,7 @@
 						  },
 						  tooltip: {
 							 headerFormat: '',
-							 pointFormat: '{point.x}, {point.y} mg/dL'
+							 pointFormat: '{point.x:%B} {point.x:%e}, {point.x:%Y} at {point.x:%H}:{point.x:%M}:{point.x:%S} - {point.y} mg/dL'
 						  }
 					   }
 					},
@@ -78,8 +105,115 @@
 					]
 					
 				};
-				console.log(data.data)
+				
+				// Progress circle
+				chart2 = {
+					chart: {
+						type: 'solidgauge',
+						events: {
+						  render() {
+							let chart = this,
+							  label1 = chart.series[0].dataLabelsGroup;
+							  label1.translate(chart.marginRight, chart.marginBottom + label1.getBBox().height);
+						  }
+						}
+					  },
+					title: {
+						text: ''
+					},
+					  pane: {
+						startAngle: -90,
+						endAngle: 288,
+						background: [{
+						  outerRadius: '112%',
+						  innerRadius: '100%',
+						  borderWidth: 0
+						}]
+					  },
+
+					  yAxis: {
+						min: 0,
+						max: 100,
+						lineWidth: 0,
+						tickPositions: []
+					  },
+
+					  series: [{
+						data: [{
+						  color: Highcharts.getOptions().colors[0],
+						  radius: '112%',
+						  innerRadius: '100%',
+						  y: 80,
+						  dataLabels: {
+							y: -70,
+							format: '{y}%',
+							borderWidth: 0,
+							style: {
+							  fontSize: '32px'
+							}
+						  }
+						}]
+					  }]
+				};
+				
+				// Box Plot
+				chart3 = {
+					chart: {
+						type: 'boxplot'
+					},
+					title: {
+						text: ''
+					},
+					legend: {
+						enabled: false
+					},
+					xAxis: {
+						categories: ['Night', 'Morning', 'Evening', 'Afternoon'],
+						title: {
+							text: 'Time'
+						}
+					},
+					yAxis: {
+					   title: {
+						  text: 'Glucose (mg/dL)'
+					   },
+					   min:40,
+					   max:400,
+					   
+					   plotLines: [{
+							color: '#FF0000', // Red
+							width: 1,
+							value: 80 // Position, you'll have to translate this to the values on your x axis
+						},
+						{
+							color: '#FF0000', // Red
+							width: 1,
+							value: 160 // Position, you'll have to translate this to the values on your x axis
+						}]
+					},
+					series: [{
+						name: 'Glucose Values (mg/dL)',
+						data: data.box_plot.data
+					},
+					{
+						name: 'Outliers',
+						color: Highcharts.getOptions().colors[0],
+						type: 'scatter',
+						data: data.box_plot.outliers,
+						marker: {
+						fillColor: 'white',
+						lineWidth: 1,
+						lineColor: Highcharts.getOptions().colors[0]
+						},
+						tooltip: {
+							pointFormat: '{point.y} mg/dL'
+						}
+					}]
+					
+				};
 				Highcharts.chart('container', chart);
+				Highcharts.chart('container2', chart2);
+				Highcharts.chart('container3', chart3);
 			}
 			else {
 				alert('Request failed.  Returned status of ' + xhr.status);
