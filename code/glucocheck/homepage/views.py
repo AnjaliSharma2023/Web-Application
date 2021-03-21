@@ -316,6 +316,8 @@ def reset_password(request, uidb64, token):
         
         return render(request,'message/message.html', context)
 
+    
+
 
 def email_input(request):
     '''Renders the email input form view for resetting passwords ('/email-input') with needed context.
@@ -373,9 +375,18 @@ def glucose_input(request):
         form = GlucoseReadingForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('')
+            return redirect('/')
     else:
         form = GlucoseReadingForm()
+
+    context = {'forms': [form], # A list of all forms used
+            'page_title': 'Glucose',
+            'form_title': 'Glucose', # The title at the top of the form
+            'submit_value': 'Submit', # The value on the button for the form
+            'additional_html': 'account/glucose.html', # Additional html to be placed under the button
+            'account_nav': get_account_nav(request.user),
+}
+    return render(request,'form/form.html', context)
 
 def carbs_input(request):
 
@@ -386,9 +397,18 @@ def carbs_input(request):
         form = CarbReadingForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('')
+            
     else:
         form = CarbReadingForm()
+
+    context = {'forms': [form], # A list of all forms used
+        'page_title': 'Carbs',
+        'form_title': 'Carbs', # The title at the top of the form
+        'submit_value': 'Submit', # The value on the button for the form
+        'additional_html': 'account/carbs.html', # Additional html to be placed under the button
+        'account_nav': get_account_nav(request.user),
+}
+    return render(request,'form/form.html', context)
 
 def insulin_input(request):
 
@@ -399,27 +419,30 @@ def insulin_input(request):
         form = InsulinReadingForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('')
+            
     else:
         form = InsulinReadingForm()
-
+    context = {'forms': [form], # A list of all forms used
+        'page_title': 'Insulin',
+        'form_title': 'Insulin', # The title at the top of the form
+        'submit_value': 'Submit', # The value on the button for the form
+        'additional_html': 'account/insulin.html', # Additional html to be placed under the button
+        'account_nav': get_account_nav(request.user),
+}
+    return render(request,'form/form.html', context)
 
 def dashboard(request, uidb64, token):
 
-    #current_day = datetime.date.today()
-    #previous_day = now - timedelta(days = 90)
 
     start_date = request.POST.get("startdate","")
     end_date = request.POST.get("enddate","")
 
-    avg_glucose = Glucose.objects.filter(record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading'))
+    avg_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading'))
 
-    min_glucose = Glucose.objects.filter(record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading'))
+    min_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading'))
 
-    max_glucose = Glucose.objects.filter(record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading'))
+    max_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading'))
 
-    #a1c= Glucose.objects.filter(user=request.user,record_datetime__gt=previous_day,record_datetime__lt=current_day).aggregate(Avg('glucose_reading'))
-    
     eag = avg_glucose.get('glucose_reading__avg')
     a1c = round(((eag +  46.7)/ 28.7),1)
    

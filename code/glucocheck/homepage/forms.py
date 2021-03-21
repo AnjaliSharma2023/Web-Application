@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from homepage.models import UserProfile, Glucose, Carbohydrate, Insulin
-from datetime import date
+from datetime import date, datetime
 from homepage.widgets import CheckboxLink, InputWithSelector
 from localflavor.us.forms import USStateSelect
 from django.contrib.auth import authenticate
@@ -212,7 +212,7 @@ class EmailInputForm(forms.Form):
     '''
     email = forms.EmailField(required =True, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), label='envelope.svg')
     #testWidget = FloatWithUnitField(widget=InputWithSelector(forms.TextInput, [(1,'mg/dL'),(2,'mmo/L')], attrs={'placeholder':'glucose'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
-    glucose_reading = IntWithUnitField(required=True, widget=InputWithSelector(forms.NumberInput, [('mg/dL','mg/dL'),('mmo/L','mmo/L')], attrs={'placeholder':'glucose', 'class':'form-control'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
+    
     
     def clean_email(self):
         '''Cleans the input email by ensuring it is associated with a user.
@@ -228,23 +228,8 @@ class EmailInputForm(forms.Form):
             raise forms.ValidationError('This email is not associated with a user')
             
         return email
+     
         
-    def clean_glucose_reading(self):
-        someValue = self.cleaned_data['glucose_reading']
-        if someValue[1] == 'mmo/L':
-            someValue = someValue[0] * 18
-        else:
-            someValue = someValue[0]
-            
-        print(someValue)
-        print(type(someValue))
-        
-        return (someValue, 'mmo/L')
-        
-        
-
-
-
 class GlucoseReadingForm(forms.ModelForm):
 
     categories_choices =[
@@ -260,11 +245,10 @@ class GlucoseReadingForm(forms.ModelForm):
     
     glucose_reading = IntWithUnitField(required=True, widget=InputWithSelector(forms.NumberInput, [('mg/dL','mg/dL'),('mmo/L','mmo/L')], attrs={'placeholder':'glucose', 'class':'form-control'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
     #glucose_reading = IntWithUnitField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Glucose Value'}))
-    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
-    notes = forms.CharField(required=False, widget= forms.Textarea(attrs={'class':'form-control', 'placeholder':'Notes'}))
-    categories = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Notes'}),choices=categories_choices)
+    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record Datetime'}))
+    notes = forms.CharField(required=False, widget= forms.Textarea(attrs={'rows': 1,'cols': 40,'class':'form-control', 'placeholder':'Notes'}))
+    categories = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Categories'}),choices=categories_choices)
     
-
 
     class Meta():
         '''Meta data on the form.
@@ -277,9 +261,26 @@ class GlucoseReadingForm(forms.ModelForm):
         fields = ('glucose_reading','record_datetime','notes','categories')
 
 
+    
+    def clean_glucose_reading(self):
+            someValue = self.cleaned_data['glucose_reading']
+
+
+            if someValue[0] > 400 :
+                raise forms.ValidationError('Value is too high.')
+            elif someValue[0] < 0 :
+                raise forms.ValidationError('Value must be more than zero.')
+
+            if someValue[1] == 'mmo/L':
+                someValue = someValue[0] * 18
+            else:
+                someValue = someValue[0]
+            print(someValue)
+            return someValue
+
 class CarbReadingForm(forms.ModelForm):
 
-    carb_reading = forms.IntegerField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Carbs Value'}))
+    carb_reading = forms.IntegerField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Carbs Value    -g'}))
     record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
     
 
@@ -289,10 +290,16 @@ class CarbReadingForm(forms.ModelForm):
         fields = ('carb_reading','record_datetime')
 
 
+    def clean_carb_reading(self):
+            carbValue = self.cleaned_data['carb_reading']
 
+            if carbValue > 300 :
+                raise forms.ValidationError('Value is too high.')
+            elif carbValue < 0 :
+                raise forms.ValidationError('Value must be more than zero.')
 class InsulinReadingForm(forms.ModelForm):
     
-    dosage =forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Insulin'}))
+    dosage =forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Insulin unit'}))
     record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
     
     class Meta():
@@ -300,4 +307,10 @@ class InsulinReadingForm(forms.ModelForm):
         model = Insulin
         fields = ('dosage','record_datetime')
 
-        
+    def clean_dosage(self):
+            insulinDosage = self.cleaned_data['dosage']
+
+            if insulinDosage > 50 :
+                raise forms.ValidationError('Value is too high.')
+            elif insulinDosage < 0 :
+                raise forms.ValidationError('Value must be more than zero.')
