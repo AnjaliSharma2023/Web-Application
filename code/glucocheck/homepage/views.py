@@ -515,7 +515,7 @@ def profile_page(request):
 
     if request.method == 'POST':
         form = UpdateProfile(request.POST,instance=request.user) 
-        profile_form = UserProfileForm(request.POST,instance=request.user)
+        profile_form = UserProfileForm(request.POST,instance=UserProfile.objects.get(user=request.user))
         
         if form.is_valid() and profile_form.is_valid():  
                    
@@ -530,7 +530,7 @@ def profile_page(request):
     else:
     
         form = UpdateProfile(instance=request.user)
-        profile_form = UserProfileForm(instance=request.user)
+        profile_form = UserProfileForm(instance=UserProfile.objects.get(user=request.user))
 
 
     context={'forms': [form, profile_form], 
