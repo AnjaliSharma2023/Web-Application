@@ -5,7 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- ===== CSS ===== -->
-        <link rel="stylesheet" href="assets/css/styles.css">
+        
+		{% load static %}
+		<link rel="stylesheet" href="{% static 'dashboard/styles.css">
+		<script src="{% static 'dashboard/load_data.js' %}"></script>
         
         <title>Dashboard GlucoCheck</title>
     </head>
@@ -98,15 +101,36 @@
               </section>
               <h1 id="welcome-title">Welcome Back, Username !</h1>
               <section id="grid-container">
-                <div class="grid-item one"><input type="date">
-
-                        <!-- datedropper init -->
-                        <script>
-                        new dateDropper({
-                          selector: 'input[type="date"]'
-                        });
-                        </script>
-                  </div>
+                <div class="grid-item one"><input id='startdate' type="date"><input id='enddate' type="date">
+					<div id='max'></div>
+					<div id='avg'></div>
+					<div id='min'></div>
+					<div id='hba1c'></div>
+					<!-- datedropper init -->
+					
+					<script>
+					xhr.open('GET', '/test-data/');
+					xhr.onload = function() {
+						if (xhr.status === 200) {
+							var data = JSON.parse(xhr.responseText);
+							let charts = createProgressCircles(data);
+							Highcharts.chart('max', charts[0])
+							Highcharts.chart('avg', charts[1])
+							Highcharts.chart('min', charts[2])
+							Highcharts.chart('hba1c', charts[3])
+						else {
+							alert('Request failed.  Returned status of ' + xhr.status);
+						}
+					};
+					xhr.send();
+					
+					
+					/*
+					new dateDropper({
+					  selector: 'input[type="date"]'
+					});*/
+					</script>
+                </div>
                 <div class="grid-item two">Item 2</div>
                 <div class="grid-item three">Item 3</div>
                 <div class="grid-item four">Item 4</div>

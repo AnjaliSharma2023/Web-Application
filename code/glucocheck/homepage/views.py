@@ -494,7 +494,11 @@ def insulin_input(request):
 }
     return render(request,'form/form.html', context)
 
-def dashboard(request, uidb64, token):
+def dashboard(request):
+    context = {}
+    return render(request, 'dashboard2/index.html', context)
+
+def dashboard_data(request, uidb64, token):
 
 
     start_date = request.POST.get("startdate","")
