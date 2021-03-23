@@ -101,14 +101,15 @@
               </section>
               <h1 id="welcome-title">Welcome Back, Username !</h1>
               <section id="grid-container">
-                <div class="grid-item one"><input id='startdate' type="date"><input id='enddate' type="date">
+                <!--<div class="grid-item one"><input id='startdate' type="date"><input id='enddate' type="date">
 					<div id='max'></div>
 					<div id='avg'></div>
 					<div id='min'></div>
-					<div id='hba1c'></div>
+					<div id='hba1c'></div>-->
 					<!-- datedropper init -->
 					
 					<script>
+					/*
 					xhr.open('GET', '/test-data/');
 					xhr.onload = function() {
 						if (xhr.status === 200) {
@@ -122,24 +123,93 @@
 							alert('Request failed.  Returned status of ' + xhr.status);
 						}
 					};
-					xhr.send();
-					
-					
-					/*
-					new dateDropper({
-					  selector: 'input[type="date"]'
-					});*/
+					xhr.send();*/
 					</script>
+					
+                <div class="container mt-5 mb-5" style="width: 400px">
+                  <div id="reportrange" style="background: #fff; cursor: pointer; padding:          5px 10px; border: 1px solid #ccc; width: 100%">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
+                  
                 </div>
                 <div class="grid-item two">Item 2</div>
                 <div class="grid-item three">Item 3</div>
                 <div class="grid-item four">Item 4</div>
               </section>
             </section>
-        <!-- ===== IONICONS ===== -->
-        <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+        
         
         <!-- ===== MAIN JS ===== -->
         <script src="assets/js/main.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+      <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+      <script src="moment.min.js"></script>
+      <script src="daterangepicker.js"></script>
+      <script type="text/javascript">
+        $(function() {
+
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                   'Today': [moment(), moment()],
+                   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                   'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                   'This Month': [moment().startOf('month'), moment().endOf('month')],
+                   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            cb(start, end);
+
+        });
+        </script>
+        
+        
+        
+    <section id="footer">
+		<div class="container footer-row">
+			<hr>
+			<div class="footer-left-col">
+				<div class="footer-links">
+					<div class="link-title">
+						<h4><a href="{% url 'tnc' %}">Legal Disclaimer</a></h4>
+						<small><a href="{% url 'tnc' %}#privacy">Privacy Policy</a></small><br>
+						<small><a href="{% url 'tnc' %}#terms">Terms of Use</a></small><br>
+						<small><a href="{% url 'tnc' %}#cookie">Cookie Policy</a></small><br>
+						<small><a href="{% url 'tnc' %}#hipaa">HIPAA Privacy</a></small>
+					</div>
+					<div class="link-title">
+						<h4>Contact</h4>
+						<small>support@glucocheck.com</small><br><br><br>
+						<small>Copyright © 2021 GlucoCheck</small>
+					</div>
+				</div>
+			</div>
+			<div class="footer-right-col">
+				<div class="footer-info">
+					<div class="copyright-text">
+						<img src="{% static 'images/glucochecklogo.png' %}" class="footer-logo">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
     </body>
 </html>
