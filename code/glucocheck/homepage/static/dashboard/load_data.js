@@ -34,6 +34,9 @@ function loadDashboardData() {
 
 function createPercentRangeBarChart(data) {
 	bar_chart = {
+		credits: {
+			enabled: false
+		},
 		chart: {
 			type: 'bar'
 		},
@@ -69,6 +72,12 @@ function createPercentRangeBarChart(data) {
 
 function createBoxChart(data) {
 	box_chart = {
+		credits: {
+			enabled: false
+		},
+		exporting: {
+			enabled: true
+		},
 		chart: {
 			type: 'boxplot'
 		},
@@ -140,6 +149,9 @@ function createProgressCircles(data) {
 	}
 	
 	min_chart = {
+		credits: {
+			enabled: false
+		},
 		tooltip: {
 			enabled: false
 		},
@@ -204,6 +216,9 @@ function createProgressCircles(data) {
 	}
 	
 	avg_chart = {
+		credits: {
+			enabled: false
+		},
 		tooltip: {
 			enabled: false
 		},
@@ -268,6 +283,9 @@ function createProgressCircles(data) {
 	}
 	
 	max_chart = {
+		credits: {
+			enabled: false
+		},
 		tooltip: {
 			enabled: false
 		},
@@ -334,6 +352,9 @@ function createProgressCircles(data) {
 	}
 	console.log(hba1c_angle)
 	hba1c_chart = {
+		credits: {
+			enabled: false
+		},
 		tooltip: {
 			enabled: false
 		},
