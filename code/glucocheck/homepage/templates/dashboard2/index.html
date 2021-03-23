@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- ===== CSS ===== -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+        
+        <title>Dashboard GlucoCheck</title>
+    </head>
+    <script src="datedropper-javascript.js"></script>
+    
+    <!--header area start-->
+    <header id="header">
+      <div class="left_area">
+        <img src="glucochecklogo.png" class="logo">
+      </div>
+    </header>
+    
+    <body id="body-pd">
+        <div class="l-navbar" id="navbar">
+            <nav class="nav">
+                <div>
+                    <div class="nav__brand">
+                        <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+                        
+                    </div>
+                    
+                    
+                    <div class="nav__list">
+                        
+                        <a href="#" class="nav__link active">
+                            <ion-icon name="speedometer-outline" class="nav__icon"></ion-icon>
+                            <span class="nav__name">Dashboard</span>
+                        </a>
+                       
+                        
+
+                        <div  class="nav__link collapse">
+                            <ion-icon name="apps-outline" class="nav__icon"></ion-icon>
+                            <span class="nav__name">Tables</span>
+
+                            <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                            <ul class="collapse__menu">
+                                <a href="#" class="collapse__sublink">Glucose</a>
+                                <a href="#" class="collapse__sublink">Carbs</a>
+                                <a href="#" class="collapse__sublink">Insuline</a>
+                            </ul>
+                        </div>
+
+                        <a href="#" class="nav__link">
+                            <ion-icon name="stats-chart-outline" class="nav__icon"></ion-icon>
+                            <span class="nav__name">Analytics</span>
+                        </a>
+                        
+                        <a href="#" class="nav__link">
+                            <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
+                            <span class="nav__name">Settings</span>
+                        
+                        </a>
+                        
+                        <div  class="nav__link collapse">
+                            <ion-icon name="person-circle-outline" class="nav__icon"></ion-icon>
+                            <span class="nav__name">Profile</span>
+
+                            <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+                            <ul class="collapse__menu">
+                                <a href="#" class="collapse__sublink">ViewProfile</a>
+                                <a href="#" class="collapse__sublink">EditProfile</a>
+                                <a href="#" class="collapse__sublink">Payment</a>
+                                
+                            </ul>
+                        </div>
+                        
+                        
+                        <a href="#" class="nav__link">
+                            <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+                            <span class="nav__name">Log Out</span>
+                        </a>
+                    </div>
+                </div>
+
+                
+            </nav>
+        </div>
+
+        <section id="main-dashboard-content">
+              <section id="top-section">
+                <div class="input-box">
+                  <input placeholder="Search..." />
+                  <div>
+                    <i class="fas fa-search"></i>
+                  </div>
+                </div>
+              </section>
+              <h1 id="welcome-title">Welcome Back, Username !</h1>
+              <section id="grid-container">
+                <div class="grid-item one"><input type="date">
+
+                        <!-- datedropper init -->
+                        <script>
+                        new dateDropper({
+                          selector: 'input[type="date"]'
+                        });
+                        </script>
+                  </div>
+                <div class="grid-item two">Item 2</div>
+                <div class="grid-item three">Item 3</div>
+                <div class="grid-item four">Item 4</div>
+              </section>
+            </section>
+        <!-- ===== IONICONS ===== -->
+        <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+        
+        <!-- ===== MAIN JS ===== -->
+        <script src="assets/js/main.js"></script>
+    </body>
+</html>
