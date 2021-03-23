@@ -63,7 +63,7 @@ function loadDashboardData() {
 	xhr.onload = function() {
 		if (xhr.status === 200) {
 			var data = JSON.parse(xhr.responseText);
-			let circle_charts = createProgressCircles(data);
+			let circle_charts = createProgressCircles(data.progress_circles);
 			let bar_chart = createPercentRangeBarChart(data.bar_plot.data);
 			let box_chart = createBoxChart(data.box_plot);
 			
@@ -188,10 +188,12 @@ function createProgressCircles(data) {
 	if (data.min > 160) {
 		let max = 400 - 160;
 		let min_value = data.min - 160;
-		var min_angle = Math.round(min_value/max * 360)
+		var min_angle = Math.round((1 - min_value / max) * 360);
 	}
 	else if (data.min < 80) {
-		var min_angle = Math.round((1- data.min/80) * 360)
+		let max = 80 - 40;
+		let min_value = data.min - 40;
+		var min_angle = Math.round(min_value / max * 360);
 	}
 	else {
 		var min_angle = 360;
@@ -219,7 +221,7 @@ function createProgressCircles(data) {
 		},
 		pane: {
 			startAngle: -90,
-			endAngle: min_angle,
+			endAngle: min_angle - 90,
 			background: [{
 				outerRadius: '112%',
 				innerRadius: '100%',
@@ -253,12 +255,14 @@ function createProgressCircles(data) {
 	};
 	
 	if (data.avg > 160) {
-		let max = 400 - 160;
+		let max = (400 - 160) / 2;
 		let min_value = data.avg - 160;
-		var avg_angle = Math.round(min_value/max * 360)
+		var avg_angle = Math.round((1 - min_value / max) * 360);
 	}
 	else if (data.avg < 80) {
-		var avg_angle = Math.round((1- data.avg/80) * 360)
+		let max = 80 - 40;
+		let min_value = data.avg - 40;
+		var avg_angle = Math.round(min_value / max * 360);
 	}
 	else {
 		var avg_angle = 360;
@@ -286,7 +290,7 @@ function createProgressCircles(data) {
 		},
 		pane: {
 			startAngle: -90,
-			endAngle: avg_angle,
+			endAngle: avg_angle - 90,
 			background: [{
 				outerRadius: '112%',
 				innerRadius: '100%',
@@ -322,10 +326,12 @@ function createProgressCircles(data) {
 	if (data.max > 160) {
 		let max = 400 - 160;
 		let min_value = data.max - 160;
-		var max_angle = Math.round(min_value/max * 360)
+		var max_angle = Math.round((1 - min_value / max) * 360);
 	}
 	else if (data.max < 80) {
-		var max_angle = Math.round((1- data.max/80) * 360)
+		let max = 80 - 40;
+		let min_value = data.max - 40;
+		var max_angle = Math.round(min_value / max * 360);
 	}
 	else {
 		var max_angle = 360;
@@ -353,7 +359,7 @@ function createProgressCircles(data) {
 		},
 		pane: {
 			startAngle: -90,
-			endAngle: max_angle,
+			endAngle: max_angle - 90,
 			background: [{
 				outerRadius: '112%',
 				innerRadius: '100%',
@@ -391,10 +397,12 @@ function createProgressCircles(data) {
 	if (hba1c_average_value > 160) {
 		let max = 400 - 160;
 		let min_value = hba1c_average_value - 160;
-		var hba1c_angle = Math.round(min_value/max * 360);
+		var hba1c_angle = Math.round((1 - min_value / max) * 360);
 	}
 	else if (hba1c_average_value < 80) {
-		var hba1c_angle = Math.round((1- hba1c_average_value/80) * 360);
+		let max = 80 - 40;
+		let min_value = hba1c_average_value - 40;
+		var hba1c_angle = Math.round(min_value / max * 360);
 	}
 	else {
 		var hba1c_angle = 360;
@@ -422,7 +430,7 @@ function createProgressCircles(data) {
 		},
 		pane: {
 			startAngle: -90,
-			endAngle: hba1c_angle,
+			endAngle: hba1c_angle - 90,
 			background: [{
 				outerRadius: '112%',
 				innerRadius: '100%',

@@ -376,7 +376,6 @@ def dashboard(request):
 
 def dashboard_data(request, start_date, end_date):
     # Scatter plot code is commented out
-    
     start_date = datetime.fromisoformat(start_date)
     end_date = datetime.fromisoformat(end_date)
 
@@ -507,7 +506,7 @@ def dashboard_data(request, start_date, end_date):
     #    'plotlines': plotlines,
     #    
     #}
-    dashboard_data = {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c, 'box_plot':box_plot, 'bar_plot':bar_plot}
+    dashboard_data = {'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'box_plot':box_plot, 'bar_plot':bar_plot}
    
     return JsonResponse(dashboard_data)
 
