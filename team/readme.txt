@@ -193,6 +193,17 @@ Monday (2021-03-22)
 
 1. **10 pm daily scrum** on Teams: what did you do, what are you going to do, and what do you need to get there?
 
+---
+Wednesday (2021-03-24)
+
+1. **9:45 pm tech check** for Teams: meet to ensure all mics, monitors, and other accessories are working
+2. **10 pm sprint review**: demo the product, get feedback, and adjust the *product* backlog
+
+---
+Thursday (2021-03-25)
+
+1. **10 pm sprint retrospective**: what worked, what didn't, and how can we improve?
+
 +++
 Ground Rules
 
