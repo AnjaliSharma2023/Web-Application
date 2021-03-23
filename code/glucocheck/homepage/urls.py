@@ -16,8 +16,8 @@ urlpatterns = [
     path('glucose-input/', views.glucose_input, name='glucose_input'),
     path('carbs-input/', views.carbs_input, name='carbs_input'),
     path('insulin-input/', views.insulin_input, name='insulin_input'),
+    path('profile-page/', views.profile_page, name='profile_page'),
 
     
 ]
-    
-
+  

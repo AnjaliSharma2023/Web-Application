@@ -13,12 +13,14 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 from django.core.mail import EmailMessage
 from homepage.tokens import account_activation_token
-from homepage.forms import SignupForm,UserProfileForm, LoginForm, ResetPasswordForm, EmailInputForm, GlucoseReadingForm, CarbReadingForm,InsulinReadingForm
+from homepage.forms import SignupForm,UserProfileForm, LoginForm, ResetPasswordForm, EmailInputForm, GlucoseReadingForm, CarbReadingForm,InsulinReadingForm, UpdateProfile
 from homepage.models import UserProfile, Glucose, Carbohydrate, Insulin
 from django.db.models import Avg, Min, Max
 from datetime import date, timedelta, datetime
 from django.http import JsonResponse
 import pandas as pd
+from django.contrib.auth.decorators import login_required
+
 
 
 def get_account_nav(user):
@@ -416,7 +418,7 @@ def email_input(request):
             
 
 
-
+@login_required
 def glucose_input(request):
 
     form = GlucoseReadingForm()
@@ -426,7 +428,15 @@ def glucose_input(request):
         form = GlucoseReadingForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            #return redirect('/')
+            context = {
+                    'account_nav': get_account_nav(request.user),
+                    'page_title': 'Notice',
+                    'message_title': 'Notice',
+                    'message_text': ['Value saved.'],
+                }
+        
+            return render(request,'message/message.html', context)
     else:
         form = GlucoseReadingForm()
 
@@ -439,6 +449,7 @@ def glucose_input(request):
 }
     return render(request,'form/form.html', context)
 
+@login_required
 def carbs_input(request):
 
     form = CarbReadingForm()
@@ -461,6 +472,7 @@ def carbs_input(request):
 }
     return render(request,'form/form.html', context)
 
+@login_required
 def insulin_input(request):
 
     form = InsulinReadingForm()
@@ -497,3 +509,36 @@ def dashboard(request, uidb64, token):
     eag = avg_glucose.get('glucose_reading__avg')
     a1c = round(((eag +  46.7)/ 28.7),1)
    
+
+@login_required
+def profile_page(request):
+
+    if request.method == 'POST':
+        form = UpdateProfile(request.POST,instance=request.user) 
+        profile_form = UserProfileForm(request.POST,instance=UserProfile.objects.get(user=request.user))
+        
+        if form.is_valid() and profile_form.is_valid():  
+                   
+            user = form.save(commit=False)          #return user from the form save
+                         
+            user.save()
+            profile=profile_form.save(commit=False) # creating new profile using data from form
+            profile.user = user                     # onetoonefield relationship works here
+            
+            profile.save()                          # save the user 
+            return redirect('profile-page')
+    else:
+    
+        form = UpdateProfile(instance=request.user)
+        profile_form = UserProfileForm(instance=UserProfile.objects.get(user=request.user))
+
+
+    context={'forms': [form, profile_form], 
+            'page_title': 'Profile',
+            'form_title': 'Profile',
+            'submit_value': 'Update',
+            'additional_html': 'account/profile.html',
+            'account_nav': get_account_nav(request.user),
+    }
+    return render(request,'form/form.html', context)
+

@@ -270,12 +270,17 @@ class GlucoseReadingForm(forms.ModelForm):
                 raise forms.ValidationError('Value is too high.')
             elif someValue[0] < 0 :
                 raise forms.ValidationError('Value must be more than zero.')
+             
+            if someValue[1] == 'mmo/L' and someValue[0] > 15:
+                raise forms.ValidationError('Value is too high.')
+            elif someValue[1] == 'mmo/L' and someValue[0] < 0:
+                raise forms.ValidationError('Value must be more than zero.')
 
             if someValue[1] == 'mmo/L':
                 someValue = someValue[0] * 18
             else:
                 someValue = someValue[0]
-            print(someValue)
+            
             return someValue
 
 class CarbReadingForm(forms.ModelForm):
@@ -314,3 +319,22 @@ class InsulinReadingForm(forms.ModelForm):
                 raise forms.ValidationError('Value is too high.')
             elif insulinDosage < 0 :
                 raise forms.ValidationError('Value must be more than zero.')
+
+
+class UpdateProfile(forms.ModelForm):
+    
+    type_choices =[
+        ('type1','type1'),
+        ('type2','type2'),
+    ]
+    
+    type = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Categories'}),choices=type_choices)
+
+    class Meta():
+        
+        model = User
+        fields = (
+            'username',
+            'email',
+            'type')
+
