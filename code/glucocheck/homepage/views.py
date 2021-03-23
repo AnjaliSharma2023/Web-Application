@@ -100,9 +100,9 @@ def test_data(request):
                 bar_data['Evening']['inrange'] += 1
     
     bar_plot = {'data':[]}
-    inrange = {'name': 'In-range', 'color': '#00FF00','data':[]}
-    aboverange = {'name': 'Above-range', 'color':'#FFFF00', 'data':[]}
-    belowrange = {'name': 'Below-range', 'color':'#FF0000', 'data':[]}
+    inrange = {'name': 'In-range (80-160)', 'color': '#00FF00','data':[]}
+    aboverange = {'name': 'Above-range (>160)', 'color':'#FFFF00', 'data':[]}
+    belowrange = {'name': 'Below-range (<80)', 'color':'#FF0000', 'data':[]}
     for section, value in bar_data.items():
         total = value['inrange'] + value['belowrange'] + value['aboverange']
         if total == 0:
@@ -163,7 +163,7 @@ def test_data(request):
         
         index += 1
     
-    chart = {'data':data, 'min':min, 'max':max, 'plotlines':plotlines, 'box_plot':box_plot, 'bar_plot':bar_plot}
+    chart = {'data':data, 'min':40, 'max':250, 'avg': 150, 'hba1c': 7, 'plotlines':plotlines, 'box_plot':box_plot, 'bar_plot':bar_plot}
     
     # progress circle pass in text, color (red, yellow, green), and the percentage to fill the circle
     

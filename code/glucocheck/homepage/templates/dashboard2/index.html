@@ -4,20 +4,22 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- ===== CSS ===== -->
+        <!-- <link rel="stylesheet" href="assets/css/styles.css">===== CSS ===== -->
         
+		
 		{% load static %}
-		<link rel="stylesheet" href="{% static 'dashboard/styles.css">
+		<link rel="stylesheet" type='text/css' href="{% static 'dashboard/styles.css' %}">
 		<script src="{% static 'dashboard/load_data.js' %}"></script>
-        
+        <script src = "https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-more.js"></script>
+		<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
         <title>Dashboard GlucoCheck</title>
     </head>
-    <script src="datedropper-javascript.js"></script>
     
     <!--header area start-->
     <header id="header">
       <div class="left_area">
-        <img src="glucochecklogo.png" class="logo">
+        <img src="{% static 'images/glucochecklogo.png' %}" class="logo">
       </div>
     </header>
     
@@ -101,47 +103,28 @@
               </section>
               <h1 id="welcome-title">Welcome Back, Username !</h1>
               <section id="grid-container">
-                <!--<div class="grid-item one"><input id='startdate' type="date"><input id='enddate' type="date">
-					<div id='max'></div>
-					<div id='avg'></div>
-					<div id='min'></div>
-					<div id='hba1c'></div>-->
-					<!-- datedropper init -->
-					
-					<script>
-					/*
-					xhr.open('GET', '/test-data/');
-					xhr.onload = function() {
-						if (xhr.status === 200) {
-							var data = JSON.parse(xhr.responseText);
-							let charts = createProgressCircles(data);
-							Highcharts.chart('max', charts[0])
-							Highcharts.chart('avg', charts[1])
-							Highcharts.chart('min', charts[2])
-							Highcharts.chart('hba1c', charts[3])
-						else {
-							alert('Request failed.  Returned status of ' + xhr.status);
-						}
-					};
-					xhr.send();*/
-					</script>
-					
                 <div class="container mt-5 mb-5" style="width: 400px">
-                  <div id="reportrange" style="background: #fff; cursor: pointer; padding:          5px 10px; border: 1px solid #ccc; width: 100%">
+					<div id="reportrange" style="background: #fff; cursor: pointer; padding:          5px 10px; border: 1px solid #ccc; width: 100%">
                         <i class="fa fa-calendar"></i>&nbsp;
-                        <span></span> <i class="fa fa-caret-down"></i>
+                        <span id='dates'></span> <i class="fa fa-caret-down"></i>
                     </div>
-                  
+					
+					<div id='max' style = "height: 150px; width: 150px; float: left;"></div>
+					<div id='avg' style = "height: 150px; width: 150px; float: left;"></div>
+					<div id='min' style = "height: 150px; width: 150px; float: left;"></div>
+					<div id='hba1c' style = "height: 150px; width: 150px; float: left;"></div>
+					
+					
                 </div>
-                <div class="grid-item two">Item 2</div>
-                <div class="grid-item three">Item 3</div>
+                <div id='percent_in_range' class="grid-item two"></div>
+                <div id='box_chart' class="grid-item three"></div>
                 <div class="grid-item four">Item 4</div>
               </section>
             </section>
         
         
         <!-- ===== MAIN JS ===== -->
-        <script src="assets/js/main.js"></script>
+        <script src="{% static 'dashboard/main.js' %}"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
       <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -151,8 +134,6 @@
       <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
       <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-      <script src="moment.min.js"></script>
-      <script src="daterangepicker.js"></script>
       <script type="text/javascript">
         $(function() {
 
@@ -161,6 +142,7 @@
 
             function cb(start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+				loadDashboardData();
             }
 
             $('#reportrange').daterangepicker({
@@ -182,7 +164,10 @@
         </script>
         
         
-        
+    <script>
+		
+	</script>
+	
     <section id="footer">
 		<div class="container footer-row">
 			<hr>
