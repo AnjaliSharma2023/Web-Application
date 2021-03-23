@@ -22,7 +22,6 @@ import pandas as pd
 from django.contrib.auth.decorators import login_required
 
 
-
 def get_account_nav(user):
     '''Return the header navigation text based on if the user is logged in or not.
 
@@ -44,130 +43,7 @@ def homepage(request):
     request -- the http request tied to the users session
     '''
     context = {'account_nav': get_account_nav(request.user)}
-    return render(request, 'homepage/homepage.html', context)
-
-def test(request):
-    context = {}
-    return render(request, 'test/test.html', context)
-    
-def test_data(request):
-    test_datetime = datetime(2021, 3, 5)
-    user_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=test_datetime,record_datetime__lt=test_datetime+timedelta(days=10))
-    data = []
-    box_data = {'Night':{'items':[]},'Morning':{'items':[]},'Afternoon':{'items':[]},'Evening':{'items':[]}}
-    bar_data = {'Night': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Morning': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Afternoon': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Evening': {'inrange':0, 'belowrange':0, 'aboverange':0}}
-    for item in user_objects:
-        # Scatter plot code
-        data.append([item.record_datetime.timestamp()*1000, item.glucose_reading])
-        
-        # Box plot code
-        if item.record_datetime.hour < 6:
-            box_data['Night']['items'].append(item)
-            # Bar chart code
-            if item.glucose_reading < 80:
-                bar_data['Night']['belowrange'] += 1
-            elif item.glucose_reading > 160:
-                bar_data['Night']['aboverange'] += 1
-            else:
-                bar_data['Night']['inrange'] += 1
-                
-        elif item.record_datetime.hour < 12:
-            box_data['Morning']['items'].append(item)
-            # Bar chart code
-            if item.glucose_reading < 80:
-                bar_data['Morning']['belowrange'] += 1
-            elif item.glucose_reading > 160:
-                bar_data['Morning']['aboverange'] += 1
-            else:
-                bar_data['Morning']['inrange'] += 1
-        elif item.record_datetime.hour < 18:
-            box_data['Afternoon']['items'].append(item)
-            # Bar chart code
-            if item.glucose_reading < 80:
-                bar_data['Afternoon']['belowrange'] += 1
-            elif item.glucose_reading > 160:
-                bar_data['Afternoon']['aboverange'] += 1
-            else:
-                bar_data['Afternoon']['inrange'] += 1
-        else:
-            box_data['Evening']['items'].append(item)
-            # Bar chart code
-            if item.glucose_reading < 80:
-                bar_data['Evening']['belowrange'] += 1
-            elif item.glucose_reading > 160:
-                bar_data['Evening']['aboverange'] += 1
-            else:
-                bar_data['Evening']['inrange'] += 1
-    
-    bar_plot = {'data':[]}
-    inrange = {'name': 'In-range (80-160)', 'color': '#00FF00','data':[]}
-    aboverange = {'name': 'Above-range (>160)', 'color':'#FFFF00', 'data':[]}
-    belowrange = {'name': 'Below-range (<80)', 'color':'#FF0000', 'data':[]}
-    for section, value in bar_data.items():
-        total = value['inrange'] + value['belowrange'] + value['aboverange']
-        if total == 0:
-            total = 1
-            
-        inrange['data'].append(value['inrange']/total*100)
-        aboverange['data'].append(value['aboverange']/total*100)
-        belowrange['data'].append(value['belowrange']/total*100)
-        
-    bar_plot['data'].append(aboverange)
-    bar_plot['data'].append(inrange)
-    bar_plot['data'].append(belowrange)
-    
-    # Scatter plot code
-    min = test_datetime.timestamp() * 1000
-    max = datetime(2021, 3, 15).timestamp() * 1000
-    
-    plotlines = []
-    for day in pd.date_range(start=test_datetime,end=datetime(2021, 3, 15)).to_pydatetime():
-        plotlines.append(day.timestamp() * 1000)
-    
-    # Box plot code
-    box_plot = {}
-    box_plot['data'] = []
-    box_plot['outliers'] = []
-    index = 0
-    for section, value in box_data.items():
-        
-        ordered = [item.glucose_reading for item in value['items']]
-        ordered.sort()
-        len_items = len(ordered)
-        if len_items == 0:
-            box_plot['data'].append([])
-            continue
-        
-        if len_items % 2 != 0: # Odd
-            box_data[section]['Q2'] = ordered[len_items // 2]
-        else:
-            box_data[section]['Q2'] = (ordered[len_items // 2] + ordered[len_items // 2 - 1]) / 2
-            
-        len_items_half = len_items // 2
-        if len_items_half % 2 != 0:
-            box_data[section]['Q1'] = ordered[len_items_half // 2]
-            box_data[section]['Q3'] = ordered[-(len_items_half // 2 + 1)]
-        else:
-            box_data[section]['Q1'] = (ordered[len_items_half // 2] + ordered[len_items_half // 2 - 1]) / 2
-            box_data[section]['Q3'] = (ordered[-(len_items_half // 2 + 1)] + ordered[-(len_items_half // 2)]) / 2
-        
-        iqr = box_data[section]['Q3'] - box_data[section]['Q1']
-        box_data[section]['lower limit'] = box_data[section]['Q1'] - 1.5 * iqr
-        box_data[section]['upper limit'] = box_data[section]['Q3'] + 1.5 * iqr
-        
-        for item in value['items']:
-            if item.glucose_reading < box_data[section]['lower limit'] or item.glucose_reading > box_data[section]['upper limit']:
-                box_plot['outliers'].append([index, item.glucose_reading])
-        
-        box_plot['data'].append([box_data[section]['lower limit'], box_data[section]['Q1'], box_data[section]['Q2'], box_data[section]['Q3'], box_data[section]['upper limit']])
-        
-        index += 1
-    
-    chart = {'data':data, 'min':40, 'max':250, 'avg': 150, 'hba1c': 7, 'plotlines':plotlines, 'box_plot':box_plot, 'bar_plot':bar_plot}
-    
-    # progress circle pass in text, color (red, yellow, green), and the percentage to fill the circle
-    
-    return JsonResponse(chart)
+    return render(request, 'homepage/homepage.html', context)  
   
   
 def activate(request, uidb64, token):
@@ -498,21 +374,142 @@ def dashboard(request):
     context = {}
     return render(request, 'dashboard2/index.html', context)
 
-def dashboard_data(request, uidb64, token):
+def dashboard_data(request, start_date, end_date):
+    # Scatter plot code is commented out
+    
+    start_date = datetime.fromisoformat(start_date)
+    end_date = datetime.fromisoformat(end_date)
 
-
-    start_date = request.POST.get("startdate","")
-    end_date = request.POST.get("enddate","")
-
-    avg_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading'))
-
-    min_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading'))
-
-    max_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading'))
-
-    eag = avg_glucose.get('glucose_reading__avg')
-    a1c = round(((eag +  46.7)/ 28.7),1)
+    avg_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading')).get('glucose_reading__avg')
+    min_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading')).get('glucose_reading__min')
+    max_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading')).get('glucose_reading__max')
+    
+    if avg_glucose != None:
+        avg_glucose = int(avg_glucose)
+        a1c = round(((avg_glucose +  46.7)/ 28.7),2)
+    else:
+        a1c = 0
+        avg_glucose = 0
+        min_glucose = 0
+        max_glucose = 0
+        
+    
+    glucose_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
+    #data = []
+    box_data = {'Night':{'items':[]},'Morning':{'items':[]},'Afternoon':{'items':[]},'Evening':{'items':[]}}
+    bar_data = {'Night': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Morning': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Afternoon': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Evening': {'inrange':0, 'belowrange':0, 'aboverange':0}}
+    for item in glucose_objects:
+        #data.append([item.record_datetime.timestamp()*1000, item.glucose_reading])
+        
+        # Box plot code
+        if item.record_datetime.hour < 6:
+            box_data['Night']['items'].append(item)
+            # Bar chart code
+            if item.glucose_reading < 80:
+                bar_data['Night']['belowrange'] += 1
+            elif item.glucose_reading > 160:
+                bar_data['Night']['aboverange'] += 1
+            else:
+                bar_data['Night']['inrange'] += 1
+                
+        elif item.record_datetime.hour < 12:
+            box_data['Morning']['items'].append(item)
+            # Bar chart code
+            if item.glucose_reading < 80:
+                bar_data['Morning']['belowrange'] += 1
+            elif item.glucose_reading > 160:
+                bar_data['Morning']['aboverange'] += 1
+            else:
+                bar_data['Morning']['inrange'] += 1
+        elif item.record_datetime.hour < 18:
+            box_data['Afternoon']['items'].append(item)
+            # Bar chart code
+            if item.glucose_reading < 80:
+                bar_data['Afternoon']['belowrange'] += 1
+            elif item.glucose_reading > 160:
+                bar_data['Afternoon']['aboverange'] += 1
+            else:
+                bar_data['Afternoon']['inrange'] += 1
+        else:
+            box_data['Evening']['items'].append(item)
+            # Bar chart code
+            if item.glucose_reading < 80:
+                bar_data['Evening']['belowrange'] += 1
+            elif item.glucose_reading > 160:
+                bar_data['Evening']['aboverange'] += 1
+            else:
+                bar_data['Evening']['inrange'] += 1
+    
+    bar_plot = {'data':[]}
+    inrange = {'name': 'In-range (80-160)', 'color': '#00FF00','data':[]}
+    aboverange = {'name': 'Above-range (>160)', 'color':'#FFFF00', 'data':[]}
+    belowrange = {'name': 'Below-range (<80)', 'color':'#FF0000', 'data':[]}
+    for section, value in bar_data.items():
+        total = value['inrange'] + value['belowrange'] + value['aboverange']
+        if total == 0:
+            total = 1
+            
+        inrange['data'].append(value['inrange']/total*100)
+        aboverange['data'].append(value['aboverange']/total*100)
+        belowrange['data'].append(value['belowrange']/total*100)
+        
+    bar_plot['data'].append(aboverange)
+    bar_plot['data'].append(inrange)
+    bar_plot['data'].append(belowrange)
+    
+    #min = start_date.timestamp() * 1000
+    #max = end_date.timestamp() * 1000
+    
+    plotlines = []
+    for day in pd.date_range(start=start_date,end=end_date).to_pydatetime():
+        plotlines.append(day.timestamp() * 1000)
+    
+    # Box plot code
+    box_plot = {}
+    box_plot['data'] = []
+    box_plot['outliers'] = []
+    index = 0
+    for section, value in box_data.items():
+        
+        ordered = [item.glucose_reading for item in value['items']]
+        ordered.sort()
+        len_items = len(ordered)
+        if len_items == 0:
+            box_plot['data'].append([])
+            continue
+        
+        if len_items % 2 != 0: # Odd
+            box_data[section]['Q2'] = ordered[len_items // 2]
+        else:
+            box_data[section]['Q2'] = (ordered[len_items // 2] + ordered[len_items // 2 - 1]) / 2
+            
+        len_items_half = len_items // 2
+        if len_items_half % 2 != 0:
+            box_data[section]['Q1'] = ordered[len_items_half // 2]
+            box_data[section]['Q3'] = ordered[-(len_items_half // 2 + 1)]
+        else:
+            box_data[section]['Q1'] = (ordered[len_items_half // 2] + ordered[len_items_half // 2 - 1]) / 2
+            box_data[section]['Q3'] = (ordered[-(len_items_half // 2 + 1)] + ordered[-(len_items_half // 2)]) / 2
+        
+        iqr = box_data[section]['Q3'] - box_data[section]['Q1']
+        box_data[section]['lower limit'] = box_data[section]['Q1'] - 1.5 * iqr
+        box_data[section]['upper limit'] = box_data[section]['Q3'] + 1.5 * iqr
+        
+        for item in value['items']:
+            if item.glucose_reading < box_data[section]['lower limit'] or item.glucose_reading > box_data[section]['upper limit']:
+                box_plot['outliers'].append([index, item.glucose_reading])
+        
+        box_plot['data'].append([box_data[section]['lower limit'], box_data[section]['Q1'], box_data[section]['Q2'], box_data[section]['Q3'], box_data[section]['upper limit']])
+        
+        index += 1
+    #scatter_plot = {
+    #    'data':data,
+    #    'plotlines': plotlines,
+    #    
+    #}
+    dashboard_data = {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c, 'box_plot':box_plot, 'bar_plot':bar_plot}
    
+    return JsonResponse(dashboard_data)
 
 @login_required
 def profile_page(request):

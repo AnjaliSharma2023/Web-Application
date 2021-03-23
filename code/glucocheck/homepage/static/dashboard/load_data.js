@@ -2,25 +2,74 @@
 import "https://code.highcharts.com/highcharts-more.js";
 import "https://code.highcharts.com/modules/solid-gauge.js";
 */
+function returnFormattedDate(date) {
+	date = date.trim();
+	date = date.split(" ");
+	if (date[0] == "January") {
+		date[0] = "01";
+	}
+	else if (date[0] == "February") {
+		date[0] = "02";
+	}
+	else if (date[0] == "March") {
+		date[0] = "03";
+	}
+	else if (date[0] == "April") {
+		date[0] = "04";
+	}
+	else if (date[0] == "May") {
+		date[0] = "05";
+	}
+	else if (date[0] == "June") {
+		date[0] = "06";
+	}
+	else if (date[0] == "July") {
+		date[0] = "07";
+	}
+	else if (date[0] == "August") {
+		date[0] = "08";
+	}
+	else if (date[0] == "September") {
+		date[0] = "09";
+	}
+	else if (date[0] == "October") {
+		date[0] = "10";
+	}
+	else if (date[0] == "November") {
+		date[0] = "11";
+	}
+	else {
+		date[0] = "12";
+	}
+	
+	date[1] = date[1].slice(0, -1);
+	if (date[1].length == 1) {
+		date[1] = "0".concat(date[1]);
+	}
+	date[2] = date[2];
+	
+	return date[2] + '-' + date[0] + '-' + date[1];
+}
+
 function loadDashboardData() {
 	var dates = document.getElementById('dates');
 	dates = dates.innerText.split("-");
-	console.log(dates);
+	dates[0] = returnFormattedDate(dates[0]);
+	dates[1] = returnFormattedDate(dates[1]);
+	
 	var xhr = new XMLHttpRequest();
-	// + dates[0] + '/' + dates[1]
-	xhr.open('GET', '/test-data/');
+	// 
+	xhr.open('GET', '/dashboard-data/' + dates[0] + '/' + dates[1] + '/');
 	xhr.onload = function() {
 		if (xhr.status === 200) {
 			var data = JSON.parse(xhr.responseText);
 			let circle_charts = createProgressCircles(data);
 			let bar_chart = createPercentRangeBarChart(data.bar_plot.data);
 			let box_chart = createBoxChart(data.box_plot);
-			console.log(bar_chart)
 			
 			Highcharts.chart('max', circle_charts[0]);
 			Highcharts.chart('avg', circle_charts[1]);
 			Highcharts.chart('min', circle_charts[2]);
-			console.log(circle_charts[3].pane.endAngle);
 			Highcharts.chart('hba1c', circle_charts[3]);
 			Highcharts.chart('percent_in_range', bar_chart);
 			Highcharts.chart('box_chart', box_chart);
@@ -180,7 +229,7 @@ function createProgressCircles(data) {
 
 		yAxis: {
 			min: 0,
-			max: 100,
+			max: 1,
 			lineWidth: 0,
 			tickPositions: []
 		},
@@ -247,7 +296,7 @@ function createProgressCircles(data) {
 
 		yAxis: {
 			min: 0,
-			max: 100,
+			max: 1,
 			lineWidth: 0,
 			tickPositions: []
 		},
@@ -314,7 +363,7 @@ function createProgressCircles(data) {
 
 		yAxis: {
 			min: 0,
-			max: 100,
+			max: 1,
 			lineWidth: 0,
 			tickPositions: []
 		},
@@ -337,8 +386,8 @@ function createProgressCircles(data) {
 		}],
 	};
 	
-	var hba1c_average_value = 28.7 * data.hba1c - 46.7;
-	console.log(hba1c_average_value);
+	let hba1c_average_value = 28.7 * data.hba1c - 46.7;
+	
 	if (hba1c_average_value > 160) {
 		let max = 400 - 160;
 		let min_value = hba1c_average_value - 160;
@@ -350,7 +399,7 @@ function createProgressCircles(data) {
 	else {
 		var hba1c_angle = 360;
 	}
-	console.log(hba1c_angle)
+	
 	hba1c_chart = {
 		credits: {
 			enabled: false
@@ -383,7 +432,7 @@ function createProgressCircles(data) {
 
 		yAxis: {
 			min: 0,
-			max: 100,
+			max: 1,
 			lineWidth: 0,
 			tickPositions: []
 		},
@@ -396,7 +445,7 @@ function createProgressCircles(data) {
 				y: data.hba1c,
 				dataLabels: {
 					y: -70,
-					format: 'Hba1c: {y}',
+					format: "Hba1c: {y}",
 					borderWidth: 0,
 					style: {
 						fontSize: '12px'
