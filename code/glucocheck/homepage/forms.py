@@ -322,19 +322,12 @@ class InsulinReadingForm(forms.ModelForm):
 
 
 class UpdateProfile(forms.ModelForm):
-    
-    type_choices =[
-        ('type1','type1'),
-        ('type2','type2'),
-    ]
-    
-    type = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Categories'}),choices=type_choices)
 
     class Meta():
         
         model = User
         fields = (
             'username',
-            'email',
-            'type')
+            'email')
+            
 
