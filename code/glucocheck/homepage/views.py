@@ -416,7 +416,7 @@ def dashboard(request):
 def dashboard_data(request, start_date, end_date):
     # Scatter plot code is commented out
     start_date = datetime.fromisoformat(start_date)
-    end_date = datetime.fromisoformat(end_date)
+    end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
 
     avg_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading')).get('glucose_reading__avg')
     min_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading')).get('glucose_reading__min')
