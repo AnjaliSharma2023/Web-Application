@@ -20,7 +20,8 @@
     <!--header area start-->
     <header id="header">
       <div class="left_area">
-        <img src="{% static 'images/glucochecklogo.png' %}" class="logo">
+        <a href="/"> <img src="{% static 'images/glucochecklogo.png' %}" class="logo" ></a>
+     
       </div>
     </header>
     
@@ -45,14 +46,14 @@
 
                         <div  class="nav__link collapse">
                             <ion-icon name="apps-outline" class="nav__icon"></ion-icon>
-                            <span class="nav__name">Tables</span>
+                            <span class="nav__name">Input Forms</span>
 
                             <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
-
+                    
                             <ul class="collapse__menu">
-                                <a href="#" class="collapse__sublink">Glucose</a>
-                                <a href="#" class="collapse__sublink">Carbs</a>
-                                <a href="#" class="collapse__sublink">Insuline</a>
+                                <a href="{% url 'glucose_input' %}" class="collapse__sublink">Glucose</a>
+                                <a href="{% url 'carbs_input' %}" class="collapse__sublink">Carbs</a>
+                                <a href="{% url 'insulin_input' %}" class="collapse__sublink">Insulin</a>
                             </ul>
                         </div>
 
@@ -78,7 +79,7 @@
                         </div>
                         
                         
-                        <a href="#" class="nav__link">
+                        <a href="{% url 'logout_request' %}" class="nav__link">
                             <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                             <span class="nav__name">Log Out</span>
                         </a>
