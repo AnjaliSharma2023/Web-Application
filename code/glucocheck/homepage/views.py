@@ -180,7 +180,19 @@ def login(request):
     }
     return render(request,'form/form.html', context)
   
-  
+
+def logout_request(request):
+    logout(request)
+    #messages.info(request, "You have successfully logged out.") 
+    #return redirect("/login")
+    context = {
+        'account_nav': get_account_nav(request.user),
+        'page_title': 'Notice',
+        'message_title': 'Notice',
+        'message_text': ["You have successfully logged out."]}
+            
+    return render(request,'message/message.html', context)
+
 def tnc(request):
     '''Renders the terms and conditions view ('/tnc') with needed context.
     

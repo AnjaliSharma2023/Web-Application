@@ -247,8 +247,9 @@ class GlucoseReadingForm(forms.ModelForm):
     #glucose_reading = IntWithUnitField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Glucose Value'}))
     record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record Datetime'}))
     notes = forms.CharField(required=False, widget= forms.Textarea(attrs={'rows': 1,'cols': 40,'class':'form-control', 'placeholder':'Notes'}))
-    categories = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Categories'}),choices=categories_choices)
-    
+    #categories = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Categories'}),choices=categories_choices)
+    categories = forms.ChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Categories'}),choices=categories_choices)
+
 
     class Meta():
         '''Meta data on the form.
@@ -264,12 +265,12 @@ class GlucoseReadingForm(forms.ModelForm):
     
     def clean_glucose_reading(self):
             someValue = self.cleaned_data['glucose_reading']
-
-
+            
             if someValue[0] > 400 :
                 raise forms.ValidationError('Value is too high.')
             elif someValue[0] < 0 :
                 raise forms.ValidationError('Value must be more than zero.')
+          
              
             if someValue[1] == 'mmo/L' and someValue[0] > 15:
                 raise forms.ValidationError('Value is too high.')
@@ -302,6 +303,8 @@ class CarbReadingForm(forms.ModelForm):
                 raise forms.ValidationError('Value is too high.')
             elif carbValue < 0 :
                 raise forms.ValidationError('Value must be more than zero.')
+
+            return carbValue   
 class InsulinReadingForm(forms.ModelForm):
     
     dosage =forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Insulin unit'}))
@@ -320,6 +323,7 @@ class InsulinReadingForm(forms.ModelForm):
             elif insulinDosage < 0 :
                 raise forms.ValidationError('Value must be more than zero.')
 
+            return insulinDosage
 
 class UpdateProfile(forms.ModelForm):
 
