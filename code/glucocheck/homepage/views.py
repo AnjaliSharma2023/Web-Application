@@ -392,6 +392,18 @@ def dashboard_data(request, start_date, end_date):
         min_glucose = 0
         max_glucose = 0
         
+    insulin_objects = Insulin.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
+    carbohydrate_objects = Carbohydrate.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
+    insulin_data = []
+    carbohydrate_data = []
+    for item in carbohydrate_objects:
+        carbohydrate_data.append([item.record_datetime.timestamp()*1000, item.carb_reading])
+        
+    for item in insulin_objects:
+        insulin_data.append([item.record_datetime.timestamp()*1000, item.dosage])
+    
+    
+    
     
     glucose_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
     #data = []
@@ -506,7 +518,7 @@ def dashboard_data(request, start_date, end_date):
     #    'plotlines': plotlines,
     #    
     #}
-    dashboard_data = {'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'box_plot':box_plot, 'bar_plot':bar_plot}
+    dashboard_data = {'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'insulin_data': insulin_data, 'carbohydrate_data': carbohydrate_data, 'box_plot':box_plot, 'bar_plot':bar_plot}
     
     return JsonResponse(dashboard_data)
 
