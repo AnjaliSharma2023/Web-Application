@@ -427,7 +427,9 @@ def glucose_input(request):
 
         form = GlucoseReadingForm(request.POST)
         if form.is_valid():
-            form.save()
+            profile=form.save(commit=False) 
+            profile.user = request.user  
+            profile.save()
             #return redirect('/')
             context = {
                     'account_nav': get_account_nav(request.user),
@@ -458,7 +460,19 @@ def carbs_input(request):
 
         form = CarbReadingForm(request.POST)
         if form.is_valid():
-            form.save()
+            profile=form.save(commit=False) 
+            profile.user = request.user  
+            profile.save()
+            
+            context = {
+                    'account_nav': get_account_nav(request.user),
+                    'page_title': 'Notice',
+                    'message_title': 'Notice',
+                    'message_text': ['Value saved.'],
+                }
+        
+            return render(request,'message/message.html', context)
+
             
     else:
         form = CarbReadingForm()
@@ -481,8 +495,18 @@ def insulin_input(request):
 
         form = InsulinReadingForm(request.POST)
         if form.is_valid():
-            form.save()
+            profile=form.save(commit=False) 
+            profile.user = request.user  
+            profile.save()
             
+            context = {
+                    'account_nav': get_account_nav(request.user),
+                    'page_title': 'Notice',
+                    'message_title': 'Notice',
+                    'message_text': ['Value saved.'],
+                }
+        
+            return render(request,'message/message.html', context)
     else:
         form = InsulinReadingForm()
     context = {'forms': [form], # A list of all forms used
@@ -525,8 +549,17 @@ def profile_page(request):
             profile=profile_form.save(commit=False) # creating new profile using data from form
             profile.user = user                     # onetoonefield relationship works here
             
-            profile.save()                          # save the user 
-            return redirect('profile-page')
+            profile.save()        
+                           
+            #return redirect('profile_page')
+            context = {
+                    'account_nav': get_account_nav(request.user),
+                    'page_title': 'Notice',
+                    'message_title': 'Notice',
+                    'message_text': ['Your profile updated.'],
+                }
+        
+            return render(request,'message/message.html', context)
     else:
     
         form = UpdateProfile(instance=request.user)
