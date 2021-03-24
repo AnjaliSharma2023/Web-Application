@@ -235,7 +235,7 @@ class GlucoseReadingForm(forms.ModelForm):
     
     glucose_reading = IntWithUnitField(required=True, widget=InputWithSelector(forms.NumberInput, [('mg/dL','mg/dL'),('mmo/L','mmo/L')], attrs={'placeholder':'glucose', 'class':'form-control'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
     #glucose_reading = IntWithUnitField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Glucose Value'}))
-    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record Datetime'}))
+    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record Datetime Y-M-D H:S:M'}))
     notes = forms.CharField(required=False, widget= forms.Textarea(attrs={'rows': 1,'cols': 40,'class':'form-control', 'placeholder':'Notes'}))
     #categories = forms.MultipleChoiceField(required=True,widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Categories'}),choices=categories_choices)
     categories = forms.ModelChoiceField(queryset=RecordingCategory.objects.all(), widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Categories'}))
@@ -256,16 +256,14 @@ class GlucoseReadingForm(forms.ModelForm):
     def clean_glucose_reading(self):
             someValue = self.cleaned_data['glucose_reading']
             
-            if someValue[0] > 400 :
+            if  someValue[0] not in range(0,400):
                 raise forms.ValidationError('Glucose value should be between 0 and 400')
-            elif someValue[0] < 0 :
-                raise forms.ValidationError('Value must be more than zero.')
+            
           
              
-            if someValue[1] == 'mmo/L' and someValue[0] > 15:
+            if someValue[1] == 'mmo/L' and someValue[0] not in range(0,15):
                 raise forms.ValidationError('Glucose value should be between 0 and 15')
-            elif someValue[1] == 'mmo/L' and someValue[0] < 0:
-                raise forms.ValidationError('Value must be more than zero.')
+            
 
             if someValue[1] == 'mmo/L':
                 someValue = someValue[0] * 18
@@ -277,7 +275,7 @@ class GlucoseReadingForm(forms.ModelForm):
 class CarbReadingForm(forms.ModelForm):
 
     carb_reading = forms.IntegerField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Carbs Value    -g'}))
-    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
+    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record DateTime Y-M-D H:S:M'}),input_formats= '%Y-%m-%d %H:%M')
     
 
     class Meta():
@@ -289,16 +287,15 @@ class CarbReadingForm(forms.ModelForm):
     def clean_carb_reading(self):
             carbValue = self.cleaned_data['carb_reading']
 
-            if carbValue > 300 :
+            if carbValue not in range(0,300) :
                 raise forms.ValidationError('Carbs value should be between 0 and 300')
-            elif carbValue < 0 :
-                raise forms.ValidationError('Value must be more than zero.')
+           
 
             return carbValue   
 class InsulinReadingForm(forms.ModelForm):
     
     dosage =forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Insulin unit'}))
-    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'DateTime'}),input_formats= '%Y-%m-%d %H:%M')
+    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record DateTime Y-M-D H:S:M'}),input_formats= '%Y-%m-%d %H:%M')
     
     class Meta():
                
@@ -308,11 +305,9 @@ class InsulinReadingForm(forms.ModelForm):
     def clean_dosage(self):
             insulinDosage = self.cleaned_data['dosage']
 
-            if insulinDosage > 50 :
+            if insulinDosage not in range(0,50) :
                 raise forms.ValidationError('Insulin value should be between 0 and 50')
-            elif insulinDosage < 0 :
-                raise forms.ValidationError('Value must be more than zero.')
-
+           
             return insulinDosage
 
 class UpdateProfile(forms.ModelForm):

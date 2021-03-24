@@ -662,7 +662,7 @@ def profile_page(request):
     }
     return render(request,'form/form.html', context)
 
-
+'''
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user )
@@ -696,5 +696,5 @@ def change_password(request):
     }
     return render(request,'form/form.html', context)
     
-
+'''
 
