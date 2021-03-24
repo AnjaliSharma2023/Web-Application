@@ -423,9 +423,9 @@ def dashboard_data(request, start_date, end_date):
     min_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading')).get('glucose_reading__min')
     max_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading')).get('glucose_reading__max')
     
-    last_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('record_datetime')).get('record_datetime__max')
-    last_carb = Carbohydrate.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('record_datetime')).get('record_datetime__max')
-    last_insulin = Insulin.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('record_datetime')).get('record_datetime__max')
+    last_glucose = Glucose.objects.filter(user=request.user).aggregate(Max('record_datetime')).get('record_datetime__max')
+    last_carb = Carbohydrate.objects.filter(user=request.user).aggregate(Max('record_datetime')).get('record_datetime__max')
+    last_insulin = Insulin.objects.filter(user=request.user).aggregate(Max('record_datetime')).get('record_datetime__max')
     
     if last_glucose is None:
         last_glucose = ''
