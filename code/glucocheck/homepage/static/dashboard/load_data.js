@@ -309,7 +309,7 @@ function createPercentRangeCarbsBarChart(data) {
 			type: 'bar'
 		},
 		title: {
-			text: 'Percentage Carbohydrates in Range',
+			text: 'Percentage Daily Carbohydrates in Range',
 			style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
