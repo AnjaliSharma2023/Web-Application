@@ -42,9 +42,9 @@ Done
 
 Items that are now in the past; the team may move user stories to this category whenever they think they meet the acceptance criteria. Once verified, the *product owner* must put the story inside a description list, with the term (or key) being the date the story was accepted.
 
-•• (5) Visualize Health Data: As a customer, I want visual charts and graphs so that I can see my health data history and look for trends. (1. Produces custom visuals for health data. 2. Displays bar graph showing if health data is in range. 3. Displays a whisker plot, showing a spread of values over time. 4. Displays a scatter plot showing glucose, insulin, and carb values over time.)
+**2021-03-24**: • (5) Visualize Health Data: As a customer, I want visual charts and graphs so that I can see my health data history and look for trends. (1. Produces custom visuals for health data. 2. Displays bar graph showing if health data is in range. 3. Displays a whisker plot, showing a spread of values over time. 4. Displays a scatter plot showing glucose, insulin, and carb values over time.)
 
-•• (2) Input Health Data Manually: As a customer, I want to input health data manually so that it is saved for me. (1. Provides interface for data entry. 2. Saves the health data.)
+**2021-03-24**: • (2) Input Health Data Manually: As a customer, I want to input health data manually so that it is saved for me. (1. Provides interface for data entry. 2. Saves the health data.)
 
 ///
 Definition Of Done
