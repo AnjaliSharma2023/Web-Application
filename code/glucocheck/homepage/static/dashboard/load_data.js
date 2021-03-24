@@ -94,18 +94,32 @@ function createInsulinBarChart(data) {
 	}
 	
 	bar_chart = {
+		credits: {
+			enabled: false
+		},
 		chart: {
 			type: 'scatter',
 			zoomType: 'x'
 		},
 		title: {
-			text: 'Insulin Dosage and Carbohydrates over Time'
+			text: 'Insulin Dosage and Carbohydrates over Time',
+			style: {
+				fontSize: '18px',
+				fontFamily: 'Poppins',
+				textDecoration: 'Underline',
+				color: '#7069AF',
+			}
 		},
 		xAxis: [{
 			type: 'datetime',
 			title: {
 				enabled: true,
-				text: 'Time'
+				text: 'Time',
+				style: {
+					fontSize: '16px',
+					fontFamily: 'Poppins',
+					color: '#7069AF',
+				}
 			},
 			min: data.min_time,
 			max: data.max_time,
@@ -230,9 +244,16 @@ function createPercentRangeBarChart(data) {
 		},
 		title: {
 			text: 'Percentage Glucose in Range',
+			style: {
+				fontSize: '16px',
+				fontFamily: 'Poppins',
+				textDecoration: 'Underline',
+				color: '#7069AF',
+			}
 		},
 		xAxis: {
 			categories: ['Night', 'Morning', 'Afternoon', 'Evening'],
+			
 		},
 		tooltip: {
 			formatter: function() {
@@ -284,12 +305,22 @@ function createBoxChart(data) {
 		xAxis: {
 			categories: ['Night', 'Morning', 'Afternoon', 'Evening'],
 			title: {
-				text: 'Time'
+				text: 'Time',
+				style: {
+					fontSize: '16px',
+					fontFamily: 'Poppins',
+					color: '#7069AF',
+				}
 			}
 		},
 		yAxis: {
 		   title: {
-			  text: 'Glucose (mg/dL)'
+			  text: 'Glucose (mg/dL)',
+			  style: {
+				fontSize: '16px',
+				fontFamily: 'Poppins',
+				color: '#7069AF',
+			}
 		   },
 		   min:40,
 		   max:400,
@@ -311,7 +342,7 @@ function createBoxChart(data) {
 		},
 		{
 			name: 'Outliers',
-			color: Highcharts.getOptions().colors[0],
+			color: '#7069AF',
 			type: 'scatter',
 			data: data.outliers,
 			marker: {
@@ -346,6 +377,9 @@ function createProgressCircles(data) {
 	
 	min_chart = {
 		credits: {
+			enabled: false
+		},
+		exporting: {
 			enabled: false
 		},
 		tooltip: {
@@ -383,7 +417,7 @@ function createProgressCircles(data) {
 
 		series: [{
 			data: [{
-				color: Highcharts.getOptions().colors[0],
+				color: '#7069AF',
 				radius: '112%',
 				innerRadius: '100%',
 				y: data.min,
@@ -392,7 +426,10 @@ function createProgressCircles(data) {
 					format: 'Min<br/>Glucose: {y}',
 					borderWidth: 0,
 					style: {
-						fontSize: '12px'
+						fontSize: '12px',
+						fontFamily: 'Poppins',
+						textDecoration: 'Underline',
+						color: '#7069AF',
 					}
 				}
 			}]
@@ -415,6 +452,9 @@ function createProgressCircles(data) {
 	
 	avg_chart = {
 		credits: {
+			enabled: false
+		},
+		exporting: {
 			enabled: false
 		},
 		tooltip: {
@@ -452,7 +492,7 @@ function createProgressCircles(data) {
 
 		series: [{
 			data: [{
-				color: Highcharts.getOptions().colors[0],
+				color: '#7069AF',				
 				radius: '112%',
 				innerRadius: '100%',
 				y: data.avg,
@@ -461,7 +501,10 @@ function createProgressCircles(data) {
 					format: 'Avg<br/>Glucose: {y}',
 					borderWidth: 0,
 					style: {
-						fontSize: '12px'
+						fontSize: '12px',
+						fontFamily: 'Poppins',
+						textDecoration: 'Underline',
+						color: '#7069AF',
 					}
 				}
 			}]
@@ -484,6 +527,9 @@ function createProgressCircles(data) {
 	
 	max_chart = {
 		credits: {
+			enabled: false
+		},
+		exporting: {
 			enabled: false
 		},
 		tooltip: {
@@ -521,7 +567,7 @@ function createProgressCircles(data) {
 
 		series: [{
 			data: [{
-				color: Highcharts.getOptions().colors[0],
+				color: '#7069AF',
 				radius: '112%',
 				innerRadius: '100%',
 				y: data.max,
@@ -530,7 +576,10 @@ function createProgressCircles(data) {
 					format: 'Max<br/>Glucose: {y}',
 					borderWidth: 0,
 					style: {
-						fontSize: '12px'
+						fontSize: '12px',
+						fontFamily: 'Poppins',
+						textDecoration: 'Underline',
+						color: '#7069AF',
 					}
 				}
 			}]
@@ -556,6 +605,9 @@ function createProgressCircles(data) {
 	hba1c_chart = {
 		credits: {
 			enabled: false
+		},
+		exporting: {
+			enabled: true
 		},
 		tooltip: {
 			enabled: false
@@ -592,7 +644,7 @@ function createProgressCircles(data) {
 
 		series: [{
 			data: [{
-				color: Highcharts.getOptions().colors[0],
+				color: '#7069AF',
 				radius: '112%',
 				innerRadius: '100%',
 				y: data.hba1c,
@@ -601,7 +653,10 @@ function createProgressCircles(data) {
 					format: "Hba1c: {y}",
 					borderWidth: 0,
 					style: {
-						fontSize: '12px'
+						fontSize: '12px',
+						fontFamily: 'Poppins',
+						textDecoration: 'Underline',
+						color: '#7069AF',
 					}
 				}
 			}]

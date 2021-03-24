@@ -492,9 +492,9 @@ def dashboard_data(request, start_date, end_date):
                 bar_data['Evening']['inrange'] += 1
     
     bar_plot = {'data':[]}
-    inrange = {'name': 'In-range (80-160)', 'color': '#00FF00','data':[]}
-    aboverange = {'name': 'Above-range (>160)', 'color':'#FFFF00', 'data':[]}
-    belowrange = {'name': 'Below-range (<80)', 'color':'#FF0000', 'data':[]}
+    inrange = {'name': 'In-range (80-160)', 'color': '#8CC63E','data':[]}
+    aboverange = {'name': 'Above-range (>160)', 'color':'#7069AF', 'data':[]}
+    belowrange = {'name': 'Below-range (<80)', 'color':'#fab3c4', 'data':[]}
     for section, value in bar_data.items():
         total = value['inrange'] + value['belowrange'] + value['aboverange']
         if total == 0:

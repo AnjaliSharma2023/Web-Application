@@ -23,12 +23,13 @@
 
 /* header */
 
-header{
-  position: fixed;
+.header{
+  
   background: #fff;
   padding: 20px;
-  width: 100%;
+  width: 960px;
   height: 30px;
+  position: fixed;
 }
 
 .logo{
@@ -36,6 +37,7 @@ header{
     cursor: pointer;
     margin-top: -180px;
     margin-left: -100px;
+   
 }
 
 
@@ -79,13 +81,13 @@ a{
 
 /*===== l NAV =====*/
 .l-navbar{
-  margin-top: 80px;
+  margin-top: 60px;
   padding-top: 30px;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: var(--nav-width);
-  height: 100vh;
+  height: 100%;
   background-color: var(--bg-color);
   color: var(--white-color);
   padding: 1.5rem 1.5rem 2rem;
@@ -96,7 +98,7 @@ a{
 /*===== NAV =====*/
 .nav{
   height: 1000px;
-  display: relative;
+  display: fixed;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
@@ -144,12 +146,12 @@ a{
 
 /*Expander menu*/
 .expander{
-  width: calc(var(--nav-width) + 9.25rem);
+  width:  13.25rem;
 }
 
 /*Add padding body*/
 .body-pd{
-  padding: 2rem 0 0 16rem;
+  padding: 2rem 0 0 14rem;
 }
 
 /*Active links menu*/
@@ -197,6 +199,7 @@ a{
   box-sizing: border-box;
   height: 100%;
   padding: 20px 25px;
+  
 }
 
 .input-box {
@@ -256,7 +259,15 @@ a{
     color: #7069AF;
     border: 0;
     margin-left: 300px;
+    margin-top: 60px;
     text-align: center;
+}
+
+.circles{
+  display: flex;
+  width: 1000px;
+  margin-left: 150px ;
+  margin-top: 60px;
 }
 
 
@@ -264,14 +275,15 @@ a{
 
 
 #footer{
-    padding: 50px 0 50px;
+    
     margin-right: 80px;
     margin-left: 80px;
+
 }
 .container.footer-row hr{
     width: 100%;
     border: 0;
-    border-top: 2px solid #262261;
+    border-top: 1px solid #262261;
 }
 
 .footer-row{
@@ -335,41 +347,3 @@ a{
 
 
 
-@media only screen and (max-width: 600px) {
-  .navbar {
-    bottom: 0;
-    width: 100vw;
-    height: 5rem;
-    }
-    
-    .nav__link{
-    flex-direction: row;
-  }
-
-  .nav__list {
-    justify-content: center;
-  }
-
-  main {
-    margin: 0;
-  }
-}
-
-/* Large screens */
-@media only screen and (min-width: 600px) {
-  .navbar {
-    top: 0;
-    width: 5rem;
-    height: 100vh;
-  }
-
-  .navbar:hover {
-    width: 16rem;
-  }
-
-  .navbar:hover .link-text {
-    display: inline;
-  }
-
-
-}
