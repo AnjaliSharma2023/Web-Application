@@ -418,6 +418,22 @@ def dashboard_data(request, start_date, end_date):
         
     insulin_objects = Insulin.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
     carbohydrate_objects = Carbohydrate.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
+    
+    min_dosage = 0
+    max_dosage = Insulin.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('dosage')).get('dosage__max')
+    min_carbs = 0
+    max_carbs = Carbohydrate.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('carb_reading')).get('carb_reading__max')
+    
+    if max_dosage == None:
+        max_dosage = 6
+    else:
+        max_dosage = int(max_dosage + 2)
+        
+    if max_carbs == None:
+        max_carbs = 30
+    else:
+        max_carbs = int(max_carbs + 5)
+    
     insulin_data = []
     carbohydrate_data = []
     for item in carbohydrate_objects:
@@ -492,8 +508,8 @@ def dashboard_data(request, start_date, end_date):
     bar_plot['data'].append(inrange)
     bar_plot['data'].append(belowrange)
     
-    #min = start_date.timestamp() * 1000
-    #max = end_date.timestamp() * 1000
+    min_time = start_date.timestamp() * 1000
+    max_time = end_date.timestamp() * 1000
     
     plotlines = []
     for day in pd.date_range(start=start_date,end=end_date).to_pydatetime():
@@ -542,7 +558,7 @@ def dashboard_data(request, start_date, end_date):
     #    'plotlines': plotlines,
     #    
     #}
-    dashboard_data = {'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'insulin_data': insulin_data, 'carbohydrate_data': carbohydrate_data, 'box_plot':box_plot, 'bar_plot':bar_plot}
+    dashboard_data = {'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'scatter_bar_plot': {'min_dosage':min_dosage, 'max_dosage':max_dosage, 'min_carbs': min_carbs, 'max_carbs': max_carbs, 'min_time': min_time, 'max_time': max_time, 'plotlines': plotlines, 'insulin_data': insulin_data, 'carbohydrate_data': carbohydrate_data}, 'box_plot':box_plot, 'bar_plot':bar_plot}
     
     return JsonResponse(dashboard_data)
 

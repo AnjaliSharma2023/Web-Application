@@ -66,7 +66,7 @@ function loadDashboardData() {
 			let circle_charts = createProgressCircles(data.progress_circles);
 			let bar_chart = createPercentRangeBarChart(data.bar_plot.data);
 			let box_chart = createBoxChart(data.box_plot);
-			let insulin_bar_chart = createInsulinBarChart(data);
+			let insulin_bar_chart = createInsulinBarChart(data.scatter_bar_plot);
 			
 			Highcharts.chart('max', circle_charts[0]);
 			Highcharts.chart('avg', circle_charts[1]);
@@ -84,22 +84,54 @@ function loadDashboardData() {
 }
 
 function createInsulinBarChart(data) {
+	var plotlines = [];
+	for (let index=0; index < data.plotlines.length; index++) {
+		plotlines.push({
+			color: '#808080', // Red
+			width: 1,
+			value: data.plotlines[index] // Position, you'll have to translate this to the values on your x axis
+		});
+	}
+	
 	bar_chart = {
 		chart: {
 			type: 'scatter',
 			zoomType: 'x'
 		},
+		title: {
+			text: 'Insulin Dosage and Carbohydrates over Time'
+		},
 		xAxis: [{
-			type: 'datetime'
-			
+			type: 'datetime',
+			title: {
+				enabled: true,
+				text: 'Time'
+			},
+			min: data.min_time,
+			max: data.max_time,
+			plotLines: plotlines
 		}],
 		yAxis: [{
-			min: 0,
-			max: 6
+			title: {
+				enabled: true,
+				text: 'Dosages',
+				style: {
+					color: Highcharts.getOptions().colors[0]
+				}
+			},
+			min: data.min_dosage,
+			max: data.max_dosage
 		},
 		{
-			min: 0,
-			max: 30,
+			title: {
+				enabled: true,
+				text: 'Carbohydrates',
+				style: {
+					color: 'rgba(223, 83, 83, .5)'
+				}
+			},
+			min: data.min_carbs,
+			max: data.max_carbs,
 			opposite: true
 		}],
 		series: [{
