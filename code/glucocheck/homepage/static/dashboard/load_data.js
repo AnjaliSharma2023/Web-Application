@@ -97,6 +97,9 @@ function createInsulinBarChart(data) {
 		credits: {
 			enabled: false
 		},
+		time: {
+			useUTC: false
+			},
 		chart: {
 			type: 'scatter',
 			zoomType: 'x'
@@ -391,7 +394,7 @@ function createProgressCircles(data) {
 				render() {
 					let chart = this,
 					label1 = chart.series[0].dataLabelsGroup;
-					label1.translate(chart.marginRight, chart.marginBottom + label1.getBBox().height);
+					label1.translate(chart.marginRight, chart.marginBottom + label1.getBBox().height*1.2);
 				}
 			}
 		},
@@ -423,10 +426,10 @@ function createProgressCircles(data) {
 				y: data.min,
 				dataLabels: {
 					y: -70,
-					format: 'Min<br/>Glucose: {y}',
+					format: 'Min Glucose: <br/>{y}',
 					borderWidth: 0,
 					style: {
-						fontSize: '12px',
+						fontSize: '16px',
 						fontFamily: 'Poppins',
 						textDecoration: 'Underline',
 						color: '#7069AF',
@@ -466,7 +469,7 @@ function createProgressCircles(data) {
 				render() {
 					let chart = this,
 					label1 = chart.series[0].dataLabelsGroup;
-					label1.translate(chart.marginRight, chart.marginBottom + label1.getBBox().height);
+					label1.translate(chart.marginRight, chart.marginBottom + label1.getBBox().height*1.2);
 				}
 			}
 		},
@@ -498,10 +501,10 @@ function createProgressCircles(data) {
 				y: data.avg,
 				dataLabels: {
 					y: -70,
-					format: 'Avg<br/>Glucose: {y}',
+					format: 'Avg Glucose: <br/>{y}',
 					borderWidth: 0,
 					style: {
-						fontSize: '12px',
+						fontSize: '16px',
 						fontFamily: 'Poppins',
 						textDecoration: 'Underline',
 						color: '#7069AF',
@@ -541,7 +544,7 @@ function createProgressCircles(data) {
 				render() {
 					let chart = this,
 					label1 = chart.series[0].dataLabelsGroup;
-					label1.translate(chart.marginRight, chart.marginBottom + label1.getBBox().height);
+					label1.translate(chart.marginRight, chart.marginBottom + label1.getBBox().height*1.2);
 				}
 			}
 		},
@@ -573,10 +576,10 @@ function createProgressCircles(data) {
 				y: data.max,
 				dataLabels: {
 					y: -70,
-					format: 'Max<br/>Glucose: {y}',
+					format: 'Max Glucose: <br/>{y}',
 					borderWidth: 0,
 					style: {
-						fontSize: '12px',
+						fontSize: '16px',
 						fontFamily: 'Poppins',
 						textDecoration: 'Underline',
 						color: '#7069AF',
@@ -618,7 +621,7 @@ function createProgressCircles(data) {
 				render() {
 					let chart = this,
 					label1 = chart.series[0].dataLabelsGroup;
-					label1.translate(chart.marginRight, chart.marginBottom + label1.getBBox().height * 2.5);
+					label1.translate(chart.marginRight, chart.marginBottom + label1.getBBox().height * 2);
 				}
 			}
 		},
@@ -653,7 +656,7 @@ function createProgressCircles(data) {
 					format: "Hba1c: {y}",
 					borderWidth: 0,
 					style: {
-						fontSize: '12px',
+						fontSize: '16px',
 						fontFamily: 'Poppins',
 						textDecoration: 'Underline',
 						color: '#7069AF',
