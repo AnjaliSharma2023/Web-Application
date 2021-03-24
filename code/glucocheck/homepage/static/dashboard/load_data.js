@@ -65,6 +65,7 @@ function loadDashboardData() {
 			var data = JSON.parse(xhr.responseText);
 			let circle_charts = createProgressCircles(data.progress_circles);
 			let bar_chart = createPercentRangeBarChart(data.bar_plot.data);
+			let bar_chart_carbs = createPercentRangeBarChart(data.bar_plot.data);
 			let box_chart = createBoxChart(data.box_plot);
 			let insulin_bar_chart = createInsulinBarChart(data.scatter_bar_plot);
 			
@@ -73,6 +74,7 @@ function loadDashboardData() {
 			Highcharts.chart('min', circle_charts[2]);
 			Highcharts.chart('hba1c', circle_charts[3]);
 			Highcharts.chart('percent_in_range', bar_chart);
+			Highcharts.chart('percent_in_range_carbs', bar_chart_carbs);
 			Highcharts.chart('box_chart', box_chart);
 			Highcharts.chart('insulin_bar_chart', insulin_bar_chart);
 		}
