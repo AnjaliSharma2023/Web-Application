@@ -507,7 +507,7 @@ def dashboard_data(request, start_date, end_date):
     #    
     #}
     dashboard_data = {'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'box_plot':box_plot, 'bar_plot':bar_plot}
-   
+    
     return JsonResponse(dashboard_data)
 
 @login_required

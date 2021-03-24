@@ -95,6 +95,11 @@ function createPercentRangeBarChart(data) {
 		xAxis: {
 			categories: ['Night', 'Morning', 'Afternoon', 'Evening'],
 		},
+		tooltip: {
+			formatter: function() {
+				return this.series.name.split(" ")[0] + ": " + this.y.toFixed(0);
+			}
+		},
 		yAxis: {
 			min: 0,
 			max:100,
@@ -112,6 +117,7 @@ function createPercentRangeBarChart(data) {
 			series: {
 				stacking: 'normal'
 			}
+
 		},
 		series: data
 	};
