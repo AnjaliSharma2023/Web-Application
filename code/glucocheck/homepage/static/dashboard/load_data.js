@@ -63,9 +63,19 @@ function loadDashboardData() {
 	xhr.onload = function() {
 		if (xhr.status === 200) {
 			var data = JSON.parse(xhr.responseText);
+			
+			let last_glucose = document.getElementById('last_glucose');
+			let last_carb = document.getElementById('last_carb');
+			let last_insulin = document.getElementById('last_insulin');
+			
+			last_insulin.innerHTML = 'Insulin:<br>&emsp;&emsp;' + data.last_insulin;
+			last_glucose.innerHTML = 'Glucose:<br>&emsp;&emsp;' + data.last_glucose;
+			last_carb.innerHTML = 'Carb:<br>&emsp;&emsp;' + data.last_carb;
+			
+			
 			let circle_charts = createProgressCircles(data.progress_circles);
-			let bar_chart = createPercentRangeBarChart(data.bar_plot.data);
-			let bar_chart_carbs = createPercentRangeBarChart(data.bar_plot.data);
+			let bar_chart_glucose = createPercentRangeGlucoseBarChart(data.bar_plot_glucose.data);
+			let bar_chart_carbs = createPercentRangeCarbsBarChart(data.bar_plot_carbs.data);
 			let box_chart = createBoxChart(data.box_plot);
 			let insulin_bar_chart = createInsulinBarChart(data.scatter_bar_plot);
 			
@@ -73,7 +83,7 @@ function loadDashboardData() {
 			Highcharts.chart('avg', circle_charts[1]);
 			Highcharts.chart('min', circle_charts[2]);
 			Highcharts.chart('hba1c', circle_charts[3]);
-			Highcharts.chart('percent_in_range', bar_chart);
+			Highcharts.chart('percent_in_range_glucose', bar_chart_glucose);
 			Highcharts.chart('percent_in_range_carbs', bar_chart_carbs);
 			Highcharts.chart('box_chart', box_chart);
 			Highcharts.chart('insulin_bar_chart', insulin_bar_chart);
@@ -101,7 +111,7 @@ function createInsulinBarChart(data) {
 		},
 		time: {
 			useUTC: false
-			},
+		},
 		chart: {
 			type: 'scatter',
 			zoomType: 'x'
@@ -239,7 +249,7 @@ function createInsulinBarChart(data) {
 	return bar_chart;
 }
 
-function createPercentRangeBarChart(data) {
+function createPercentRangeGlucoseBarChart(data) {
 	bar_chart = {
 		credits: {
 			enabled: false
@@ -259,6 +269,59 @@ function createPercentRangeBarChart(data) {
 		xAxis: {
 			categories: ['Night', 'Morning', 'Afternoon', 'Evening'],
 			
+		},
+		tooltip: {
+			formatter: function() {
+				return this.series.name.split(" ")[0] + ": " + this.y.toFixed(0) + "%";
+			}
+		},
+		yAxis: {
+			min: 0,
+			max:100,
+			title: {
+				text: ''
+			},
+			labels: {
+				enabled: false
+			}
+		},
+		legend: {
+			reversed: true
+		},
+		plotOptions: {
+			series: {
+				stacking: 'normal'
+			}
+
+		},
+		series: data
+	};
+	
+	return bar_chart;
+}
+
+function createPercentRangeCarbsBarChart(data) {
+	bar_chart = {
+		credits: {
+			enabled: false
+		},
+		chart: {
+			type: 'bar'
+		},
+		title: {
+			text: 'Percentage Carbohydrates in Range',
+			style: {
+				fontSize: '16px',
+				fontFamily: 'Poppins',
+				textDecoration: 'Underline',
+				color: '#7069AF',
+			}
+		},
+		xAxis: {
+			categories: ['Day'],
+			labels: {
+				enabled: false
+			}
 		},
 		tooltip: {
 			formatter: function() {

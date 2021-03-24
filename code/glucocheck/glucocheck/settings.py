@@ -34,6 +34,10 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
 
+LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL = '/login/'
+
 
 # Application definition
 
