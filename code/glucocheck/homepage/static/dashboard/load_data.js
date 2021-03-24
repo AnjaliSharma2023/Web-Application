@@ -66,6 +66,7 @@ function loadDashboardData() {
 			let circle_charts = createProgressCircles(data.progress_circles);
 			let bar_chart = createPercentRangeBarChart(data.bar_plot.data);
 			let box_chart = createBoxChart(data.box_plot);
+			let insulin_bar_chart = createInsulinBarChart(data.scatter_bar_plot);
 			
 			Highcharts.chart('max', circle_charts[0]);
 			Highcharts.chart('avg', circle_charts[1]);
@@ -73,12 +74,150 @@ function loadDashboardData() {
 			Highcharts.chart('hba1c', circle_charts[3]);
 			Highcharts.chart('percent_in_range', bar_chart);
 			Highcharts.chart('box_chart', box_chart);
+			Highcharts.chart('insulin_bar_chart', insulin_bar_chart);
 		}
 		else {
 			alert('Request failed.  Returned status of ' + xhr.status);
 		}
 	};
 	xhr.send();
+}
+
+function createInsulinBarChart(data) {
+	var plotlines = [];
+	for (let index=0; index < data.plotlines.length; index++) {
+		plotlines.push({
+			color: '#808080', // Red
+			width: 1,
+			value: data.plotlines[index] // Position, you'll have to translate this to the values on your x axis
+		});
+	}
+	
+	bar_chart = {
+		chart: {
+			type: 'scatter',
+			zoomType: 'x'
+		},
+		title: {
+			text: 'Insulin Dosage and Carbohydrates over Time'
+		},
+		xAxis: [{
+			type: 'datetime',
+			title: {
+				enabled: true,
+				text: 'Time'
+			},
+			min: data.min_time,
+			max: data.max_time,
+			plotLines: plotlines
+		}],
+		yAxis: [{
+			title: {
+				enabled: true,
+				text: 'Dosages',
+				style: {
+					color: Highcharts.getOptions().colors[0]
+				}
+			},
+			min: data.min_dosage,
+			max: data.max_dosage
+		},
+		{
+			title: {
+				enabled: true,
+				text: 'Carbohydrates',
+				style: {
+					color: 'rgba(223, 83, 83, .5)'
+				}
+			},
+			min: data.min_carbs,
+			max: data.max_carbs,
+			opposite: true
+		}],
+		series: [{
+			yAxis: 0,
+			name: 'Insulin Dosages',
+			type: 'column',
+			data: data.insulin_data,
+			
+		},
+		{
+			yAxis: 1,
+			color: 'rgba(223, 83, 83, .5)',
+			name: 'Carbohydrate Intake',
+			type: 'scatter',
+			data: data.carbohydrate_data
+		}],
+		plotOptions: {
+		    scatter: {
+				tooltip: {
+					headerFormat: '{point.x:%B} {point.x:%e}, {point.x:%Y} at {point.x:%H}:{point.x:%M}:{point.x:%S}<br>',
+					pointFormatter: function() {
+						var symbol = '';
+
+						switch ( this.series.symbol ) {
+							case 'circle':
+								symbol = '●';
+								break;
+							case 'diamond':
+								symbol = '♦';
+								break;
+							case 'square':
+								symbol = '■';
+								break;
+							case 'triangle':
+								symbol = '▲';
+								break;
+							case 'triangle-down':
+								symbol = '▼';
+								break;
+							case undefined:
+								symbol = '●';
+								break;
+						}
+						
+						return '<span style="color:' + this.series.color + '">' + symbol + '</span>' + '<strong>' + this.y + '</strong> carbs';
+					}
+				}
+			},
+			column: {
+				marker: {
+					symbol: 'circle'
+				},
+				tooltip: {
+					headerFormat: '{point.x:%B} {point.x:%e}, {point.x:%Y} at {point.x:%H}:{point.x:%M}:{point.x:%S}<br>',
+					pointFormatter: function() {
+						var symbol = '';
+
+						switch ( this.series.symbol ) {
+							case 'circle':
+								symbol = '●';
+								break;
+							case 'diamond':
+								symbol = '♦';
+								break;
+							case 'square':
+								symbol = '■';
+								break;
+							case 'triangle':
+								symbol = '▲';
+								break;
+							case 'triangle-down':
+								symbol = '▼';
+								break;
+							case undefined:
+								symbol = '●';
+								break;
+						}
+						
+						return '<span style="color:' + this.series.color + '">' + symbol + '</span>' + '<strong>' + this.y + '</strong> units';
+					}
+				}
+			}
+		},
+	};
+	
+	return bar_chart;
 }
 
 function createPercentRangeBarChart(data) {
@@ -97,7 +236,7 @@ function createPercentRangeBarChart(data) {
 		},
 		tooltip: {
 			formatter: function() {
-				return this.series.name.split(" ")[0] + ": " + this.y.toFixed(0);
+				return this.series.name.split(" ")[0] + ": " + this.y.toFixed(0) + "%";
 			}
 		},
 		yAxis: {
