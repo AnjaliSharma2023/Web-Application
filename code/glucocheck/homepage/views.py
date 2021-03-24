@@ -408,7 +408,8 @@ def insulin_input(request):
         'account_nav': get_account_nav(request.user),
 }
     return render(request,'form/form.html', context)
-
+    
+@login_required
 def dashboard(request):
     context = {}
     return render(request, 'dashboard2/index.html', context)
@@ -416,11 +417,31 @@ def dashboard(request):
 def dashboard_data(request, start_date, end_date):
     # Scatter plot code is commented out
     start_date = datetime.fromisoformat(start_date)
-    end_date = datetime.fromisoformat(end_date)
+    end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
 
     avg_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading')).get('glucose_reading__avg')
     min_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading')).get('glucose_reading__min')
     max_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading')).get('glucose_reading__max')
+    
+    last_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('record_datetime')).get('record_datetime__max')
+    last_carb = Carbohydrate.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('record_datetime')).get('record_datetime__max')
+    last_insulin = Insulin.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('record_datetime')).get('record_datetime__max')
+    
+    if last_glucose is None:
+        last_glucose = ''
+    else:
+        last_glucose = last_glucose.date().strftime('%B %d, %Y')
+        
+    if last_carb is None:
+        last_carb = ''
+    else:
+        last_carb = last_carb.date().strftime('%B %d, %Y')
+        
+    if last_insulin is None:
+        last_insulin = ''
+    else:
+        last_insulin = last_insulin.date().strftime('%B %d, %Y')
+        
     
     if avg_glucose != None:
         avg_glucose = int(avg_glucose)
@@ -457,13 +478,36 @@ def dashboard_data(request, start_date, end_date):
     for item in insulin_objects:
         insulin_data.append([item.record_datetime.timestamp()*1000, item.dosage])
     
+    bar_data_carbs = {'Day': {'inrange':0, 'aboverange':0}}
+    for day in pd.date_range(start=start_date,end=end_date).to_pydatetime():
+        carb_objects = Carbohydrate.objects.filter(user=request.user, record_datetime__gt=day, record_datetime__lt=day + timedelta(days=1))
+        carb_day_total = 0
+        for item in carb_objects:
+            carb_day_total += item.carb_reading
+            
+            if carb_day_total > 325:
+                bar_data_carbs['Day']['aboverange'] += 1
+            else:
+                bar_data_carbs['Day']['inrange'] += 1
+                
+    bar_plot_carbs = {'data':[]}
+    inrange = {'name': 'In-range (0-325)', 'color': '#8CC63E','data':[]}
+    aboverange = {'name': 'Above-range (>325)', 'color':'#7069AF', 'data':[]}
+    for section, value in bar_data_carbs.items():
+        total = value['aboverange'] + value['inrange']
+        if total == 0:
+            total = 1
+            
+        inrange['data'].append(value['inrange']/total*100)
+        aboverange['data'].append(value['aboverange']/total*100)
     
-    
+    bar_plot_carbs['data'].append(aboverange)
+    bar_plot_carbs['data'].append(inrange)
     
     glucose_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
     #data = []
     box_data = {'Night':{'items':[]},'Morning':{'items':[]},'Afternoon':{'items':[]},'Evening':{'items':[]}}
-    bar_data = {'Night': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Morning': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Afternoon': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Evening': {'inrange':0, 'belowrange':0, 'aboverange':0}}
+    bar_data_glucose = {'Night': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Morning': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Afternoon': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Evening': {'inrange':0, 'belowrange':0, 'aboverange':0}}
     for item in glucose_objects:
         #data.append([item.record_datetime.timestamp()*1000, item.glucose_reading])
         
@@ -472,45 +516,45 @@ def dashboard_data(request, start_date, end_date):
             box_data['Night']['items'].append(item)
             # Bar chart code
             if item.glucose_reading < 80:
-                bar_data['Night']['belowrange'] += 1
+                bar_data_glucose['Night']['belowrange'] += 1
             elif item.glucose_reading > 160:
-                bar_data['Night']['aboverange'] += 1
+                bar_data_glucose['Night']['aboverange'] += 1
             else:
-                bar_data['Night']['inrange'] += 1
+                bar_data_glucose['Night']['inrange'] += 1
                 
         elif item.record_datetime.hour < 12:
             box_data['Morning']['items'].append(item)
             # Bar chart code
             if item.glucose_reading < 80:
-                bar_data['Morning']['belowrange'] += 1
+                bar_data_glucose['Morning']['belowrange'] += 1
             elif item.glucose_reading > 160:
-                bar_data['Morning']['aboverange'] += 1
+                bar_data_glucose['Morning']['aboverange'] += 1
             else:
-                bar_data['Morning']['inrange'] += 1
+                bar_data_glucose['Morning']['inrange'] += 1
         elif item.record_datetime.hour < 18:
             box_data['Afternoon']['items'].append(item)
             # Bar chart code
             if item.glucose_reading < 80:
-                bar_data['Afternoon']['belowrange'] += 1
+                bar_data_glucose['Afternoon']['belowrange'] += 1
             elif item.glucose_reading > 160:
-                bar_data['Afternoon']['aboverange'] += 1
+                bar_data_glucose['Afternoon']['aboverange'] += 1
             else:
-                bar_data['Afternoon']['inrange'] += 1
+                bar_data_glucose['Afternoon']['inrange'] += 1
         else:
             box_data['Evening']['items'].append(item)
             # Bar chart code
             if item.glucose_reading < 80:
-                bar_data['Evening']['belowrange'] += 1
+                bar_data_glucose['Evening']['belowrange'] += 1
             elif item.glucose_reading > 160:
-                bar_data['Evening']['aboverange'] += 1
+                bar_data_glucose['Evening']['aboverange'] += 1
             else:
-                bar_data['Evening']['inrange'] += 1
+                bar_data_glucose['Evening']['inrange'] += 1
     
-    bar_plot = {'data':[]}
+    bar_plot_glucose = {'data':[]}
     inrange = {'name': 'In-range (80-160)', 'color': '#8CC63E','data':[]}
     aboverange = {'name': 'Above-range (>160)', 'color':'#7069AF', 'data':[]}
     belowrange = {'name': 'Below-range (<80)', 'color':'#fab3c4', 'data':[]}
-    for section, value in bar_data.items():
+    for section, value in bar_data_glucose.items():
         total = value['inrange'] + value['belowrange'] + value['aboverange']
         if total == 0:
             total = 1
@@ -519,9 +563,9 @@ def dashboard_data(request, start_date, end_date):
         aboverange['data'].append(value['aboverange']/total*100)
         belowrange['data'].append(value['belowrange']/total*100)
         
-    bar_plot['data'].append(aboverange)
-    bar_plot['data'].append(inrange)
-    bar_plot['data'].append(belowrange)
+    bar_plot_glucose['data'].append(aboverange)
+    bar_plot_glucose['data'].append(inrange)
+    bar_plot_glucose['data'].append(belowrange)
     
     min_time = start_date.timestamp() * 1000
     max_time = end_date.timestamp() * 1000
@@ -573,7 +617,7 @@ def dashboard_data(request, start_date, end_date):
     #    'plotlines': plotlines,
     #    
     #}
-    dashboard_data = {'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'scatter_bar_plot': {'min_dosage':min_dosage, 'max_dosage':max_dosage, 'min_carbs': min_carbs, 'max_carbs': max_carbs, 'min_time': min_time, 'max_time': max_time, 'plotlines': plotlines, 'insulin_data': insulin_data, 'carbohydrate_data': carbohydrate_data}, 'box_plot':box_plot, 'bar_plot':bar_plot}
+    dashboard_data = {'last_glucose': last_glucose, 'last_carb': last_carb, 'last_insulin': last_insulin, 'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'scatter_bar_plot': {'min_dosage':min_dosage, 'max_dosage':max_dosage, 'min_carbs': min_carbs, 'max_carbs': max_carbs, 'min_time': min_time, 'max_time': max_time, 'plotlines': plotlines, 'insulin_data': insulin_data, 'carbohydrate_data': carbohydrate_data}, 'box_plot':box_plot, 'bar_plot_glucose':bar_plot_glucose, 'bar_plot_carbs': bar_plot_carbs}
     
     return JsonResponse(dashboard_data)
 

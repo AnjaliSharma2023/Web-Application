@@ -257,13 +257,13 @@ class GlucoseReadingForm(forms.ModelForm):
             someValue = self.cleaned_data['glucose_reading']
             
             if someValue[0] > 400 :
-                raise forms.ValidationError('Value is too high.')
+                raise forms.ValidationError('Glucose value should be between 0 and 400')
             elif someValue[0] < 0 :
                 raise forms.ValidationError('Value must be more than zero.')
           
              
             if someValue[1] == 'mmo/L' and someValue[0] > 15:
-                raise forms.ValidationError('Value is too high.')
+                raise forms.ValidationError('Glucose value should be between 0 and 15')
             elif someValue[1] == 'mmo/L' and someValue[0] < 0:
                 raise forms.ValidationError('Value must be more than zero.')
 
@@ -290,7 +290,7 @@ class CarbReadingForm(forms.ModelForm):
             carbValue = self.cleaned_data['carb_reading']
 
             if carbValue > 300 :
-                raise forms.ValidationError('Value is too high.')
+                raise forms.ValidationError('Carbs value should be between 0 and 300')
             elif carbValue < 0 :
                 raise forms.ValidationError('Value must be more than zero.')
 
@@ -309,7 +309,7 @@ class InsulinReadingForm(forms.ModelForm):
             insulinDosage = self.cleaned_data['dosage']
 
             if insulinDosage > 50 :
-                raise forms.ValidationError('Value is too high.')
+                raise forms.ValidationError('Insulin value should be between 0 and 50')
             elif insulinDosage < 0 :
                 raise forms.ValidationError('Value must be more than zero.')
 
