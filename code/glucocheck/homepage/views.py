@@ -20,6 +20,9 @@ from datetime import date, timedelta, datetime
 from django.http import JsonResponse
 import pandas as pd
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
 
 
 def get_account_nav(user):
@@ -614,4 +617,40 @@ def profile_page(request):
             'account_nav': get_account_nav(request.user),
     }
     return render(request,'form/form.html', context)
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user )
+        if form.is_valid():
+            profile=form.save(commit=False) 
+            profile.user = request.user  
+            profile.save()
+            
+            update_session_auth_hash(request, profile)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            #return redirect('homepage/profile')#
+            context = {
+                    'account_nav': get_account_nav(request.user),
+                    'page_title': 'Notice',
+                    'message_title': 'Notice',
+                    'message_text': ['Your password updated.'],
+                }
+        
+            return render(request,'message/message.html', context)
+        
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+        context={'forms': [form], 
+            'page_title': 'Change Password',
+            'form_title': 'Change Password',
+            'submit_value': 'Save',
+            'additional_html': None,
+            'account_nav': get_account_nav(request.user),
+    }
+    return render(request,'form/form.html', context)
+    
+
 

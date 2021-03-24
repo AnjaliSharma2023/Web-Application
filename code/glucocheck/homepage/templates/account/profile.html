@@ -2,4 +2,8 @@
 {% csrf_token %}
 <img src="{% static 'images/arrow.png' %}">
 <h3>Update profile</h3>
+<p>Click below to change password</p>
+<a class="btn btn-primary" href="{% url 'change_password'%}">Change Password</a>
+
+
 

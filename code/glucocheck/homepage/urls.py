@@ -18,6 +18,7 @@ urlpatterns = [
     path('profile-page/', views.profile_page, name='profile_page'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard-data/<start_date>/<end_date>/', views.dashboard_data, name='dashboard_data'),
+    path('change-password/', views.change_password, name='change_password'),
     
 ]
   
