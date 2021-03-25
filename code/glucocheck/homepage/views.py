@@ -411,7 +411,7 @@ def insulin_input(request):
     
 @login_required
 def dashboard(request):
-    context = {}
+    context = {'username': str(request.user)}
     return render(request, 'dashboard2/index.html', context)
 
 def dashboard_data(request, start_date, end_date):
