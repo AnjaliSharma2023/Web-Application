@@ -52,6 +52,7 @@ body{
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   transition: .5s;
+  background-color: #FCF5F5;
 }
 
 body::-webkit-scrollbar {
@@ -209,12 +210,14 @@ a{
   box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
   padding: 10px 25px;
   border-radius: 15px;
+  
 }
 
 .input-box input {
   border: none;
   outline: none;
   width: 100%;
+  background: none;
 }
 
 .input-box i {
@@ -261,6 +264,7 @@ a{
     margin-left: 300px;
     margin-top: 60px;
     text-align: center;
+    
 }
 
 .circles{
@@ -268,11 +272,21 @@ a{
   width: 1000px;
   margin-left: 150px ;
   margin-top: 60px;
+  
 }
 
 .grid-item.two h2{
-  font-size: 20px;
+  font-size: 18px;
   color:#7069AF ;
+  font-family: 'Poppins';
+	
+}
+
+.grid-item.two h4{
+  font-size: 13px;
+  color:#8CC63E ;
+  font-family: 'Poppins';
+	
 }
 
 /*===== footer =====*/

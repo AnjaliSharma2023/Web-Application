@@ -113,6 +113,7 @@ function createInsulinBarChart(data) {
 			useUTC: false
 		},
 		chart: {
+			backgroundColor: '#FCF5F5',
 			type: 'scatter',
 			zoomType: 'x'
 		},
@@ -123,6 +124,7 @@ function createInsulinBarChart(data) {
 				fontFamily: 'Poppins',
 				textDecoration: 'Underline',
 				color: '#7069AF',
+				
 			}
 		},
 		xAxis: [{
@@ -255,6 +257,7 @@ function createPercentRangeGlucoseBarChart(data) {
 			enabled: false
 		},
 		chart: {
+			backgroundColor: '#FCF5F5',
 			type: 'bar'
 		},
 		title: {
@@ -306,6 +309,7 @@ function createPercentRangeCarbsBarChart(data) {
 			enabled: false
 		},
 		chart: {
+			backgroundColor: '#FCF5F5',
 			type: 'bar'
 		},
 		title: {
@@ -362,6 +366,7 @@ function createBoxChart(data) {
 			enabled: true
 		},
 		chart: {
+			backgroundColor: '#FCF5F5',
 			type: 'boxplot'
 		},
 		title: {
@@ -454,6 +459,7 @@ function createProgressCircles(data) {
 			enabled: false
 		},
 		chart: {
+			backgroundColor: '#FCF5F5',
 			type: 'solidgauge',
 			events: {
 				render() {
@@ -529,6 +535,7 @@ function createProgressCircles(data) {
 			enabled: false
 		},
 		chart: {
+			backgroundColor: '#FCF5F5',
 			type: 'solidgauge',
 			events: {
 				render() {
@@ -604,6 +611,7 @@ function createProgressCircles(data) {
 			enabled: false
 		},
 		chart: {
+			backgroundColor: '#FCF5F5',
 			type: 'solidgauge',
 			events: {
 				render() {
@@ -681,6 +689,7 @@ function createProgressCircles(data) {
 			enabled: false
 		},
 		chart: {
+			backgroundColor: '#FCF5F5',
 			type: 'solidgauge',
 			events: {
 				render() {
