@@ -1,0 +1,43 @@
+Sprint Retrospective 02
+
+https://github.com/bizzlebin/team_6/blob/master/team/sprint_retrospective_02.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-03-25
+
++++
+Description
+
+Highlights of the team's (and scrum framework's) efficiency, effectiveness, and issues during the sprint.
+
++++
++
+
+• Collaboration
+•• Ready to help each other
+•• Check-ins and communication every day
+• Better sprint review
+• Better handle on technology
+• Full sprint planning meeting
+
++++
+-
+
+• Spring break threw off schedule
+• Mentors did not attend review
+
++++
+Δ
+
+• Contact the mentors and find out why they cannot attend
+• Reevaluate user story difficulty
+
++++
+?
+
+• What services are commonly paywalled?
