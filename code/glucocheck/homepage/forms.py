@@ -287,7 +287,7 @@ class GlucoseReadingForm(forms.ModelForm):
         return someValue
 
 class CarbReadingForm(forms.ModelForm):
-     '''Cleans the data and handles the html display of the Carbs input form.
+    '''Cleans the data and handles the html display of the Carbs input form.
     
     Public methods:
     clean_carb_reading -- ensures the input carb_reading is within the range of 0 to 300.
@@ -297,7 +297,6 @@ class CarbReadingForm(forms.ModelForm):
     record_datetime -- a form record_datetime field for the user to record the date time of carb value
     
     '''
-
     carb_reading = forms.IntegerField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Carbs Value    -g'}))
     record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record DateTime Y-M-D H:S:M'}),input_formats= '%Y-%m-%d %H:%M')
     
@@ -370,16 +369,16 @@ class UpdateProfile(forms.ModelForm):
     '''Handles the html display of the user update profile form.'''
 
     class Meta():
-    '''Meta data on the form.
-    
-    Instance variables:
-    model -- the model the form relates to
-    fields -- the model fields the form fields relate to
-    '''
+        '''Meta data on the form.
+        
+        Instance variables:
+        model -- the model the form relates to
+        fields -- the model fields the form fields relate to
+        '''
             
-    model = User
-    fields = (
-        'username',
-        'email')
+        model = User
+        fields = (
+            'username',
+            'email')
         
 

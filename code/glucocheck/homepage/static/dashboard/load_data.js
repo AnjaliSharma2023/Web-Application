@@ -3,6 +3,13 @@ import "https://code.highcharts.com/highcharts-more.js";
 import "https://code.highcharts.com/modules/solid-gauge.js";
 */
 function returnFormattedDate(date) {
+	/*
+	* Returns the date in YYYY-MM-DD format (iso format).
+	*
+	* @param {array} date - the date with year, month, and day in different array positions.
+	* 
+	* @return {string} the date as a string in YYYY-MM-DD format.
+	*/
 	date = date.trim();
 	date = date.split(" ");
 	if (date[0] == "January") {
@@ -52,6 +59,11 @@ function returnFormattedDate(date) {
 }
 
 function loadDashboardData() {
+	/*
+	* Requests user data based on the date range and constructs graphs for display.
+	* 
+	* @return {void} Nothing.
+	*/
 	var dates = document.getElementById('dates');
 	dates = dates.innerText.split("-");
 	dates[0] = returnFormattedDate(dates[0]);
@@ -96,6 +108,13 @@ function loadDashboardData() {
 }
 
 function createInsulinBarChart(data) {
+	/*
+	* Creates a highcharts chart dictionary based on input information.
+	*
+	* @param {dictionary} data - the scatter/bar plot data containing min/max axis values, plotlines, and the plotted data.
+	* 
+	* @return {dictionary} the highcarts chart dictionary for the insulin bar chart plot.
+	*/
 	var plotlines = [];
 	for (let index=0; index < data.plotlines.length; index++) {
 		plotlines.push({
@@ -207,7 +226,7 @@ function createInsulinBarChart(data) {
 								break;
 						}
 						
-						return '<span style="color:' + this.series.color + '">' + symbol + '</span>' + '<strong>' + this.y + '</strong> carbs';
+						return '<span style="color:' + this.series.color + '">' + symbol + '</span>' + '<strong> ' + this.y + '</strong> carbs';
 					}
 				}
 			},
@@ -241,7 +260,7 @@ function createInsulinBarChart(data) {
 								break;
 						}
 						
-						return '<span style="color:' + this.series.color + '">' + symbol + '</span>' + '<strong>' + this.y + '</strong> units';
+						return '<span style="color:' + this.series.color + '">' + symbol + '</span>' + '<strong> ' + this.y + '</strong> units';
 					}
 				}
 			}
@@ -252,6 +271,13 @@ function createInsulinBarChart(data) {
 }
 
 function createPercentRangeGlucoseBarChart(data) {
+	/*
+	* Creates a highcharts chart dictionary based on input information.
+	*
+	* @param {array} data - the data to be graphed.
+	* 
+	* @return {dictionary} the highcarts chart dictionary for the percent range glucose bar chart plot.
+	*/
 	bar_chart = {
 		credits: {
 			enabled: false
@@ -304,6 +330,13 @@ function createPercentRangeGlucoseBarChart(data) {
 }
 
 function createPercentRangeCarbsBarChart(data) {
+	/*
+	* Creates a highcharts chart dictionary based on input information.
+	*
+	* @param {array} data - the data to be graphed.
+	* 
+	* @return {dictionary} the highcarts chart dictionary for the percent range carbs bar chart plot.
+	*/
 	bar_chart = {
 		credits: {
 			enabled: false
@@ -358,6 +391,13 @@ function createPercentRangeCarbsBarChart(data) {
 }
 
 function createBoxChart(data) {
+	/*
+	* Creates a highcharts chart dictionary based on input information.
+	*
+	* @param {dictionary} data - the box plot data and outlier data to be graphed.
+	* 
+	* @return {dictionary} the highcarts chart dictionary for the glucose box plot.
+	*/
 	box_chart = {
 		credits: {
 			enabled: false
@@ -434,6 +474,13 @@ function createBoxChart(data) {
 }
 
 function createProgressCircles(data) {
+	/*
+	* Creates a highcharts chart dictionary based on input information.
+	*
+	* @param {dictionary} data - min, max, avg, and hba1c values.
+	* 
+	* @return {dictionary} the highcarts chart dictionary for the progress circles.
+	*/
 	if (data.min > 160) {
 		let max = 400 - 160;
 		let min_value = data.min - 160;
