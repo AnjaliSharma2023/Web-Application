@@ -231,7 +231,17 @@ class EmailInputForm(forms.Form):
      
         
 class GlucoseReadingForm(forms.ModelForm):
-
+    '''Cleans the data and handles the html display of the Glucose input form.
+    
+    Public methods:
+    clean_glucose_reading -- ensures the input glucose_reading is within the range for different units and handels the unit conversion 
+    
+    Instance variables:
+    glucose_reading -- a form glucose_reading field for the user to input the glucose recorded value from the users device
+    record_datetime -- a form record_datetime field for the user to record the date time of glucose value
+    notes -- a form notes field for the user to add special notes related to the glucose reading time
+    categories -- a form categories field for the user to select the catetgory
+    '''
     
     glucose_reading = IntWithUnitField(required=True, widget=InputWithSelector(forms.NumberInput, [('mg/dL','mg/dL'),('mmo/L','mmo/L')], attrs={'placeholder':'glucose', 'class':'form-control'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
     #glucose_reading = IntWithUnitField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Glucose Value'}))
@@ -254,69 +264,122 @@ class GlucoseReadingForm(forms.ModelForm):
 
     
     def clean_glucose_reading(self):
-            someValue = self.cleaned_data['glucose_reading']
+        '''Cleans the input glucose_reading by ensuring that they are in range with different units.
+    
+        Keyword arguments:
+        self -- the GlucoseReadingForm object
+        '''
+        someValue = self.cleaned_data['glucose_reading']
+        
+        if  someValue[0] not in range(0,400):
+            raise forms.ValidationError('Glucose value should be between 0 and 400')
+        
             
-            if  someValue[0] not in range(0,400):
-                raise forms.ValidationError('Glucose value should be between 0 and 400')
-            
-          
-             
-            if someValue[1] == 'mmo/L' and someValue[0] not in range(0,15):
-                raise forms.ValidationError('Glucose value should be between 0 and 15')
-            
+        if someValue[1] == 'mmo/L' and someValue[0] not in range(0,15):
+            raise forms.ValidationError('Glucose value should be between 0 and 15')
+        
 
-            if someValue[1] == 'mmo/L':
-                someValue = someValue[0] * 18
-            else:
-                someValue = someValue[0]
-            
-            return someValue
+        if someValue[1] == 'mmo/L':
+            someValue = someValue[0] * 18
+        else:
+            someValue = someValue[0]
+        
+        return someValue
 
 class CarbReadingForm(forms.ModelForm):
+     '''Cleans the data and handles the html display of the Carbs input form.
+    
+    Public methods:
+    clean_carb_reading -- ensures the input carb_reading is within the range of 0 to 300.
+
+    Instance variables:
+    carb_reading -- a form carb_reading field for the user's carbohydrate value
+    record_datetime -- a form record_datetime field for the user to record the date time of carb value
+    
+    '''
 
     carb_reading = forms.IntegerField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Carbs Value    -g'}))
     record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record DateTime Y-M-D H:S:M'}),input_formats= '%Y-%m-%d %H:%M')
     
 
     class Meta():
+        '''Meta data on the form.
+        
+        Instance variables:
+        model -- the model the form relates to
+        fields -- the model fields the form fields relate to
+        '''
                
         model = Carbohydrate
         fields = ('carb_reading','record_datetime')
 
 
     def clean_carb_reading(self):
-            carbValue = self.cleaned_data['carb_reading']
+        '''Cleans the input carb_reading by ensuring that they are in range range of 0 to 300.
+    
+        Keyword arguments:
+        self -- the CarbReadingForm object
+        '''
+        carbValue = self.cleaned_data['carb_reading']
 
-            if carbValue not in range(0,300) :
-                raise forms.ValidationError('Carbs value should be between 0 and 300')
-           
+        if carbValue not in range(0,300) :
+            raise forms.ValidationError('Carbs value should be between 0 and 300')
+        
+        return carbValue   
 
-            return carbValue   
 class InsulinReadingForm(forms.ModelForm):
+    '''Cleans the data and handles the html display of the Insulin input form.
+    
+    Public methods:
+    clean_insulin_reading -- ensures the input insulin dosage is within the range of 0 to 50.
+
+    Instance variables:
+    dosage -- a form dosage field for the user's insulin value
+    record_datetime -- a form record_datetime field for the user's recorded date time
+    
+    '''
     
     dosage =forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Insulin unit'}))
     record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record DateTime Y-M-D H:S:M'}),input_formats= '%Y-%m-%d %H:%M')
     
     class Meta():
+        '''Meta data on the form.
+        
+        Instance variables:
+        model -- the model the form relates to
+        fields -- the model fields the form fields relate to
+        '''
                
         model = Insulin
         fields = ('dosage','record_datetime')
 
     def clean_dosage(self):
-            insulinDosage = self.cleaned_data['dosage']
+        '''Cleans the input insulin_reading by ensuring that they are in range range of 0 to 50.
+    
+        Keyword arguments:
+        self -- the InsulinReadingForm object
+        '''
+        insulinDosage = self.cleaned_data['dosage']
 
-            if insulinDosage not in range(0,50) :
-                raise forms.ValidationError('Insulin value should be between 0 and 50')
-           
-            return insulinDosage
+        if insulinDosage not in range(0,50) :
+            raise forms.ValidationError('Insulin value should be between 0 and 50')
+        
+        return insulinDosage
 
 class UpdateProfile(forms.ModelForm):
+    '''Handles the html display of the user update profile form.'''
 
     class Meta():
-        
-        model = User
-        fields = (
-            'username',
-            'email')
+    '''Meta data on the form.
+    
+    Instance variables:
+    model -- the model the form relates to
+    fields -- the model fields the form fields relate to
+    '''
             
+    model = User
+    fields = (
+        'username',
+        'email')
+        
 

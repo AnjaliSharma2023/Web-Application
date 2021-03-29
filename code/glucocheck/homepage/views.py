@@ -185,6 +185,11 @@ def login(request):
   
 
 def logout_request(request):
+    '''Logout the user and displays the message with needed context.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
     logout(request)
     #messages.info(request, "You have successfully logged out.") 
     #return redirect("/login")
@@ -311,6 +316,11 @@ def email_input(request):
 
 @login_required
 def glucose_input(request):
+    '''Renders the glucose reading form view ('/glucose-input') with needed context and dispalys the message for the logged in user.
+
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
 
     form = GlucoseReadingForm()
 
@@ -344,6 +354,12 @@ def glucose_input(request):
 
 @login_required
 def carbs_input(request):
+    '''Renders the carbs reading form view ('/carbs-input') with needed context for the logged in user.
+
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
+
 
     form = CarbReadingForm()
 
@@ -379,6 +395,12 @@ def carbs_input(request):
 
 @login_required
 def insulin_input(request):
+    '''Renders the insulin reading form view ('/insulin-input') with needed context for the logged in user.
+
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
+
 
     form = InsulinReadingForm()
 
@@ -411,10 +433,21 @@ def insulin_input(request):
     
 @login_required
 def dashboard(request):
+    '''Renders the dashboard view ('/dashboard2/index') with needed context.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
     context = {'username': str(request.user)}
     return render(request, 'dashboard2/index.html', context)
 
 def dashboard_data(request, start_date, end_date):
+    '''Renders the dashboard data form view ('/dashboard-data/<start_date>/<end_date>/') with the different plot description for the logged in user.
+
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
+
     # Scatter plot code is commented out
     start_date = datetime.fromisoformat(start_date)
     end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
@@ -623,6 +656,11 @@ def dashboard_data(request, start_date, end_date):
 
 @login_required
 def profile_page(request):
+    '''Renders the profile page form view ('/profile-page') with needed context for the logged in user to view and edit profile.
+
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
 
     if request.method == 'POST':
         form = UpdateProfile(request.POST,instance=request.user) 
