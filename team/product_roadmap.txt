@@ -10,7 +10,7 @@ By Jeremiah Thomas, et al
 
 Created 2021-01-26
 
-Updated 2021-03-01
+Updated 2021-03-29
 
 +++
 Description
@@ -115,7 +115,7 @@ Week 2.2 (2021-03-14)
 ---
 Week 2.3 (2021-03-21)
 
-••• (2) Input Health Data Via API: As a developer, I want to automate data entry so that advanced users or hardware can quickly and accurately input large amounts of health data. (1. Provides a public-facing API that allows programmatic mass data entry after authentication. 2. Documents the API for users.)
+••• (5) Input Health Data Via API: As a developer, I want to automate data entry so that advanced users or hardware can quickly and accurately input large amounts of health data. (1. Provides a public-facing API that allows programmatic mass data entry after authentication. 2. Documents the API for users.)
 •• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so that I can understand my health better. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
 •• (2) Provide Optimum Metrics: As a customer, I want to understand the optimum range for health data so that I can keep the numbers in check. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all metrics used on the website. 4. Contextualized and/or integrated into the visualization.)
 
@@ -127,17 +127,17 @@ Provide dietary advice, alerts, and more general help to the user to aid in diff
 ---
 Week 3.1 (2021-03-28)
 
-••• (5) Generate Approved Advice: As a developer, I want to provide generic advice and alerts based on the health data and metrics so that I do not give regulated medical advice. (1. Is legally unregulated. 2. Is safe. 3. Is accurate. 4. Is based upon both the customer's health data and the metrics. 5. Incorporates dietary information. 6. Is actionable.)
+••• (10) Generate Approved Advice: As a developer, I want to provide generic advice and alerts based on the health data and metrics so that I do not give regulated medical advice. (1. Is legally unregulated. 2. Is safe. 3. Is accurate. 4. Is based upon both the customer's health data and the metrics. 5. Incorporates dietary information. 6. Is actionable.)
 
 ---
 Week 3.2 (2021-04-04)
 
-•••• (10) Interface With Meal API: As a developer, I want to automatically receive meal nutrition data so that I can determine a healthy option for the customer. (1. From a legal, trusted source. 2. Checks for HTTP 200 status codes. 3. Formatted as a series of Python objects or data structures. 4. Retrieves at at least 10 meals and/or snacks.)
+•••• (10) Interface With Meal API: As a developer, I want to automatically receive meal nutrition data so that I can determine a healthy option for the customer. (1. From a legal, trusted source. 2. Formatted as a series of Python objects or data structures. 3. Retrieves at at least 10 meals and/or snacks.)
 
 ---
 Week 3.3 (2021-04-11)
 
-•• (5) Getting Started Guide: As a customer, I want an introduction to the app so that I understand why and how I should use it. (1. Shows what's on the menu. 2. Demonstrates the app's functions. 3. Provides a video walk-through of the website and/or app. 4. Contains a FAQ of at least 10 items.)
+•• (10) Getting Started Guide: As a customer, I want an introduction to the app so that I understand why and how I should use it. (1. Shows what's on the menu. 2. Demonstrates the app's functions. 3. Provides a video walk-through of the website and/or app. 4. Contains a FAQ of at least 10 items.)
 •• (2) Advertising: As a potential customer, I want to be made aware of GlucoCheck so that I can try it out. (1. Is a coordinated digital campaign. 2. Generates through-traffic to the website. 3. Links up with a trial offer.)
 
 ===
