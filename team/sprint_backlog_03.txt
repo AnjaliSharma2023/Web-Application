@@ -70,7 +70,7 @@ The agreed-upon user stories for the sprint, ready for future work by the develo
 + (2021-03-29) Create a list of unregulated, safe, and actionable statements (Team)
 
 ••• (5) Input Health Data Via API: As a developer, I want to automate data entry so that advanced users or hardware can quickly and accurately input large amounts of health data. (1. Provides a public-facing API that allows programmatic mass data entry after authentication. 2. Documents the API for users.)
-+ (2021-03-29) Setup POST request authentication (Team)
+= (2021-03-29) Setup POST request authentication (Anjali)
 + (2021-03-29) Write documents (Team)
 
 •• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so that I can understand my health better. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
