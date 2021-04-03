@@ -10,6 +10,8 @@ By Jeremiah Thomas, et al
 
 Created 2021-03-29
 
+Updated 2021-04-03
+
 +++
 Description
 
@@ -68,15 +70,15 @@ The *one* story—and any subitems—that are presently in progress. Only the de
 = (2021-04-02) Create an algorithm to identify unsafe carb trends (Kai)
 + (2021-03-29) Create a list of unregulated, safe, and actionable statements (Team)
 
-===
-Do
-
-The agreed-upon user stories for the sprint, ready for future work by the development team. The team may add to this list by mutual agreement at any time but no extra work may be pushed to the team during a sprint.
-
 •• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so that I can understand my health better. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
 + (2021-03-29) Determine our source (Team)
 = (2021-03-29) Develop initial list of 10–15 terms (Stuart)
 + (2021-03-29) Find JS script to auto-hyperlink terms (Team)
+
+===
+Do
+
+The agreed-upon user stories for the sprint, ready for future work by the development team. The team may add to this list by mutual agreement at any time but no extra work may be pushed to the team during a sprint.
 
 •• (2) Provide Optimum Metrics: As a customer, I want to understand the optimum range for health data so that I can keep the numbers in check. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all metrics used on the website. 4. Contextualized and/or integrated into the visualization.)
 + (2021-03-29) Determine our source (Team)
