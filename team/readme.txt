@@ -218,6 +218,19 @@ Wednesday (2021-03-31)
 
 1. **10 pm daily scrum** on Teams: what did you do, what are you going to do, and what do you need to get there?
 
+===
+Week 10 (2021-04-04)
+
+---
+Monday (2021-04-05)
+
+1. **10 pm daily scrum** on Teams: what did you do, what are you going to do, and what do you need to get there?
+
+---
+Wednesday (2021-04-07)
+
+1. **10 pm daily scrum** on Teams: what did you do, what are you going to do, and what do you need to get there?
+
 +++
 Ground Rules
 
@@ -236,4 +249,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-03-28
+**meta_updated**: 2021-04-04
