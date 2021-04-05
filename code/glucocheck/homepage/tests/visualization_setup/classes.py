@@ -1,5 +1,6 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
 from homepage.models import UserProfile, RecordingCategory, Glucose, Carbohydrate, Insulin
 from datetime import datetime, date, timedelta
 import pandas as pd
@@ -404,21 +405,257 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             behavior_score = randint(0, 100)
             
             range_roll_value = randint(behavior_score, 100)
-            if range_roll_value >= 90:
+            if range_roll_value >= 95:
                 user_range = 'perfect'
-            elif range_roll_value >= 50:
+            elif range_roll_value >= 70:
                 user_range = 'good'
-            elif range_roll_value >= 10:
+            elif range_roll_value >= 30:
                 user_range = 'bad'
             else:
                 user_range = 'awful'
                 
             user_list.append({'user_range': user_range, 'behavior_score': behavior_score})
-            num_days = randint(1,180)
+            num_days = randint(1,10)
             
             _createUser(user_num, behavior_score, user_range, num_days)
             
         return user_list
+    
+    @staticmethod
+    def setUpTrendData(num_users):
+        statements = ['normal', 'up_basal', 'down_basal', 'up_bolus', 'down_bolus', 'earlier_bolus', 'lower_daily_carbs', 'lower_mealtime_carbs']
+        # Glucose:
+        #   {'initial_value,</>/=,subsequent_value,</>/=,timeframe(H:MM)':tally_value} timeframe is optional for when there is no fasting/snack reading in between meals
+        #   1.5 prepended to intial_value signifies the reading is in the snack/fasting time zone
+        #   subsequent_value has an x+- value next to it in the case that 3 values must be tested to match a trend, the third tests within an even range
+        # Carbs:
+        #   {'carb_value,</>/=,comparison_value,</>/=,timeframe(H:MM)':tally_value'} 
+        #   If timeframe is not filled the carb value applies to a single meal time
+        trends = {statements[0]:{'x,=,x+-10'}, statements[1]:{'1.5x,>,x+-10,x+20/25,>,1:30':1, 'x,>,x+30/50':.5}, statements[2]:{'1.5x,<,x+-10,x-20/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
+        statements[3]:{'x,>,x+15/25,>,1:30':1, 'x,>,x+30/50':.5}, statements[4]:{'x,<,40/80,<,1:30':1, 'x,<,x-15/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
+        statements[5]:{'x,>,x+50/80,x+-20,<,1:30':1}, statements[6]:{'x,>,325,=,24:00':1}, statements[7]:{'x,>,90':1}}
+        
+        mealtime_ranges = { 'breakfast': [6,8],
+                            'inbetween1': [9,10],
+                            'lunch': [11,13],
+                            'inbetween2': [14,16],
+                            'dinner': [17,20],
+                            'bedtime': [21,25]}
+        
+        def _createUser(user_num):
+            '''Creates and returns new users, ensuring there are no database conflicts.
+            
+            Keyword Arguments:
+            user_num -- the user num to appended to the username, password, and email and then incremented and returned
+            '''
+            birth_date = datetime.today().replace(year=datetime.today().year - 19)
+            while True:
+                try:
+                    new_user = User.objects.create_user(username=f'test_user{user_num}', password=f'testPassword{user_num}', email=f'testEmail{user_num}@gmail.com')
+                    break
+                except IntegrityError:
+                    user_num += 1
+            
+            new_user_profile = UserProfile.objects.create(user=new_user, birth_date=birth_date, state='Arizona')
+            
+            user_num += 1
+            return new_user, user_num
+            
+        
+        def _fillCategories():
+            recording_categories = ['fasting', 'before breakfast', 'after breakfast', 'before lunch', 'after lunch', 'snacks', 'before dinner', 'after dinner']
+            if len(RecordingCategory.objects.all()) == 0:
+                for category in recording_categories:
+                    RecordingCategory.objects.create(name=category)
+            
+            
+        def _getCategory(trend, time_ranges, time, inbetween=False):
+            if inbetween:
+                return RecordingCategory.objects.get(pk=6)
+            
+            time_ranges = {key:value for key, value in mealtime_ranges.items() if value in time_ranges}
+            for key, value in time_ranges.items():
+                if time.hour <= value[1] and time.hour >= value[0]:
+                    time = key
+                    break
+                    
+            
+            if 'bedtime' in time:
+                return RecordingCategory.objects.get(pk=8)
+            
+            categories = RecordingCategory.objects.filter(name__icontains=key)
+            print(categories)        
+            if len(trend) == 6:
+                chance = randint(0,100)
+                if chance > 30:
+                    return categories[0]
+                else:
+                    return categories[1]
+            
+            else:
+                return categories[0]
+            
+            
+        def _getGlucoseTime(day, time_range, prev_reading=None, trend=None):
+            if trend is None:
+                hour = randint(time_range[0],time_range[1])
+                if hour > 23:
+                    hour -= 24
+                    day = day + timedelta(days=1)
+                    
+                time = day.replace(hour=hour, minute=randint(0,59), second=randint(0,59))
+            else:
+                trend[1] = trend[1].split(':')
+                if trend[0] == '<':
+                    hour = randint(0, int(trend[1][0]))
+                    minute = randint(0, int(trend[1][1]))
+                    
+                    time = (prev_reading.record_datetime + timedelta(hours=hour, minutes=minute)).replace(second=randint(0,59))
+                else:
+                    time = prev_reading.record_datetime + timedelta(hours=int(trend[1][0]), seconds=int(trend[1][1]))
+                    hour = randint(time.hour, time_range[1])
+                    if hour == time.hour:
+                        minute = randint(time.minute, 59)
+                    else:
+                        minute = randint(0, 59)
+                    
+                    time = day.replace(hour=hour, minute=minute, second=randint(0,59))
+                    
+            return time
+                    
+                    
+        def _getGlucoseReading(passthrough_vars, trend):
+            reading_range = trend.split('/')
+
+            if 'x' in trend:
+                index = 0
+                for char in reading_range[0][::-1]:
+                    if char.isnumeric() is False:
+                        index = len(reading_range[0]) - index
+                        break
+                    index += 1
+                    
+                trend = trend[:index]
+                reading_range[0] = reading_range[0][index:]
+                
+                trend = trend.replace('x', passthrough_vars[0] + '.glucose_reading')
+                passthrough_vars = {passthrough_vars[0]:passthrough_vars[1]}
+                if '+-' in trend:
+                    if len(reading_range) == 1:
+                        reading_range.append('')
+                    temp_var = reading_range[0]
+                    reading_range[0] = eval(trend[:-2] + '-' + temp_var, passthrough_vars)
+                    reading_range[1] = eval(trend[:-1] + temp_var, passthrough_vars)
+                elif '-' in trend:
+                    temp_var = reading_range[0]
+                    reading_range[0] = eval(trend + reading_range[1], passthrough_vars)
+                    reading_range[1] = eval(trend + temp_var, passthrough_vars)
+                elif '+' in trend:
+                    reading_range[0] = eval(trend + reading_range[0], passthrough_vars)
+                    reading_range[1] = eval(trend + reading_range[1], passthrough_vars)
+            else:
+                reading_range = [int(x) for x in reading_range]
+                
+            return randint(reading_range[0], reading_range[1])
+            
+            
+        def _addGlucoseData(user, trend, day, time_ranges, initial_reading=None):
+            '''Creates 1 to 3 glucose data points from meal to meal, returning the last.
+            
+            Keywork Arguments:
+            user -- the user object to attach data to
+            trend -- the trend to generate the data in compience to
+            day -- the datetime day the readings occur on
+            time_ranges -- a 3 length list with time ranges for each potential value
+            initial_reading -- the reading object returned from the last function call
+            '''
+            trend = trend.split(',')
+            inbetween_reading = None
+            next_reading = None
+            
+            if initial_reading is None:
+                reading = randint(80,160)
+                time = _getGlucoseTime(day, time_ranges[0])
+                category = _getCategory(trend, time_ranges, time)
+                initial_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
+                
+            if '1.5' in trend[0]:
+                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[2])
+                time = _getGlucoseTime(day, time_ranges[1], initial_reading, trend[-2:])
+                category = _getCategory(trend, time_ranges, time, True)
+                inbetween_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
+                
+                reading = _getGlucoseReading(['inbetween_reading',inbetween_reading], trend[3])
+                time = _getGlucoseTime(day, time_ranges[2])
+                category = _getCategory(trend, time_ranges, time)
+                next_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
+            
+            elif len(trend) < 4:
+                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[2])
+                time = _getGlucoseTime(day, time_ranges[2])
+                category = _getCategory(trend, time_ranges, time)
+                next_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
+            
+            elif len(trend) < 6:
+                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[2])
+                time = _getGlucoseTime(day, time_ranges[1], initial_reading, trend[-2:])
+                category = _getCategory(trend, time_ranges, time, True)
+                inbetween_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
+                
+            else:
+                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[2])
+                time = _getGlucoseTime(day, time_ranges[1], initial_reading, trend[-2:])
+                category = _getCategory(trend, time_ranges, time, True)
+                inbetween_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
+                
+                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[3])
+                time = _getGlucoseTime(day, time_ranges[2])
+                category = _getCategory(trend, time_ranges, time)
+                next_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
+                
+            print()
+            print(time_ranges)
+            print()
+            print(trend)
+            print(f'\t{initial_reading.record_datetime}')
+            print(f'\t{initial_reading.categories}')
+            print(f'\t{initial_reading.glucose_reading}')
+            
+            
+            if inbetween_reading is not None:
+                print()
+                print(f'\t{inbetween_reading.record_datetime}')
+                print(f'\t{inbetween_reading.categories}')
+                print(f'\t{inbetween_reading.glucose_reading}')
+            
+            
+            if next_reading is not None:
+                print()
+                print(f'\t{next_reading.record_datetime}')
+                print(f'\t{next_reading.categories}')
+                print(f'\t{next_reading.glucose_reading}')
+                
+            return next_reading
+                
+            
+        # Create and fill the user list
+        user_num = 0
+        created_users = 0
+        user_list = []
+        while created_users < num_users:
+            user, user_num = _createUser(user_num)
+            user_list.append(user)
+            created_users += 1
+            
+        # Fill user data according to specified trends on a day by day basis with full entry
+        _fillCategories()
+        
+        seperated_ranges = [[mealtime_ranges['breakfast'], mealtime_ranges['inbetween1'], mealtime_ranges['lunch']], [mealtime_ranges['lunch'], mealtime_ranges['inbetween2'], mealtime_ranges['dinner']], [mealtime_ranges['dinner'], None, mealtime_ranges['bedtime']]]
+        trend = 'x,<,40/80,>,1:30'
+        for day in pd.date_range(start=date.today(),end=date.today()).to_pydatetime():
+            prev_reading = _addGlucoseData(user, trend, day, seperated_ranges[0])
+            
+        
     
     @classmethod
     def setUpClass(cls):
@@ -428,7 +665,10 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
         cls -- the associated class of the method
         '''
         super().setUpClass()
-        cls.user_list = cls.setUpTestData(3)
+        #cls.user_list = cls.setUpTestData(3)
+        cls.setUpTrendData(2)
+        '''
+        
         print(User.objects.all())
         print(UserProfile.objects.all())
         print()
@@ -439,10 +679,12 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
         print(Insulin.objects.all())
         print()
         
+        
         index = 0
         for user in cls.user_list:
             print(f'Username=test_user{index} & Password=testPassword{index}: {user}')
             index += 1
+        '''
         
         
         
