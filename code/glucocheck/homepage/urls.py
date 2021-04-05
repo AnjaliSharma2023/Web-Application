@@ -1,7 +1,7 @@
 from django.urls import path
-
 from .import views
 
+from rest_framework.authtoken.views  import obtain_auth_token
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
@@ -18,7 +18,8 @@ urlpatterns = [
     path('profile-page/', views.profile_page, name='profile_page'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard-data/<start_date>/<end_date>/', views.dashboard_data, name='dashboard_data'),
-    #path('change-password/', views.change_password, name='change_password'),
-    
+    path('api-glucose/', views.GlucoseView.as_view(), name='GlucoseView'),
+    path('api-token-auth/', obtain_auth_token, name='api-tokn-auth'),
+        
 ]
   

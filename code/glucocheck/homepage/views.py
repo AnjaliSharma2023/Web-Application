@@ -22,6 +22,14 @@ import pandas as pd
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.http import Http404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+
+from homepage.serializers import GlucoseSerializer
 
 
 
@@ -738,3 +746,18 @@ def change_password(request):
     
 '''
 
+
+class GlucoseView(APIView):
+    queryset = Glucose.objects.all()
+    serializer_class = GlucoseSerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    
+    def post(self,request):
+        data = request.data
+        serializer = GlucoseSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)

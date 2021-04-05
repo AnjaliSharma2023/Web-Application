@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 # Create your models here.
 
@@ -15,14 +19,10 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-'''class Unit(models.Model):
-
-    unit_category = models.CharField(unique=True, max_length=20)
-    unit_name = models.CharField(unique=True, max_length=20)
-
-    def __str__(self):
-        return self.unit_name
-'''
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 class RecordingCategory(models.Model):
     categories_choices =[
@@ -47,7 +47,7 @@ class Glucose(models.Model):
     record_datetime = models.DateTimeField()
     #record_time = models.TimeField()
     notes = models.TextField(blank=True)
-    categories = models.ForeignKey(RecordingCategory, on_delete= models.DO_NOTHING, null=True)
+    categories = models.ForeignKey(RecordingCategory, on_delete= models.DO_NOTHING, null=False)
 
     #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
 
