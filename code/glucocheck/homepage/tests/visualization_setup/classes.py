@@ -475,8 +475,8 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                             else:
                                 trend_group_3[key] = [[key2, value2]]
             
-            return_dict = {}
-            start_date = date.today() - timedelta(days=1000)
+            self.return_dict = {}
+            start_date = date.today() - timedelta(days=30)
             for user in user_list:
                 # Bound chance 30% to 60%
                 chance = randint(30,60)
@@ -493,11 +493,15 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                 
                 percent_filled = sum([value for key in user_trends.keys() for value in user_trends[key].values()])
                 percent_filled = ((percent_filled - user_trends["active"]["normal"]) /  percent_filled) * 100
-                return_dict[str(user)] = {'trends, occurences':user_trends, '% Chance':f'{chance}%', '% Filled':f'{percent_filled:.0f}%'}
+                self.return_dict[str(user)] = {'trends, occurences':user_trends, '% Chance':f'{chance}%', '% Filled':f'{percent_filled:.0f}%'}
             
-            print()
-            for key, value in return_dict.items():
-                print(f'{key}: {value}\n')
+                
+        def __str__(self):
+            return_string = ''
+            for key, value in self.return_dict.items():
+                return_string += f'\n{key}: {value}'
+                
+            return return_string
         
         @staticmethod
         def _createUser(user_num):
@@ -724,10 +728,7 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                 trend = trend_group[temp_trends[0]][0][0]
                 user_trends['active'][temp_trends[0]] += 1
             else:
-                if len(temp_trends) == 2:
-                    key = 1
-                else:
-                    key = randint(1,len(temp_trends)-1)
+                key = randint(1,len(temp_trends)-1)
                 
                 trend = trend_group[temp_trends[key]]
                 trend = trend[randint(0,len(trend)-1)][0]
@@ -757,7 +758,7 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
         '''
         super().setUpClass()
         #cls.user_list = cls.setUpTestData(3)
-        cls.setUpTrendData(5)
+        print(cls.setUpTrendData(5))
         '''
         
         print(User.objects.all())
