@@ -72,8 +72,8 @@ The *one* story—and any subitems—that are presently in progress. Only the de
 
 •• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so that I can understand my health better. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
 + (2021-03-29) Determine our source (Team)
-= (2021-03-29) Develop initial list of 10–15 terms (Stuart)
-+ (2021-03-29) Find JS script to auto-hyperlink terms (Team)
+= (2021-03-29) Develop initial list of 10–15 terms (Stuart, Mehdi)
+= (2021-03-29) Find JS script to auto-hyperlink terms (Mehdi)
 
 ===
 Do
