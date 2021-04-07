@@ -19,7 +19,9 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard-data/<start_date>/<end_date>/', views.dashboard_data, name='dashboard_data'),
     path('api-glucose/', views.GlucoseView.as_view(), name='GlucoseView'),
-    path('api-token-auth/', obtain_auth_token, name='api-tokn-auth'),
+    path('api-carbs/', views.CarbsView.as_view(), name='CarbsView'),
+    path('api-insulin/', views.InsulinAPIView.as_view(), name='InsulinAPIView'),
+    path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
         
 ]
   

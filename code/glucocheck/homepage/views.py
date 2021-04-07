@@ -29,7 +29,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 
-from homepage.serializers import GlucoseSerializer
+from homepage.serializers import GlucoseSerializer,CarbohydrateSerializer,InsulinSerializer
 
 
 
@@ -753,7 +753,12 @@ class GlucoseView(APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
     
-    
+    def get(self, request, format=None):
+        glucose = Glucose.objects.all().order_by('-id')[:4]
+        serializer = GlucoseSerializer(glucose, many=True)
+        return Response(serializer.data)
+
+
     def post(self,request):
         data = request.data
         serializer = GlucoseSerializer(data=data)
@@ -761,3 +766,45 @@ class GlucoseView(APIView):
             serializer.save(user=request.user)
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+
+class CarbsView(APIView):
+    queryset = Carbohydrate.objects.all()
+    serializer_class = CarbohydrateSerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, format=None):
+        carb = Carbohydrate.objects.all().order_by('-id')[:4]
+        serializer = CarbohydrateSerializer(carb, many=True)
+        return Response(serializer.data)
+
+
+    def post(self,request):
+        data = request.data
+        serializer = CarbohydrateSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+
+
+class InsulinAPIView(APIView):
+    queryset = Insulin.objects.all()
+    serializer_class = InsulinSerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, format=None):
+        carb = Insulin.objects.all().order_by('-id')[:4]
+        serializer = InsulinSerializer(carb, many=True)
+        return Response(serializer.data)
+
+
+    def post(self,request):
+        data = request.data
+        serializer = InsulinSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+
