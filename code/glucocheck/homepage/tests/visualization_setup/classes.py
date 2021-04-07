@@ -421,27 +421,89 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             
         return user_list
     
-    @staticmethod
-    def setUpTrendData(num_users):
-        statements = ['normal', 'up_basal', 'down_basal', 'up_bolus', 'down_bolus', 'earlier_bolus', 'lower_daily_carbs', 'lower_mealtime_carbs']
-        # Glucose:
-        #   {'initial_value,</>/=,subsequent_value,</>/=,timeframe(H:MM)':tally_value} timeframe is optional for when there is no fasting/snack reading in between meals
-        #   1.5 prepended to intial_value signifies the reading is in the snack/fasting time zone
-        #   subsequent_value has an x+- value next to it in the case that 3 values must be tested to match a trend, the third tests within an even range
-        # Carbs:
-        #   {'carb_value,</>/=,comparison_value,</>/=,timeframe(H:MM)':tally_value'} 
-        #   If timeframe is not filled the carb value applies to a single meal time
-        trends = {statements[0]:{'x,=,x+-10'}, statements[1]:{'1.5x,>,x+-10,x+20/25,>,1:30':1, 'x,>,x+30/50':.5}, statements[2]:{'1.5x,<,x+-10,x-20/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
-        statements[3]:{'x,>,x+15/25,>,1:30':1, 'x,>,x+30/50':.5}, statements[4]:{'x,<,40/80,<,1:30':1, 'x,<,x-15/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
-        statements[5]:{'x,>,x+50/80,x+-20,<,1:30':1}, statements[6]:{'x,>,325,=,24:00':1}, statements[7]:{'x,>,90':1}}
+    class setUpTrendData:
+        def __init__(self, num_users):
+            self.statements = ['normal', 'up_basal', 'down_basal', 'up_bolus', 'down_bolus', 'earlier_bolus', 'lower_daily_carbs', 'lower_mealtime_carbs']
+            # Glucose:
+            #   {'initial_value,</>/=,subsequent_value,</>/=,timeframe(H:MM)':tally_value} timeframe is optional for when there is no fasting/snack reading in between meals
+            #   1.5 prepended to intial_value signifies the reading is in the snack/fasting time zone
+            #   subsequent_value has an x+- value next to it in the case that 3 values must be tested to match a trend, the third tests within an even range
+            # Carbs:
+            #   {'carb_value,</>/=,comparison_value,</>/=,timeframe(H:MM)':tally_value'} 
+            #   If timeframe is not filled the carb value applies to a single meal time
+            self.trends = {self.statements[0]:{'x,=,x+-10':1}, self.statements[1]:{'1.5x,>,x+-10,x+20/25,>,1:30':1, 'x,>,x+30/50':.5}, self.statements[2]:{'1.5x,<,x+-10,x-20/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
+            self.statements[3]:{'x,>,x+15/25,>,1:30':1, 'x,>,x+30/50':.5}, self.statements[4]:{'x,<,40/80,<,1:30':1, 'x,<,x-15/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
+            self.statements[5]:{'x,>,x+50/80,x+-15,<,1:30':1}, self.statements[6]:{'x,>,325,=,24:00':1}, self.statements[7]:{'x,>,90':1}}
+            
+            self.mealtime_ranges = { 'breakfast': [6,8],
+                                'inbetween1': [9,10],
+                                'lunch': [11,13],
+                                'inbetween2': [14,16],
+                                'dinner': [17,20],
+                                'bedtime': [21,25]}
+                                
+            # Fill the RecordingCategory database
+            self._fillCategories()
+            
+            # Create and fill the user list
+            user_num = 0
+            created_users = 0
+            user_list = []
+            while created_users < num_users:
+                user, user_num = self._createUser(user_num)
+                user_list.append(user)
+                created_users += 1
+                
+            # Fill user data according to specified trends on a day by day basis with full entry
+            seperated_ranges = [[self.mealtime_ranges['breakfast'], self.mealtime_ranges['inbetween1'], self.mealtime_ranges['lunch']], [self.mealtime_ranges['lunch'], self.mealtime_ranges['inbetween2'], self.mealtime_ranges['dinner']], [self.mealtime_ranges['dinner'], None, self.mealtime_ranges['bedtime']]]
+            
+            # Seperate glucose trend groups
+            trend_group_1_and_2 = {}
+            trend_group_3 = {}
+            for key, value in self.trends.items():
+                if key in self.statements[:6]:
+                    for key2, value2 in value.items():
+                        # Groups 1 and 2
+                        if key in trend_group_1_and_2.keys():
+                            trend_group_1_and_2[key].append([key2, value2])
+                        else:
+                            trend_group_1_and_2[key] = [[key2, value2]]
+                        # Group 3
+                        if len(key2.split(',')) < 4:
+                            if key in trend_group_3.keys():
+                                trend_group_3[key].append([key2, value2])
+                            else:
+                                trend_group_3[key] = [[key2, value2]]
+            
+            self.return_dict = {}
+            start_date = date.today() - timedelta(days=30)
+            for user in user_list:
+                # Bound chance 30% to 60%
+                chance = randint(30,60)
+                # Create smarter user trends list to add basal and bolus if one gets selected (other is not an active trend) for trends that impact both
+                user_trends = self._getUserTrends()
+                for day in pd.date_range(start=start_date, end=date.today()).to_pydatetime():
+                    for index in range(len(seperated_ranges)):
+                        if index == 2:
+                            trend = self._determineTrend(trend_group_3, user_trends, chance)
+                        else:
+                            trend = self._determineTrend(trend_group_1_and_2, user_trends, chance)
+                                
+                        prev_reading = self._addGlucoseData(user, trend, day, seperated_ranges[index])
+                
+                percent_filled = sum([value for key in user_trends.keys() for value in user_trends[key].values()])
+                percent_filled = ((percent_filled - user_trends["active"]["normal"]) /  percent_filled) * 100
+                self.return_dict[str(user)] = {'trends, occurences':user_trends, '% Chance':f'{chance}%', '% Filled':f'{percent_filled:.0f}%'}
+            
+                
+        def __str__(self):
+            return_string = ''
+            for key, value in self.return_dict.items():
+                return_string += f'\n{key}: {value}'
+                
+            return return_string
         
-        mealtime_ranges = { 'breakfast': [6,8],
-                            'inbetween1': [9,10],
-                            'lunch': [11,13],
-                            'inbetween2': [14,16],
-                            'dinner': [17,20],
-                            'bedtime': [21,25]}
-        
+        @staticmethod
         def _createUser(user_num):
             '''Creates and returns new users, ensuring there are no database conflicts.
             
@@ -461,7 +523,7 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             user_num += 1
             return new_user, user_num
             
-        
+        @staticmethod
         def _fillCategories():
             recording_categories = ['fasting', 'before breakfast', 'after breakfast', 'before lunch', 'after lunch', 'snacks', 'before dinner', 'after dinner']
             if len(RecordingCategory.objects.all()) == 0:
@@ -469,23 +531,27 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                     RecordingCategory.objects.create(name=category)
             
             
-        def _getCategory(trend, time_ranges, time, inbetween=False):
+        def _getCategory(self, trend, time_ranges, time, inbetween=False):
             if inbetween:
                 return RecordingCategory.objects.get(pk=6)
             
-            time_ranges = {key:value for key, value in mealtime_ranges.items() if value in time_ranges}
+            time_ranges = {key:value for key, value in self.mealtime_ranges.items() if value in time_ranges}
             for key, value in time_ranges.items():
-                if time.hour <= value[1] and time.hour >= value[0]:
-                    time = key
-                    break
+                if value[1] > 23:
+                    if time.hour <= 2 or (time.hour >= value[0] and time.hour <= 23):
+                        time = key
+                        break
+                else:
+                    if time.hour <= value[1] and time.hour >= value[0]:
+                        time = key
+                        break
                     
             
             if 'bedtime' in time:
                 return RecordingCategory.objects.get(pk=8)
             
-            categories = RecordingCategory.objects.filter(name__icontains=key)
-            print(categories)        
-            if len(trend) == 6:
+            categories = RecordingCategory.objects.filter(name__icontains=key)        
+            if (len(trend) == 6 or len(trend) == 3) and '1.5' not in trend[0]:
                 chance = randint(0,100)
                 if chance > 30:
                     return categories[0]
@@ -495,14 +561,14 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             else:
                 return categories[0]
             
-            
+        @staticmethod    
         def _getGlucoseTime(day, time_range, prev_reading=None, trend=None):
             if trend is None:
                 hour = randint(time_range[0],time_range[1])
                 if hour > 23:
                     hour -= 24
                     day = day + timedelta(days=1)
-                    
+                
                 time = day.replace(hour=hour, minute=randint(0,59), second=randint(0,59))
             else:
                 trend[1] = trend[1].split(':')
@@ -512,8 +578,9 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                     
                     time = (prev_reading.record_datetime + timedelta(hours=hour, minutes=minute)).replace(second=randint(0,59))
                 else:
-                    time = prev_reading.record_datetime + timedelta(hours=int(trend[1][0]), seconds=int(trend[1][1]))
+                    time = prev_reading.record_datetime + timedelta(hours=int(trend[1][0]), minutes=int(trend[1][1]))
                     hour = randint(time.hour, time_range[1])
+                    hour = 14
                     if hour == time.hour:
                         minute = randint(time.minute, 59)
                     else:
@@ -523,7 +590,7 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                     
             return time
                     
-                    
+        @staticmethod            
         def _getGlucoseReading(passthrough_vars, trend):
             reading_range = trend.split('/')
 
@@ -558,8 +625,8 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                 
             return randint(reading_range[0], reading_range[1])
             
-            
-        def _addGlucoseData(user, trend, day, time_ranges, initial_reading=None):
+           
+        def _addGlucoseData(self, user, trend, day, time_ranges, initial_reading=None):
             '''Creates 1 to 3 glucose data points from meal to meal, returning the last.
             
             Keywork Arguments:
@@ -575,87 +642,112 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             
             if initial_reading is None:
                 reading = randint(80,160)
-                time = _getGlucoseTime(day, time_ranges[0])
-                category = _getCategory(trend, time_ranges, time)
+                time = self._getGlucoseTime(day, time_ranges[0])
+                category = self._getCategory(trend, time_ranges, time)
                 initial_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
                 
             if '1.5' in trend[0]:
-                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[2])
-                time = _getGlucoseTime(day, time_ranges[1], initial_reading, trend[-2:])
-                category = _getCategory(trend, time_ranges, time, True)
+                reading = self._getGlucoseReading(['initial_reading',initial_reading], trend[2])
+                time = self._getGlucoseTime(day, time_ranges[1], initial_reading, trend[-2:])
+                category = self._getCategory(trend, time_ranges, time, True)
                 inbetween_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
                 
-                reading = _getGlucoseReading(['inbetween_reading',inbetween_reading], trend[3])
-                time = _getGlucoseTime(day, time_ranges[2])
-                category = _getCategory(trend, time_ranges, time)
+                reading = self._getGlucoseReading(['inbetween_reading',inbetween_reading], trend[3])
+                time = self._getGlucoseTime(day, time_ranges[2])
+                category = self._getCategory(trend, time_ranges, time)
                 next_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
             
             elif len(trend) < 4:
-                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[2])
-                time = _getGlucoseTime(day, time_ranges[2])
-                category = _getCategory(trend, time_ranges, time)
+                reading = self._getGlucoseReading(['initial_reading',initial_reading], trend[2])
+                time = self._getGlucoseTime(day, time_ranges[2])
+                category = self._getCategory(trend, time_ranges, time)
                 next_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
             
             elif len(trend) < 6:
-                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[2])
-                time = _getGlucoseTime(day, time_ranges[1], initial_reading, trend[-2:])
-                category = _getCategory(trend, time_ranges, time, True)
+                reading = self._getGlucoseReading(['initial_reading',initial_reading], trend[2])
+                time = self._getGlucoseTime(day, time_ranges[1], initial_reading, trend[-2:])
+                category = self._getCategory(trend, time_ranges, time, True)
                 inbetween_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
                 
             else:
-                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[2])
-                time = _getGlucoseTime(day, time_ranges[1], initial_reading, trend[-2:])
-                category = _getCategory(trend, time_ranges, time, True)
+                reading = self._getGlucoseReading(['initial_reading',initial_reading], trend[2])
+                time = self._getGlucoseTime(day, time_ranges[1], initial_reading, trend[-2:])
+                category = self._getCategory(trend, time_ranges, time, True)
                 inbetween_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
                 
-                reading = _getGlucoseReading(['initial_reading',initial_reading], trend[3])
-                time = _getGlucoseTime(day, time_ranges[2])
-                category = _getCategory(trend, time_ranges, time)
+                reading = self._getGlucoseReading(['initial_reading',initial_reading], trend[3])
+                time = self._getGlucoseTime(day, time_ranges[2])
+                category = self._getCategory(trend, time_ranges, time)
                 next_reading = Glucose.objects.create(user=user, glucose_reading=reading, record_datetime=time, categories=category, notes="")
-                
-            print()
-            print(time_ranges)
-            print()
-            print(trend)
-            print(f'\t{initial_reading.record_datetime}')
-            print(f'\t{initial_reading.categories}')
-            print(f'\t{initial_reading.glucose_reading}')
+               
+            #print()
+            #print(time_ranges)
+            #print(user)
+            #print(trend)
+            #print(f'\t{initial_reading.record_datetime}')
+            #print(f'\t{initial_reading.categories}')
+            #print(f'\t{initial_reading.glucose_reading}')
             
             
-            if inbetween_reading is not None:
-                print()
-                print(f'\t{inbetween_reading.record_datetime}')
-                print(f'\t{inbetween_reading.categories}')
-                print(f'\t{inbetween_reading.glucose_reading}')
+            #if inbetween_reading is not None:
+            #    print()
+            #    print(f'\t{inbetween_reading.record_datetime}')
+            #    print(f'\t{inbetween_reading.categories}')
+            #    print(f'\t{inbetween_reading.glucose_reading}')
             
             
-            if next_reading is not None:
-                print()
-                print(f'\t{next_reading.record_datetime}')
-                print(f'\t{next_reading.categories}')
-                print(f'\t{next_reading.glucose_reading}')
-                
+            #if next_reading is not None:
+            #    print()
+            #    print(f'\t{next_reading.record_datetime}')
+            #    print(f'\t{next_reading.categories}')
+            #    print(f'\t{next_reading.glucose_reading}')
+             
             return next_reading
+        
+        @staticmethod
+        def _returnCounterpart(item):
+            item = item.split('_')
+            if item[1] == 'basal':
+                return item[0] + '_bolus'
+            else:
+                return item[0] + '_basal'
+        
+        def _getUserTrends(self):
+            user_trends = {'active':{statement:0 for statement in self.statements[1:] if randint(0,100) <= 30}}
+            user_trends['active'][self.statements[0]] = 0
+            
+            user_trends['inactive'] = {self._returnCounterpart(item):0 for item in user_trends['active'].keys() if ('up' in item or 'down' in item) and self._returnCounterpart(item) not in user_trends['active'].keys()}
+            
+            return user_trends
+        
+        def _determineTrend(self, trend_group, user_trends, user_chance):
+            temp_trends = [trend for trend in user_trends['active'].keys() if trend in trend_group.keys()]
+            temp_trends.insert(0, temp_trends.pop(temp_trends.index('normal')))
+            
+            if user_chance < randint(0,100) or len(temp_trends) == 1:
+                trend = trend_group[temp_trends[0]][0][0]
+                user_trends['active'][temp_trends[0]] += 1
+            else:
+                key = randint(1,len(temp_trends)-1)
                 
+                trend = trend_group[temp_trends[key]]
+                trend = trend[randint(0,len(trend)-1)][0]
+                
+                user_trends['active'][temp_trends[key]] += 1
+                for item in trend_group[temp_trends[key]]:
+                    if item[0] == trend:
+                        increment = item[1]
+                        break
+                
+                user_trends['active'][temp_trends[key]] += increment
+                if increment == .5:
+                    if self._returnCounterpart(temp_trends[key]) in user_trends['active'].keys():
+                        user_trends['active'][self._returnCounterpart(temp_trends[key])] += increment
+                    else:
+                        user_trends['inactive'][self._returnCounterpart(temp_trends[key])] += increment
+                
+            return trend
             
-        # Create and fill the user list
-        user_num = 0
-        created_users = 0
-        user_list = []
-        while created_users < num_users:
-            user, user_num = _createUser(user_num)
-            user_list.append(user)
-            created_users += 1
-            
-        # Fill user data according to specified trends on a day by day basis with full entry
-        _fillCategories()
-        
-        seperated_ranges = [[mealtime_ranges['breakfast'], mealtime_ranges['inbetween1'], mealtime_ranges['lunch']], [mealtime_ranges['lunch'], mealtime_ranges['inbetween2'], mealtime_ranges['dinner']], [mealtime_ranges['dinner'], None, mealtime_ranges['bedtime']]]
-        trend = 'x,<,40/80,>,1:30'
-        for day in pd.date_range(start=date.today(),end=date.today()).to_pydatetime():
-            prev_reading = _addGlucoseData(user, trend, day, seperated_ranges[0])
-            
-        
     
     @classmethod
     def setUpClass(cls):
@@ -666,7 +758,7 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
         '''
         super().setUpClass()
         #cls.user_list = cls.setUpTestData(3)
-        cls.setUpTrendData(2)
+        print(cls.setUpTrendData(5))
         '''
         
         print(User.objects.all())
