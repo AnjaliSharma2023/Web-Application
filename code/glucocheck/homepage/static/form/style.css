@@ -30,7 +30,7 @@ left: 0;
     text-align: center;
     justify-content: center;
     align-items: center;
-    color: #262261;
+    color: #7069AF;
     padding: 20px;
     width: 500px;
     margin-top: -80px;
@@ -125,11 +125,11 @@ left: 0;
 }
 
 .register-right a{
-    color: #fab3c4;
+    color: rgb(76, 0, 255)(145, 145, 145);
     text-decoration: none;
 }
 .register-right a:hover{
-    color: #fff;
+    color: #fab3c4;
     text-decoration: none;
 }
 
@@ -166,13 +166,14 @@ left: 0;
     background: #dfdfea;
     border-radius: 30px;
     border: none;
-  
+} 
 
-.forgot{
-    color: blue;
-    margin-bottom: 40px;
+ .forgot{
+    color: rgb(76, 0, 255)(145, 145, 145);
+    
+    font-size: 20px;
 }
-
-.register-form .column{
-    width: 250px;
+.forgot:hover{
+    text-decoration: none;
+    color: #fab3c4;
 }
