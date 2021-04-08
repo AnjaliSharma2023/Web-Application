@@ -1,7 +1,10 @@
 {% load static %}
-<img src="{% static 'images/arrow.png' %}">
-<h3>You do not have an account yet?</h3>
+
+<h2>New here?</h2>
 <p>Click below to create new account</p>
 <a class="btn btn-primary" href="{% url 'signup' %}">SIGN UP</a>
-<a class="btn btn-primary" href="{% url 'email_input' %}">Forgot Password?</a>
+<a class="forgot" href="{% url 'email_input' %}">Forgot Password?</a>
+
+<img src="{% static 'images/signup.svg' %}">
+
 
