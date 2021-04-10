@@ -10,7 +10,7 @@ By Jeremiah Thomas, et al
 
 Created 2021-03-29
 
-Updated 2021-04-03
+Updated 2021-04-10
 
 +++
 Description
@@ -28,6 +28,9 @@ Overview
 +++
 Backlog
 
+**Story Progress**: 0/4
+**Point Progress**: 0/18
+
 ///
 The sprint backlog format supplements the product backlog format, allowing a quick overview of all subtasks for a given user story. Instead of using bullet points, all tasks are given the NKMF-standard shorthand for authorship info: either a "+" (task created), "=" (task in progress), or "#" (task completed). The parentheses hold the date the item was last modified (ISO 8601 as always, please—it is the worldwide standard!), the task follows, and the person who last updated the task should be in parenthesis at the end. It is recommended that a person only have 1 or 2 in-progress tasks ("=") at a time so as not to lock anyone else out of a task unnecessarily, though tasks can be shared if they are very large (better to break them down, though, normally). For example:
 
@@ -43,7 +46,6 @@ The sprint backlog format supplements the product backlog format, allowing a qui
 Done
 
 Items that are now in the past; the team may move user stories to this category whenever they think they meet the acceptance criteria. Once verified, the *product owner* must put the story inside a description list, with the term (or key) being the date the story was accepted.
-
 
 ///
 Definition Of Done
