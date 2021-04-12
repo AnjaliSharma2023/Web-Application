@@ -1,9 +1,9 @@
 {% load static %}
 
-<img src="{% static 'images/arrow.png' %}">
-<h3>Add values here</h3>
 
-<p>Click below to add Glucose value</p>
-<a class="btn btn-primary" href="{% url 'glucose_input'%}">Glucose Input Form</a>
-<p>Click below to add Carbs value</p>
-<a class="btn btn-primary" href="{% url 'carbs_input'%}">Carb Input Form</a>
+
+<p>Click <a href="{% url 'glucose_input'%}">here</a> to add Glucose value<br>
+    Or<br>
+    Click <a href="{% url 'carbs_input'%}">here</a> to add Carbs value</p>
+
+    <img src="{% static 'images/insulin.svg' %}">

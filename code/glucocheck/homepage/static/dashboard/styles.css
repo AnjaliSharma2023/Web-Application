@@ -136,7 +136,7 @@ a{
     color: #F0D22E;
 }
 .nav__link:hover{
-  background-color: var(--first-color);
+  color: var(--first-color);
 }
 .nav__icon{
   font-size: 1.25rem;
@@ -155,10 +155,7 @@ a{
   padding: 2rem 0 0 14rem;
 }
 
-/*Active links menu*/
-.active{
-  background-color: var(--first-color);
-}
+
 
 /*===== COLLAPSE =====*/
 .collapse{

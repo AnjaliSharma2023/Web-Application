@@ -1,14 +1,23 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.body{
+    background-color: #FCF5F5;   
+}
+
+
 .center {
 	box-sizing: border-box;
-	margin: auto;
 	width: 400px;
 	padding: 20px;
-	background-color: #DFEFC7;
 	display: flex;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin-top: 180px;
+	margin-bottom: 180px;
 }
 
 .center ul {
@@ -18,12 +27,14 @@
 }
 
 .center ul h3 {
-	width: 352px;
+	width: 300px;
+	font-size: 24px;
 	text-align: center;
-	color: #652D90;
+	color: #7069AF;
 }
 
 .center ul p {
-	width: 352px;
+	width: 400px;
+	font-size: 18px;
 	color: black;
 }

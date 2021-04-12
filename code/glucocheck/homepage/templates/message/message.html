@@ -8,10 +8,11 @@
 {% block title %}{{page_title}}{% endblock %}
 
 {% block content %}
+<body class="body">
 	<div class="center">
 		<ul>
 			<li>
-				<h3>{{message_title}}</h3>
+				<h3>{{message_title}}</h3><br>
 			</li>
 			{% for line in message_text %}
 				<li>
@@ -20,4 +21,5 @@
 			{% endfor %}
 		</ul>
 	</div>
+</body>
 {% endblock %}

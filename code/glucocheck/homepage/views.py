@@ -309,7 +309,7 @@ def email_input(request):
                 'account_nav': get_account_nav(request.user),
                 'page_title': 'Notice',
                 'message_title': 'Notice',
-                'message_text': [f'Reset password link sent to {user_email}! Please check your email to reset your password.']
+                'message_text': [f'Reset password link sent to {user_email}',' Please check your email to reset your password.']
             }
             return render(request, 'message/message.html', context)
     else:
@@ -348,7 +348,7 @@ def glucose_input(request):
                     'account_nav': get_account_nav(request.user),
                     'page_title': 'Notice',
                     'message_title': 'Notice',
-                    'message_text': ['Value saved.'],
+                    'message_text': ['Glucose value saved'],
                 }
         
             return render(request,'message/message.html', context)
@@ -387,7 +387,7 @@ def carbs_input(request):
                     'account_nav': get_account_nav(request.user),
                     'page_title': 'Notice',
                     'message_title': 'Notice',
-                    'message_text': ['Value saved.'],
+                    'message_text': ['Carbs value saved'],
                 }
         
             return render(request,'message/message.html', context)
@@ -428,7 +428,7 @@ def insulin_input(request):
                     'account_nav': get_account_nav(request.user),
                     'page_title': 'Notice',
                     'message_title': 'Notice',
-                    'message_text': ['Value saved.'],
+                    'message_text': ['Insulin value saved'],
                 }
         
             return render(request,'message/message.html', context)
@@ -695,7 +695,7 @@ def profile_page(request):
                     'account_nav': get_account_nav(request.user),
                     'page_title': 'Notice',
                     'message_title': 'Notice',
-                    'message_text': ['Your profile updated.'],
+                    'message_text': ['Your profile is successfully updated'],
                 }
         
             return render(request,'message/message.html', context)
