@@ -663,6 +663,91 @@ def dashboard_data(request, start_date, end_date):
     dashboard_data = {'last_glucose': last_glucose, 'last_carb': last_carb, 'last_insulin': last_insulin, 'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'scatter_bar_plot': {'min_dosage':min_dosage, 'max_dosage':max_dosage, 'min_carbs': min_carbs, 'max_carbs': max_carbs, 'min_time': min_time, 'max_time': max_time, 'plotlines': plotlines, 'insulin_data': insulin_data, 'carbohydrate_data': carbohydrate_data}, 'box_plot':box_plot, 'bar_plot_glucose':bar_plot_glucose, 'bar_plot_carbs': bar_plot_carbs}
     
     return JsonResponse(dashboard_data)
+    
+@login_required
+def analytics_data(request): # start_date, end_date
+    #start_date = datetime.fromisoformat(start_date)
+    #end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
+    
+    start_date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=30)
+    end_date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
+    
+    glucose_objects = Glucose.objects.filter(user=request.user, record_datetime__gt=start_date, record_datetime__lt=end_date)
+    print(len(glucose_objects))
+    #mealtime_ranges = { 'breakfast': [6,8],
+    #    'inbetween1': [9,10],
+    #    'lunch': [11,13],
+    #    'inbetween2': [14,16],
+    #    'dinner': [17,20],
+    #    'bedtime': [21,25]}
+    group_hour_ranges = [[[6,9], [11,14]], [[11,14], [17,21]], [[17,21], [21,26]]]
+    glucose_grouped = [[] for x in range(3)]
+    for day in pd.date_range(start=start_date, end=end_date).to_pydatetime():
+        days_readings = glucose_objects.filter(record_datetime__gt=day+timedelta(hours=2), record_datetime__lt=day+timedelta(days=1, hours=2))
+        for reading in days_readings:
+            indexes = group_data(day, group_hour_ranges, reading.record_datetime)
+            if type(indexes) is tuple:
+                for index in indexes:
+                    glucose_grouped[index].append(reading)
+            else:
+                glucose_grouped[indexes].append(reading)
+    
+    for group in glucose_grouped:
+        print('\nNew Group')
+        for item in group:
+            print(f'{item.record_datetime}: {item.glucose_reading}')
+    
+    determine_trends(glucose_grouped[0])
+    
+    return JsonResponse({'group1':0})
+
+
+def determine_trends(data_group):
+    statements = [['normal_glucose', 0], ['up_basal', 0], ['down_basal', 0], ['up_bolus', 0], ['down_bolus', 0], ['earlier_bolus', 0], ['normal_carbs', 0], ['lower_daily_carbs', 0], ['lower_mealtime_carbs', 0]]
+    trends = {statements[0][0]:{'x,=,x+-10':1}, statements[1][0]:{'1.5x,>,x+-10,x+20/25,>,1:30':1, 'x,>,x+30/50':.5}, statements[2][0]:{'1.5x,<,x+-10,x-20/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
+        statements[3][0]:{'x,>,x+15/25,>,1:30':1, 'x,>,x+30/50':.5}, statements[4][0]:{'x,<,40/80,<,1:30':1, 'x,<,x-15/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
+        statements[5][0]:{'x,>,x+50/80,x+-15,<,1:30':1}, statements[6][0]:{'x,=,0/85':1}, statements[7][0]:{'x,>,275/300,=,24:00':1}, statements[8][0]:{'x,>,90/100':1}}
+    
+    if all(type(x) is Glucose for x in data_group):
+        for statement in statements[-3:]:
+            del trends[statement[0]]
+        statements = statements[:-3]
+    elif all(type(x) is Carbohydrate for x in data_group):
+        for statement in statements[:-3]:
+            del trends[statement[0]]
+        statements = statements[-3:]
+    else:
+        raise ValueError('Mixed data types received, expected an iterator with either Glucose or Carbohydrate objects')
+            
+    print()
+    print(statements)
+    print()
+    print(trends)
+    
+def group_data(day, group_hour_ranges, record_datetime):
+    for index in range(len(group_hour_ranges)):
+        if group_hour_ranges[index][0][0] <= record_datetime.hour < group_hour_ranges[index][1][0]:
+            return index
+        elif (group_hour_ranges[index][1][0] <= record_datetime.hour < group_hour_ranges[index][1][1]) and index != 2:
+            print(f'{record_datetime}: {index, index+1}')
+            return index, index + 1
+        else:
+            if group_hour_ranges[index][1][1] > 24:
+                start_time = day.replace(hour=group_hour_ranges[index][1][0], minute=0, second=0, microsecond=0)
+                end_time = day.replace(hour=23, minute=0, second=0, microsecond=0) + timedelta(hours=group_hour_ranges[index][1][1]-23)
+                comp_time = record_datetime
+            else:
+                start_time = group_hour_ranges[index][1][0]
+                end_time = group_hour_ranges[index][1][1]
+                comp_time = record_datetime.hour
+                
+            if start_time <= comp_time < end_time:
+                return index
+    
+    print(day, record_datetime)
+    raise IndexError("Could not place reading into a range")
+            
+            
 
 @login_required
 def profile_page(request):

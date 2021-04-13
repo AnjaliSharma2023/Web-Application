@@ -22,6 +22,6 @@ urlpatterns = [
     path('api-carbs/', views.CarbsView.as_view(), name='CarbsView'),
     path('api-insulin/', views.InsulinAPIView.as_view(), name='InsulinAPIView'),
     path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
-        
+    path('test/', views.analytics_data, name='analytics_data'),
 ]
   
