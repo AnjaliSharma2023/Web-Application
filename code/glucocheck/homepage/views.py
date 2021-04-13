@@ -30,7 +30,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 
 from homepage.serializers import GlucoseSerializer,CarbohydrateSerializer,InsulinSerializer
-
+from rest_framework import mixins
+from rest_framework import generics
+#from rest_framework.schemas.coreapi import AutoSchema
+import coreapi
+import coreschema
 
 
 def get_account_nav(user):
@@ -710,101 +714,86 @@ def profile_page(request):
     }
     return render(request,'form/form.html', context)
 
-'''
-def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(data=request.POST, user=request.user )
-        if form.is_valid():
-            profile=form.save(commit=False) 
-            profile.user = request.user  
-            profile.save()
-            
-            update_session_auth_hash(request, profile)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            #return redirect('homepage/profile')#
-            context = {
-                    'account_nav': get_account_nav(request.user),
-                    'page_title': 'Notice',
-                    'message_title': 'Notice',
-                    'message_text': ['Your password updated.'],
-                }
+
+class GlucoseView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+    """ 
+    ---
+    get:
+        Return the last 4 entries by the user.
         
-            return render(request,'message/message.html', context)
-        
-        else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordChangeForm(request.user)
-        context={'forms': [form], 
-            'page_title': 'Change Password',
-            'form_title': 'Change Password',
-            'submit_value': 'Save',
-            'additional_html': None,
-            'account_nav': get_account_nav(request.user),
-    }
-    return render(request,'form/form.html', context)
+    post:
+        Create a new entry of Glucose.
+        Unit for glucose_reading = mg/dl and
+        it should be between 0 and 400.
+
+    """ 
     
-'''
-
-
-class GlucoseView(APIView):
-    queryset = Glucose.objects.all()
+    queryset = Glucose.objects.all().order_by('-id')[:3]
     serializer_class = GlucoseSerializer
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated,)
+        
+
+    def get(self, request, *args, **kwargs):
+     
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+class CarbsView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+    """ 
+    ---
+    get:
+        Return the last 4 entries by the user.
+        
+    post:
+        Create a new entry of Carbohydrate.
+        Carbohydrate reading should be between 0 and 300.
+
+    """ 
     
-    def get(self, request, format=None):
-        glucose = Glucose.objects.all().order_by('-id')[:4]
-        serializer = GlucoseSerializer(glucose, many=True)
-        return Response(serializer.data)
-
-
-    def post(self,request):
-        data = request.data
-        serializer = GlucoseSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
-
-class CarbsView(APIView):
-    queryset = Carbohydrate.objects.all()
+    queryset = Carbohydrate.objects.all().order_by('-id')[:3]
     serializer_class = CarbohydrateSerializer
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated,)
     
-    def get(self, request, format=None):
-        carb = Carbohydrate.objects.all().order_by('-id')[:4]
-        serializer = CarbohydrateSerializer(carb, many=True)
-        return Response(serializer.data)
+
+    def get(self, request, *args, **kwargs):
+     
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+    
 
 
-    def post(self,request):
-        data = request.data
-        serializer = CarbohydrateSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+class InsulinAPIView(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+    """ 
+    ---
+    get:
+        Return the last 4 entries by the user.
+        
+    post:
+        Create a new entry of Insulin.
+        Insulin dosage should be between 0 and 50.
 
+    """ 
 
-class InsulinAPIView(APIView):
-    queryset = Insulin.objects.all()
+    queryset = Insulin.objects.all().order_by('-id')[:3]
     serializer_class = InsulinSerializer
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated,)
+
+
+    def get(self, request, *args, **kwargs):
+     
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
     
-    def get(self, request, format=None):
-        carb = Insulin.objects.all().order_by('-id')[:4]
-        serializer = InsulinSerializer(carb, many=True)
-        return Response(serializer.data)
-
-
-    def post(self,request):
-        data = request.data
-        serializer = InsulinSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
-
+    

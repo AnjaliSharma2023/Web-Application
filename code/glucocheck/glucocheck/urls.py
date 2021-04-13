@@ -17,8 +17,28 @@ from django.contrib import admin
 
 from django.urls import path, include
 
+from rest_framework.schemas import get_schema_view
+from rest_framework.documentation import include_docs_urls
+from rest_framework.permissions import AllowAny
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', include('homepage.urls')),
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('documen/',include_docs_urls(title="Doc", public=True,permission_classes=[AllowAny, ])),
+    path('openapi',get_schema_view(
+        title="API documentation",
+        description="API",
+        version="1.0.0",
+        public=True),
+        name="openapi-schema" ),
+    path('docs/', TemplateView.as_view(
+    template_name='documentation.html',
+    extra_context={'schema_url':'openapi-schema'}
+    ), name='swagger-ui'),
+
+    
 ]
+
+
