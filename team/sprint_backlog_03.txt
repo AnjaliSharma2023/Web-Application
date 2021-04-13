@@ -56,7 +56,7 @@ Definition Of Done
 4. All custom classes and functions have at least a minimal docstring.
 5. The feature is live in the repo, either currently deployed or ready to deploy immediately.
 \\\
-
+••• (5) Input Health Data Via API: As a developer, I want to automate data entry so that advanced users or hardware can quickly and accurately input large amounts of health data. (1. Provides a public-facing API that allows programmatic mass data entry after authentication. 2. Documents the API for users.)
 ===
 Doing
 
