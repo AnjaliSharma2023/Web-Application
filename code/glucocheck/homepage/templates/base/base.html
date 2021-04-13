@@ -23,11 +23,11 @@
                 <img src="{% static 'images/glucochecklogo.png' %}" class="logo" , onclick= "location.href= '{% url 'homepage' %} '">
 				
                 <ul>
-                    <li><a href="{% url 'homepage' %}">HOME</a></li>
-                    <li><a href="{% url 'dashboard' %}">DASHBOARD</a></li>
-                    <li><a href="#">ABOUT US</a></li>
-                    <li><a href="#">CONTACT</a></li>
-                    <li><a href="#">GETTING STARTED</a></li>
+                    <li><a href="{% url 'homepage' %}">Home</a></li>
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Getting Started</a></li>
                     <li><a href="{% url 'login' %}">{{account_nav}}</a></li>
                 </ul>
             </div>
@@ -36,9 +36,10 @@
 	{% endblock %}
 	
 	<!--Content-->
+	<div class="content">
 	{% block content %}
 	{% endblock %}
-	
+	</div>
 	
 	<!--Footer-->
 	{% block footer %}

@@ -54,20 +54,33 @@ INSTALLED_APPS = [
     'six',
     'rest_framework',
     'rest_framework.authtoken', 
+    'rest_framework_swagger',
+
+    
 ]
 
 REST_FRAMEWORK = {
-    
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer'],
+
     'DEFAULT_PERMISSION_CLASSES':(
-                'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication', 
-        'rest_framework.authentication.SessionAuthentication', 
+         
+         
     ),
-    
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' ,
+  
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
