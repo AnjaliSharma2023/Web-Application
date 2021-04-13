@@ -12,7 +12,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
 }
+
+
+body::-webkit-scrollbar {
+    width: 0.50rem;
+      height: 0.6rem;
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: #fab3c4;
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background: #6649b8;
+  }
 
 .logo{
     width: 200px;
@@ -32,14 +47,14 @@
     text-decoration: none;
     color: #262261;
     font-family: 'Quicksand', sans-serif;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .navbar ul li::after{
     content: '';
-    height: 1px;
+    height: 2px;
     width: 0%;
-    background: #8cc63e;
+    background: #fab3c4;
     position: absolute;
     left: 0;
     bottom: -3px;
@@ -50,17 +65,22 @@
     width: 100%;
 }
 
+
+
 /*------footer--------*/
 
 #footer{
-    padding: 50px 0 50px;
-    margin-right: 80px;
-    margin-left: 80px;
+    padding: 0 30px;
+    background-color: #FCF5F5;
+  
+    
+   height: 50%;
 }
 .container.footer-row hr{
     width: 100%;
     border: 0;
-    border-top: 2px solid #262261;
+    border-top: 1px solid #262261;
+    margin-bottom: 600px;
 }
 
 .footer-row{
@@ -68,6 +88,12 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-right: 80px;
+    margin-left: 80px;
+    margin-bottom: -600px;
+   
+   
+   
 }
 
 .footer-left-col{

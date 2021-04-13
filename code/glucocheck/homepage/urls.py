@@ -1,7 +1,7 @@
 from django.urls import path
 from .import views
-
 from rest_framework.authtoken.views  import obtain_auth_token
+
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
@@ -17,7 +17,7 @@ urlpatterns = [
     path('insulin-input/', views.insulin_input, name='insulin_input'),
     path('profile-page/', views.profile_page, name='profile_page'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('dashboard-data/<start_date>/<end_date>/', views.dashboard_data, name='dashboard_data'),
+    path('dashboard-data/<start_date>/<end_date>/', views.dashboard_data, name='dashboard_data'),   
     path('api-glucose/', views.GlucoseView.as_view(), name='GlucoseView'),
     path('api-carbs/', views.CarbsView.as_view(), name='CarbsView'),
     path('api-insulin/', views.InsulinAPIView.as_view(), name='InsulinAPIView'),

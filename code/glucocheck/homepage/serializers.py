@@ -2,8 +2,13 @@ from rest_framework.serializers import ModelSerializer
 from homepage.models import UserProfile, Glucose, Carbohydrate, Insulin, RecordingCategory
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from homepage.fields import FloatWithUnitField, IntWithUnitField
-from homepage.widgets import CheckboxLink, InputWithSelector
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('pk', 'email', 'first_name', 'last_name')
 
 
 def validateGlucose(glucose_reading):
@@ -15,10 +20,10 @@ def validateGlucose(glucose_reading):
 
 class GlucoseSerializer(ModelSerializer):
     glucose_reading = serializers.IntegerField(validators=[validateGlucose]) 
-
+    user = UserSerializer(required=False, read_only=True)
     class Meta:
         model = Glucose
-        fields = ['id','glucose_reading','record_datetime','notes','categories']
+        fields = ['id','user','glucose_reading','record_datetime','notes','categories']
 
     
 
@@ -31,9 +36,10 @@ def validateCarb(carb_reading):
 
 class CarbohydrateSerializer(ModelSerializer):
     carb_reading = serializers.IntegerField(validators=[validateCarb]) 
+    user = UserSerializer(required=False, read_only=True)
     class Meta:
         model = Carbohydrate
-        fields = ['id','carb_reading','record_datetime']
+        fields = ['id','user','carb_reading','record_datetime']
 
     
 def validateDosage(dosage):
@@ -45,7 +51,8 @@ def validateDosage(dosage):
 
 
 class InsulinSerializer(ModelSerializer):
-    dosage = serializers.IntegerField(validators=[validateDosage]) 
+    dosage = serializers.IntegerField(validators=[validateDosage])
+    user = UserSerializer(required=False, read_only=True) 
     class Meta:
         model = Insulin
-        fields = ['id','dosage','record_datetime']
+        fields = ['id','user','dosage','record_datetime']
