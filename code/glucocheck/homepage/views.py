@@ -355,7 +355,7 @@ def glucose_input(request):
             context = {
                     'account_nav': get_account_nav(request.user),
                     'page_title': 'Notice',
-                    'message_title': 'Notice',
+                    'message_title': 'Notice: ',
                     'message_text': ['Glucose value saved'],
                 }
         
@@ -394,7 +394,7 @@ def carbs_input(request):
             context = {
                     'account_nav': get_account_nav(request.user),
                     'page_title': 'Notice',
-                    'message_title': 'Notice',
+                    'message_title': 'Notice: ',
                     'message_text': ['Carbs value saved'],
                 }
         
@@ -435,7 +435,7 @@ def insulin_input(request):
             context = {
                     'account_nav': get_account_nav(request.user),
                     'page_title': 'Notice',
-                    'message_title': 'Notice',
+                    'message_title': 'Notice: ',
                     'message_text': ['Insulin value saved'],
                 }
         
@@ -444,7 +444,7 @@ def insulin_input(request):
         form = InsulinReadingForm()
     context = {'forms': [form], # A list of all forms used
         'page_title': 'Insulin',
-        'form_title': 'Insulin', # The title at the top of the form
+        'form_title': 'Insulin',  # The title at the top of the form
         'submit_value': 'Submit', # The value on the button for the form
         'additional_html': 'account/insulin.html', # Additional html to be placed under the button
         'account_nav': get_account_nav(request.user),

@@ -78,6 +78,10 @@ ul{
 }
 a{
   text-decoration: none;
+  font-Size: '18px';
+				font-family: 'Poppins';
+				text-Decoration: 'Underline';
+				color: '#7069AF';
 }
 
 /*===== l NAV =====*/
