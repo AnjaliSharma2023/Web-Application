@@ -127,6 +127,33 @@ function loadAnalyticsData() {
 			
 			let advice_container = document.getElementById('advice_statement');
 			let advice_statement = "";
+			for (let entry in data.trend_percentages) {
+				if (entry == 'up_basal' && data.trend_percentages[entry] >= 15) {
+					advice_statement = advice_statement.concat('Up Long-Acting Insulin<br>');
+				}
+				else if (entry =='down_basal' && data.trend_percentages[entry] >= 15) {
+					advice_statement = advice_statement.concat('Down Long-Acting Insulin<br>');
+				}
+				else if (entry =='up_bolus' && data.trend_percentages[entry] >= 30) {
+					advice_statement = advice_statement.concat('Up Bolus<br>');
+				}
+				else if (entry =='down_bolus' && data.trend_percentages[entry] >= 30) {
+					advice_statement = advice_statement.concat('Down Bolus<br>');
+				}
+				else if (entry =='earlier_bolus' && data.trend_percentages[entry] >= 10) {
+					advice_statement = advice_statement.concat('Earlier Bolus<br>');
+				}
+				else if (entry =='lower_daily_carbs' && data.trend_percentages[entry] >= 80) {
+					advice_statement = advice_statement.concat('Lower Daily Carbs<br>');
+				}
+				else if (entry =='lower_mealtime_carbs' && data.trend_percentages[entry] >= 20) {
+					advice_statement = advice_statement.concat('Lower Mealtime Carbs<br>');
+				}
+			}
+			if (advice_statement == "") {
+				advice_statement = "Normal";
+			}
+			advice_container.innerHTML = advice_statement;
 			
 			let circle_charts = createProgressCircles(data.progress_circles);
 			let insulin_bar_chart = createInsulinBarChart(data.scatter_bar_plot);
