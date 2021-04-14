@@ -3,6 +3,7 @@ from .import views
 from rest_framework.authtoken import views as authviews
 
 
+
 urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('signup/', views.signup, name = 'signup'),

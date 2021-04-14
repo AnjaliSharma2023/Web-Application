@@ -1099,10 +1099,11 @@ class GlucoseView(mixins.ListModelMixin,
     
     queryset = Glucose.objects.all().order_by('-id')[:3]
     serializer_class = GlucoseSerializer
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication,SessionAuthentication)
     permission_classes = (IsAuthenticated,)
     
-        
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     def get(self, request, *args, **kwargs):
      
@@ -1126,8 +1127,11 @@ class CarbsView(mixins.ListModelMixin,
     
     queryset = Carbohydrate.objects.all().order_by('-id')[:3]
     serializer_class = CarbohydrateSerializer
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication,SessionAuthentication)
     permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
     
 
     def get(self, request, *args, **kwargs):
@@ -1154,8 +1158,11 @@ class InsulinAPIView(mixins.ListModelMixin,
 
     queryset = Insulin.objects.all().order_by('-id')[:3]
     serializer_class = InsulinSerializer
-    authentication_classes = (TokenAuthentication,)
+    authentication_classes = (TokenAuthentication,SessionAuthentication)
     permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
     
 
     def get(self, request, *args, **kwargs):
