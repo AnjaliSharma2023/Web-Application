@@ -12,13 +12,13 @@ class UserProfile(models.Model):
     # every profile associated with one user and every user will have one profile                      
     birth_date = models.DateField(null=True, blank=True)
     state = models.CharField(max_length=200)
-    #unit = models.CharField(max_length = 20)
+    
 
 
     def __str__(self):
         return self.user.username
 
-
+# This signal creates Auth Token for new users
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
@@ -49,7 +49,6 @@ class Glucose(models.Model):
     notes = models.TextField(blank=True)
     categories = models.ForeignKey(RecordingCategory, on_delete= models.DO_NOTHING, null=False)
 
-    #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
 
     def __str__(self):
         return str(self.glucose_reading)
@@ -59,7 +58,6 @@ class Carbohydrate(models.Model):
     carb_reading = models.PositiveIntegerField()
     record_datetime = models.DateTimeField()
 
-    #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)
 
     def __str__(self):
         return str(self.carb_reading)
@@ -73,4 +71,3 @@ class Insulin(models.Model):
     def __str__(self):
         return str(self.dosage)
   
-    #units = models.ForeignKey(Unit, on_delete= models.DO_NOTHING)

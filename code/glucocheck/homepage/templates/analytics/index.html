@@ -57,7 +57,7 @@
                             </ul>
                         </div>
 
-                        <a href="{% url 'analytics' %}"  class="nav__link">
+                        <a href="#" class="nav__link">
                             <ion-icon name="stats-chart-outline" class="nav__icon"></ion-icon>
                             <span class="nav__name">Analytics</span>
                         </a>
@@ -116,15 +116,13 @@
                 </div>
                 
                 <div class="grid-item two">
-                    <h2>Last Input Data</h2>
-					<h4 id='last_glucose'></h4>
-					<h4 id='last_carb'></h4>
-					<h4 id='last_insulin'></h4>
+                    <h2>Advice</h2>
+					<h4 id='advice_statement'></h4>
                 </div>
-                <div id='box_chart' class="grid-item three"></div>
-                <div id='percent_in_range_glucose' class="grid-item two"></div>
+                <div id='glucose_scatter_plot' class="grid-item three"></div>
+                <div class="grid-item four"></div>
 				<div id='insulin_bar_chart' class="grid-item five"></div>
-				<div id='percent_in_range_carbs' class="grid-item six"></div>
+				<div class="grid-item six"></div>
 				
               </section>
             </section>
@@ -149,7 +147,7 @@
 
             function cb(start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-				loadDashboardData();
+				loadAnalyticsData();
             }
 
             $('#reportrange').daterangepicker({
@@ -187,20 +185,11 @@
 						<small><a href="{% url 'tnc' %}#cookie">Cookie Policy</a></small><br>
 						<small><a href="{% url 'tnc' %}#hipaa">HIPAA Privacy</a></small>
 					</div>
-
-                    <div class="link-title">
-						<h4>Documentation</h4>
-						<small><a href="{% url 'glossary' %}">Glossary</a></small><br>
-						<small><a href="#">Our Sources</a></small>
-					</div>
-
 					<div class="link-title">
 						<h4>Contact</h4>
-						<small>support@glucocheck.com</small><br>
+						<small>support@glucocheck.com</small><br><br><br>
 						<small>Copyright © 2021 GlucoCheck</small>
 					</div>
-
-                    
 				</div>
 			</div>
 			<div class="footer-right-col">
