@@ -724,15 +724,15 @@ class GlucoseView(mixins.ListModelMixin,
         Return the last 4 entries by the user.
         
     post:
-        Create a new entry of Glucose.
-        Unit for glucose_reading = mg/dl and
-        it should be between 0 and 400.
-
+        Creates a new entry of Glucose.
+        
     """ 
     
     queryset = Glucose.objects.all().order_by('-id')[:3]
     serializer_class = GlucoseSerializer
+    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    
         
 
     def get(self, request, *args, **kwargs):
@@ -751,13 +751,13 @@ class CarbsView(mixins.ListModelMixin,
         Return the last 4 entries by the user.
         
     post:
-        Create a new entry of Carbohydrate.
-        Carbohydrate reading should be between 0 and 300.
+        Creates a new entry of Carbohydrate.
 
     """ 
     
     queryset = Carbohydrate.objects.all().order_by('-id')[:3]
     serializer_class = CarbohydrateSerializer
+    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     
 
@@ -779,18 +779,17 @@ class InsulinAPIView(mixins.ListModelMixin,
         Return the last 4 entries by the user.
         
     post:
-        Create a new entry of Insulin.
-        Insulin dosage should be between 0 and 50.
+        Creates a new entry of Insulin.
 
     """ 
 
     queryset = Insulin.objects.all().order_by('-id')[:3]
     serializer_class = InsulinSerializer
+    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-
+    
 
     def get(self, request, *args, **kwargs):
-     
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
