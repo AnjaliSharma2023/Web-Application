@@ -75,6 +75,161 @@ left: 0;
     text-decoration: none;
 }
 
+
+
+/* hyperlinks tooltip*/
+
+/* glucose*/
+.register-left .glucose{
+    color: #7069AF;
+    text-decoration: none;
+    position: relative;
+}
+.register-left .glucose::after,
+.register-left .glucose::before{
+   --scale: 0;
+   --arrow-size: 10px;
+
+    position: absolute;
+    top: -.25rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+    transition: 450ms transform;
+    transform-origin: bottom center;
+}
+
+.register-left .glucose::before{
+    --translate-y: calc(-100% - var(--arrow-size));
+    content: attr(data-tooltip);
+    color: #FFF;
+    padding: .5rem 1rem;
+    width: max-content;
+    max-width: 600px;
+    background: #AFD376;
+    border-radius: 2rem;
+    text-align: center;
+    font-size: 16px;
+}
+
+.register-left .glucose:hover::before,
+.register-left .glucose:hover::after{
+    --scale: 1;
+    transition-delay: 1s;
+}
+
+.register-left .glucose::after{
+    --translate-y: calc(-1 * var(--arrow-size));
+    content: '';
+    border: var(--arrow-size) solid transparent;
+    border-top-color: #AFD376;
+    transform-origin: top center;
+}
+
+/* insulin*/
+
+.register-left .insulin{
+    color: #7069AF;
+    text-decoration: none;
+    position: relative;
+}
+.register-left .insulin::after,
+.register-left .insulin::before{
+   --scale: 0;
+   --arrow-size: 10px;
+
+    position: absolute;
+    top: -.25rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+    transition: 450ms transform;
+    transform-origin: bottom center;
+}
+
+.register-left .insulin::before{
+    --translate-y: calc(-100% - var(--arrow-size));
+    content: attr(data-tooltip);
+    color: #FFF;
+    padding: .5rem 1rem;
+    width: max-content;
+    max-width: 600px;
+    background: #AFD376;
+
+    border-radius: 2rem;
+    text-align: center;
+    font-size: 16px;
+}
+
+.register-left .insulin:hover::before,
+.register-left .insulin:hover::after{
+    --scale: 1;
+    transition-delay: 1s;
+}
+
+.register-left .insulin::after{
+    --translate-y: calc(-1 * var(--arrow-size));
+    content: '';
+    border: var(--arrow-size) solid transparent;
+    border-top-color: #AFD376;
+    transform-origin: top center;
+}
+
+/* carbs*/
+
+.register-left .carbs{
+    color: #7069AF;
+    text-decoration: none;
+    position: relative;
+}
+.register-left .carbs::after,
+.register-left .carbs::before{
+   --scale: 0;
+   --arrow-size: 10px;
+
+    position: absolute;
+    top: -.25rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+    transition: 450ms transform;
+    transform-origin: bottom center;
+}
+
+.register-left .carbs::before{
+    --translate-y: calc(-100% - var(--arrow-size));
+    content: attr(data-tooltip);
+    color: #FFF;
+    padding: .5rem 1rem;
+    width: max-content;
+    max-width: 600px;
+    background: #AFD376;
+
+    border-radius: 2rem;
+    text-align: center;
+    font-size: 16px;
+}
+
+.register-left .carbs:hover::before,
+.register-left .carbs:hover::after{
+    --scale: 1;
+    transition-delay: 1s;
+}
+
+.register-left .carbs::after{
+    --translate-y: calc(-1 * var(--arrow-size));
+    content: '';
+    border: var(--arrow-size) solid transparent;
+    border-top-color: #AFD376;
+    transform-origin: top center;
+}
+
+/*.register-left .glossary{
+    color: #7069AF;
+    text-decoration: none;
+}
+
+*/
+
+/* hyperlinks tooltip end*/
+
 .register-right{
     position: relative;
     margin-top: 160px;

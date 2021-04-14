@@ -222,6 +222,14 @@ def tnc(request):
     context = {'account_nav': get_account_nav(request.user),}
     return render(request, 'tnc/tnc.html', context)
   
+def glossary(request):
+    '''Renders the terms and conditions view ('/tnc') with needed context.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
+    context = {'account_nav': get_account_nav(request.user),}
+    return render(request, 'glossary/glossary.html', context)
   
 def reset_password(request, uidb64, token):
     '''Renders reset password form view ('/reset-password/<uidb64>/<token>') for the user associated with the uidb64 and token and displays a success/error message.
