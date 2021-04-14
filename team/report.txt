@@ -10,6 +10,8 @@ By Jeremiah Thomas, et al
 
 Created 2021-04-11
 
+Updated 2021-04-14
+
 +++
 Description
 
@@ -18,11 +20,82 @@ The project report for Team 6's project and app, GlucoCheck; uses template provi
 +++
 0. [Title Page]
 
+Glucocheck
+
+Submitted by:
+Jeremiah Thomas, Computer Programming Student (Scrum Master)
+Stuart Watson, Computer Programming Student (Product Owner)
+Anjali Sharma, Data Science Student (Developer)
+Elmehdi Mnajli, Data Science Student (Developer)
+Kai McGregor, Computer Programming Student (Developer)
+
+Instructor:
+Susan Rizzo
+
+Industry Mentors:
+Mike Fitzpatrick, IHS Markit Software Developer
+William Calhoun, IHS Markit Software Developer
+
+???, 2021
+
+Submitted in partial fulfillment of the requirements for CSC 289 Capstone Project
+
+Programming & Information Sciences Department
+Information Technology Division
+Wake Technical Community College, Raleigh, NC 27709
+
 +++
 1. Introduction
 
 +++
 2. Project Plan
+
+===
+2.1. Project Description
+
+Team 6 will be creating GlucoCheck, a program to track glucose and insulin levels. This program will offer a secure, web-based, DB-backed UI for users to create an account, log in, and input health data. Users will be able to visualize this data, as well as receive different dietary recommendations based upon it.
+
+===
+2.2. Project Background
+
+The biggest challenge will be providing a secure, easy-to-use interface for customers to be able to interpret their health data. While there is no shortage of tools to measure glucose, few of those tools provide data visualization or personalized dietary recommendations that allow the customer to go from numbers to knowledge. This will be a vital learning experience for the team because customers very rarely want data, or software, or even logins: they want concrete answers, simplifications, and convenience. By applying programming techniques to a real-world problem in the healthcare industry, members will be able to understand how to make use of their technical knowledge in a supporting role for a useful, profitable business.
+
+===
+2.3. Project Goals
+
+• Enable my customers to sign up and login securely during 1st Sprint.
+• Enable my customers to input and review their health data during 1st Sprint.
+• Enable my customers to visualize and understand their health data during 2nd Sprint.
+• Enable my customers to use the app on any web browser during 2nd Sprint.
+• Enable my customers to receive custom dietary recommendations during 3rd Sprint.
+• Enable my customers to access instructions and help documentation during 3rd Sprint.
+• Enable my customers to export health data during 3rd Sprint.
+
+---
+2.3.1. Resources Required
+
+• Customer UI testing
+• Sample health data
+
+---
+2.3.2. Project Constraints
+
+• Basic medical knowledge
+• Data visualization experience
+• Customer safety and regulations
+• USDA food data server rate limits
+
+===
+2.4. Product Vision Statement
+
+GlucoCheck
+For diabetics and their caregivers
+Who need help monitoring, tracking, and managing blood sugar levels and stopping dietary glucose spikes,
+The program GlucoCheck
+Is a simple, easy-to-use, and clear web-based personal logbook
+That allows even non-professionals to log in from anywhere, input insulin and glucose levels, visualize the changes over time, get reminders, and receive dietary recommendations.
+Unlike competitors—such as Omnipod and Medtronic, which focus heavily on bolus doses and medical intervention to manage diabetes—
+Our product also offers lifestyle changes and USDA/FDA-approved meal ideas for controlling blood sugar spikes with a more holistic approach that treats the whole person.
 
 +++
 3. Project Execution
