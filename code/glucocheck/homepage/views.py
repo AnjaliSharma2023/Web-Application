@@ -28,7 +28,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
-
+from operator import lt, gt
 from homepage.serializers import GlucoseSerializer,CarbohydrateSerializer,InsulinSerializer
 from rest_framework import mixins
 from rest_framework import generics
@@ -670,6 +670,7 @@ def dashboard_data(request, start_date, end_date):
     
 @login_required
 def analytics_data(request): # start_date, end_date
+    statements = [['normal_glucose', 0], ['up_basal', 0], ['down_basal', 0], ['up_bolus', 0], ['down_bolus', 0], ['earlier_bolus', 0], ['normal_carbs', 0], ['lower_daily_carbs', 0], ['lower_mealtime_carbs', 0]]
     #start_date = datetime.fromisoformat(start_date)
     #end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
     
@@ -677,6 +678,7 @@ def analytics_data(request): # start_date, end_date
     end_date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
     
     glucose_objects = Glucose.objects.filter(user=request.user, record_datetime__gt=start_date, record_datetime__lt=end_date)
+    carb_objects = Carbohydrate.objects.filter(user=request.user, record_datetime__gt=start_date, record_datetime__lt=end_date)
     print(len(glucose_objects))
     #mealtime_ranges = { 'breakfast': [6,8],
     #    'inbetween1': [9,10],
@@ -686,54 +688,263 @@ def analytics_data(request): # start_date, end_date
     #    'bedtime': [21,25]}
     group_hour_ranges = [[[6,9], [11,14]], [[11,14], [17,21]], [[17,21], [21,26]]]
     glucose_grouped = [[] for x in range(3)]
+    carb_grouped = []
     for day in pd.date_range(start=start_date, end=end_date).to_pydatetime():
+        # Glucose data grouping
         days_readings = glucose_objects.filter(record_datetime__gt=day+timedelta(hours=2), record_datetime__lt=day+timedelta(days=1, hours=2))
+        if len(days_readings) != 0:
+            glucose_grouped[0].append([])
+            glucose_grouped[1].append([])
+            glucose_grouped[2].append([])
+        
         for reading in days_readings:
             indexes = group_data(day, group_hour_ranges, reading.record_datetime)
             if type(indexes) is tuple:
                 for index in indexes:
-                    glucose_grouped[index].append(reading)
+                    glucose_grouped[index][-1].append(reading)
             else:
-                glucose_grouped[indexes].append(reading)
+                glucose_grouped[indexes][-1].append(reading)
+        
+        # Carb data grouping
+        days_carbs = carb_objects.filter(record_datetime__gt=day+timedelta(hours=2), record_datetime__lt=day+timedelta(days=1, hours=2))
+        if len(days_carbs) != 0:
+            carb_grouped.append([])
+            
+        for item in days_carbs:
+            carb_grouped[-1].append(item)
     
-    for group in glucose_grouped:
+    '''for group in glucose_grouped:
         print('\nNew Group')
-        for item in group:
-            print(f'{item.record_datetime}: {item.glucose_reading}')
+        for day in range(len(group)):
+            for item in group[day]:
+                print(f'Day {day} - {item.record_datetime}: {item.glucose_reading}')'''
     
-    determine_trends(glucose_grouped[0])
+    #print(glucose_grouped)
+    for group in glucose_grouped:
+        statements = determine_trends(group, statements)
+        
+    for day in carb_grouped:
+        statements = determine_trends(day, statements)
     
+    glucose_total = sum([value[1] for value in statements[:-3]])
+    day_carb_total = len(carb_grouped)
+    reading_carb_total = len(carb_objects)
+    print(statements)
+    print(glucose_total, day_carb_total, reading_carb_total)
+    for index in range(len(statements[:-3])):
+        statements[index][1] = statements[index][1] / glucose_total
+    
+    for index in range(6, len(statements[:-1])):
+        statements[index][1] = statements[index][1] / reading_carb_total
+    
+    statements[-1][1] = statements[-1][1] / day_carb_total
+    for statement in statements:
+        print(f'{statement[0]}: {statement[1]*100:.2f}%')
+    
+    # earlier_bolus > 10% due to difficulty matching the trend 
+    # up/down_bolus > 30%
+    # up/down_basal > 15%
+    # mealtime > 20%
+    # daily carbs > 50%
+    # use test users 5, 7, 9
     return JsonResponse({'group1':0})
 
 
-def determine_trends(data_group):
-    statements = [['normal_glucose', 0], ['up_basal', 0], ['down_basal', 0], ['up_bolus', 0], ['down_bolus', 0], ['earlier_bolus', 0], ['normal_carbs', 0], ['lower_daily_carbs', 0], ['lower_mealtime_carbs', 0]]
-    trends = {statements[0][0]:{'x,=,x+-10':1}, statements[1][0]:{'1.5x,>,x+-10,x+20/25,>,1:30':1, 'x,>,x+30/50':.5}, statements[2][0]:{'1.5x,<,x+-10,x-20/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
-        statements[3][0]:{'x,>,x+15/25,>,1:30':1, 'x,>,x+30/50':.5}, statements[4][0]:{'x,<,40/80,<,1:30':1, 'x,<,x-15/25,>,1:30':1, 'x,<,40/80,>,1:30':.5, 'x,<,x-30/50':.5}, 
-        statements[5][0]:{'x,>,x+50/80,x+-15,<,1:30':1}, statements[6][0]:{'x,=,0/85':1}, statements[7][0]:{'x,>,275/300,=,24:00':1}, statements[8][0]:{'x,>,90/100':1}}
+def determine_trends(data_group, statements):
+    incr_statements = statements[:]
+    trends = {statements[0][0]:{'x,<,x+-10':1}, statements[1][0]:{'1.5x,>,x+-10,x+20,>,1:30':1, 'x,>,x+30':.5}, statements[2][0]:{'1.5x,<,x+-10,x-20,>,1:30':1, 'x,<,80,>,1:30':.5, 'x,<,x-30':.5}, 
+        statements[3][0]:{'x,>,x+15,>,1:30':1, 'x,>,x+30':.5}, statements[4][0]:{'x,<,80,<,1:30':1, 'x,<,x-15,>,1:30':1, 'x,<,80,>,1:30':.5, 'x,<,x-30':.5}, 
+        statements[5][0]:{'x,>,x+50,x+-15,<,1:30':1}, statements[6][0]:{'x,<,85':1}, statements[7][0]:{'x,>,275,=,24:00':1}, statements[8][0]:{'x,>,90':1}}
     
-    if all(type(x) is Glucose for x in data_group):
-        for statement in statements[-3:]:
-            del trends[statement[0]]
-        statements = statements[:-3]
-    elif all(type(x) is Carbohydrate for x in data_group):
+    if all(type(item) is Carbohydrate for item in data_group):
         for statement in statements[:-3]:
             del trends[statement[0]]
         statements = statements[-3:]
+        data_type = Carbohydrate
+    elif all(type(item) is Glucose for day in data_group for item in day):
+        for statement in statements[-3:]:
+            del trends[statement[0]]
+        statements = statements[:-3]
+        data_type = Glucose
     else:
-        raise ValueError('Mixed data types received, expected an iterator with either Glucose or Carbohydrate objects')
+        raise ValueError('Mixed data types received, expected a nested iterator with either Glucose or Carbohydrate objects')
+    
+    day_trend = False
+    for index in range(len(statements)):
+        # Prevents double marking full day trends and single reading trends
+        for trend in trends[statements[index][0]]:
+            trend = trend.split(',')
+            if data_type is Glucose:
+                for day in data_group:
+                    if len(day) < 2:
+                        continue
+                    elif len(day) == 2: #3, 5 # 6 'x,=,x+-10', 'x,>,x+30', 'x,<,x-30', 'x,<,80,>,1:30', 'x,<,80,<,1:30', 'x,>,x+15,>,1:30', 'x,<,x-15,>,1:30'
+                        if len(trend) > 5:
+                            continue
+                        initial_reading = day[0]
+                        inbetween_readings = None
+                        next_reading = day[-1]
+                    else: # '1.5x,>,x+-10,x+20,>,1:30', '1.5x,<,x+-10,x-20,>,1:30', 'x,>,x+50,x+-15,<,1:30'
+                        initial_reading = day[0]
+                        inbetween_readings = day[1:-1]
+                        next_reading = day[-1]
+                    
+                    if test_glucose_trend(trend, initial_reading, inbetween_readings, next_reading):
+                        increment = trends[statements[index][0]][','.join(trend)]
+                        # Increment the other half percentage if needed
+                        if increment == .5:
+                            counter_increment = returnCounterpart(statements[index][0])
+                            for index2 in range(len(incr_statements)):
+                                if incr_statements[index2][0] == counter_increment:
+                                    incr_statements[index2][1] += .5
+                                    break
+                        # Increment the statement value
+                        for index2 in range(len(incr_statements)):
+                            if incr_statements[index2][0] == statements[index][0]:
+                                incr_statements[index2][1] += increment
+                                break
+            else:
+                if len(trend) < 4:
+                    if day_trend is True:
+                        continue
+                        
+                    for item in data_group:
+                        if test_carbohydrate_trend(trend, item):
+                            increment = trends[statements[index][0]][','.join(trend)]
+                            for index2 in range(len(incr_statements)):
+                                if incr_statements[index2][0] == statements[index][0]:
+                                    incr_statements[index2][1] += increment
+                                    break
+                        
+                else:
+                    if test_carbohydrate_trend(trend, data_group):
+                        day_trend = True
+                        increment = trends[statements[index][0]][','.join(trend)]
+                        for index2 in range(len(incr_statements)):
+                            if incr_statements[index2][0] == statements[index][0]:
+                                incr_statements[index2][1] += increment
+                                break
+                        
+    return incr_statements
+
+
+def returnCounterpart(item):
+    item = item.split('_')
+    if item[1] == 'basal':
+        return item[0] + '_bolus'
+    else:
+        return item[0] + '_basal'
+
+
+def test_carbohydrate_trend(trend, days_carbs):
+    if type(days_carbs) is Carbohydrate:
+        eval_string = trend[0].replace('x', 'days_carbs.carb_reading')
+        eval_string += trend[1]
+        eval_string += trend[2]
+        return eval(eval_string)
+    else:
+        carb_total = 0
+        for reading in days_carbs:
+            carb_total += reading.carb_reading
+        
+        eval_string = trend[0].replace('x', 'carb_total')
+        eval_string += trend[1]
+        eval_string += trend[2]
+        return eval(eval_string)
+      
+      
+def test_glucose_trend(trend, initial_reading, inbetween_readings, next_reading):
+    if len(trend) < 4:
+        if '+-' in trend[2]:
+            addsub_value = int(trend[2].split('+-')[1])
+            return (initial_reading.glucose_reading - addsub_value) <= next_reading.glucose_reading <= (initial_reading.glucose_reading + addsub_value)
+        else:
+            eval_string = trend[0].replace('x','next_reading.glucose_reading')
+            eval_string += trend[1]
+            eval_string += trend[2].replace('x','initial_reading.glucose_reading')
+            return eval(eval_string)
+        
+    elif len(trend) < 6:
+        if inbetween_readings is not None:
+            time_bool = []
+            for item in inbetween_readings:
+                if trend[3] == '<':
+                    time_bool.append(item.record_datetime < initial_reading.record_datetime + timedelta(hours=1, minutes=30))
+                else:
+                    time_bool.append(item.record_datetime >= initial_reading.record_datetime + timedelta(hours=1, minutes=30))
             
-    print()
-    print(statements)
-    print()
-    print(trends)
+            for index in range(len(inbetween_readings)):
+                if time_bool[index] is False:
+                    continue
+                    
+                if 'x' in trend[2]:
+                    eval_string = trend[0].replace('x',f'inbetween_readings[{index}].glucose_reading')
+                    eval_string += trend[1]
+                    eval_string += trend[2].replace('x','initial_reading.glucose_reading')
+                    if eval(eval_string):
+                        return True
+                else:
+                    eval_string = trend[0].replace('x',f'inbetween_readings[{index}].glucose_reading')
+                    eval_string += trend[1]
+                    eval_string += trend[2]
+                    if eval(eval_string):
+                        return True
+            
+        if trend[3] == '<' and next_reading.record_datetime >= initial_reading.record_datetime + timedelta(hours=1, minutes=30):
+            return False
+        elif trend[3] == '>' and next_reading.record_datetime < initial_reading.record_datetime + timedelta(hours=1, minutes=30):
+            return False
+            
+        if 'x' in trend[2]:
+            eval_string = trend[0].replace('x','next_reading.glucose_reading')
+            eval_string += trend[1]
+            eval_string += trend[2].replace('x','initial_reading.glucose_reading')
+            return eval(eval_string)
+        else:
+            eval_string = trend[0].replace('x','next_reading.glucose_reading')
+            eval_string += trend[1]
+            eval_string += trend[2]
+            return eval(eval_string)
+                
+    else: # '1.5x,>,x+-10,x+20,>,1:30', '1.5x,<,x+-10,x-20,>,1:30', 'x,>,x+50,x+-15,<,1:30'
+        time_bool = []
+        for item in inbetween_readings:
+            if trend[4] == '<':
+                time_bool.append(item.record_datetime < initial_reading.record_datetime + timedelta(hours=1, minutes=30))
+            else:
+                time_bool.append(item.record_datetime >= initial_reading.record_datetime + timedelta(hours=1, minutes=30))
+        
+        for index in range(len(inbetween_readings)):
+            if time_bool[index] is False:
+                continue
+                
+            if '+-' in trend[2]:
+                addsub_value = int(trend[2].split('+-')[1])
+                if (initial_reading.glucose_reading - addsub_value) <= inbetween_readings[index].glucose_reading <= (initial_reading.glucose_reading + addsub_value):
+                    eval_string = trend[0][3:].replace('x', 'initial_reading.glucose_reading')
+                    eval_string += trend[1]
+                    eval_string += trend[3].replace('x', 'initial_reading.glucose_reading')
+                    if eval(eval_string):
+                        return True
+                
+            else:
+                eval_string = trend[0].replace('x',f'inbetween_readings[{index}].glucose_reading')
+                eval_string += trend[1]
+                eval_string += trend[2].replace('x','initial_reading.glucose_reading')
+                if eval(eval_string):
+                    addsub_value = int(trend[3].split('+-')[1])
+                    if (initial_reading.glucose_reading - addsub_value) <= next_reading.glucose_reading <= (initial_reading.glucose_reading + addsub_value):
+                        return True
+                    
+        return False
+    
     
 def group_data(day, group_hour_ranges, record_datetime):
     for index in range(len(group_hour_ranges)):
         if group_hour_ranges[index][0][0] <= record_datetime.hour < group_hour_ranges[index][1][0]:
             return index
         elif (group_hour_ranges[index][1][0] <= record_datetime.hour < group_hour_ranges[index][1][1]) and index != 2:
-            print(f'{record_datetime}: {index, index+1}')
+            #print(f'{record_datetime}: {index, index+1}')
             return index, index + 1
         else:
             if group_hour_ranges[index][1][1] > 24:
@@ -750,7 +961,6 @@ def group_data(day, group_hour_ranges, record_datetime):
     
     print(day, record_datetime)
     raise IndexError("Could not place reading into a range")
-            
             
 
 @login_required

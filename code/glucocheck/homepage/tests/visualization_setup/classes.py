@@ -488,10 +488,12 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             
             self.return_dict = {}
             start_date = date.today() - timedelta(days=180)
+            user_num = 0
             for user in user_list:
                 # Bound chance 30% to 60%
                 chance = randint(30,60)
-                user_trends = self._getUserTrends()
+                user_trends = self._getUserTrends(user_num)
+                user_num += 1
                 for day in pd.date_range(start=start_date, end=date.today()).to_pydatetime():
                     glucose_readings = [None for x in range(3)]
                     days_readings = [None]
@@ -802,11 +804,15 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                 return item[0] + '_basal'
         
         
-        def _getUserTrends(self):
+        def _getUserTrends(self, user_num):
             user_trends = {'active':{statement:0 for statement in self.statements[1:] if randint(0,100) <= 30}}
             user_trends['active'][self.statements[0]] = 0
+            # ['normal', 'up_basal', 'down_basal', 'up_bolus', 'down_bolus', 'earlier_bolus', 'lower_daily_carbs', 'lower_mealtime_carbs']
+            trends = [{'up_basal':0, 'up_bolus':0}, {'down_basal':0}, {'earlier_bolus':0}, {'lower_daily_carbs':0}, {'lower_mealtime_carbs':0}]
             
+            user_trends = {'active': trends[user_num]}
             user_trends['inactive'] = {self._returnCounterpart(item):0 for item in user_trends['active'].keys() if ('up' in item or 'down' in item) and self._returnCounterpart(item) not in user_trends['active'].keys()}
+            user_trends['active'][self.statements[0]] = 0
             
             return user_trends
         
