@@ -2,8 +2,9 @@
 
 
 
-<p>Click <a href="{% url 'glucose_input'%}">here</a> to add Glucose value<br>
+<p>Click <a href="{% url 'glucose_input'%}">here</a> to add <a href="{% url 'glossary' %}#glucose" class="glucose" data-tooltip="one of the simplest forms of sugar">Glucose</a> value<br>
     Or<br>
-    Click <a href="{% url 'carbs_input'%}">here</a> to add Carbs value</p>
+    <p>Click <a href="{% url 'carbs_input'%}">here</a> to add <a href="{% url 'glossary' %}#carbohydrate" class="carbs" data-tooltip="
+        one of the three main nutrients in food. Foods that provide carbohydrate are starches, vegetables, fruits, dairy products and sugars">Carbs</a> value<br>
 
     <img src="{% static 'images/insulin.svg' %}">

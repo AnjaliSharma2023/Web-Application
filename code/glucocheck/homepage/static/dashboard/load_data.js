@@ -80,9 +80,9 @@ function loadDashboardData() {
 			let last_carb = document.getElementById('last_carb');
 			let last_insulin = document.getElementById('last_insulin');
 			
-			last_insulin.innerHTML = 'Insulin:<br>&emsp;&emsp;' + data.last_insulin;
-			last_glucose.innerHTML = 'Glucose:<br>&emsp;&emsp;' + data.last_glucose;
-			last_carb.innerHTML = 'Carb:<br>&emsp;&emsp;' + data.last_carb;
+			last_insulin.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#insulin">Insulin</a>:<br>&emsp;&emsp;' + data.last_insulin;
+			last_glucose.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>:<br>&emsp;&emsp;' + data.last_glucose;
+			last_carb.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbs</a>:<br>&emsp;&emsp;' + data.last_carb;
 			
 			
 			let circle_charts = createProgressCircles(data.progress_circles);
@@ -287,7 +287,7 @@ function createInsulinBarChart(data) {
 			zoomType: 'x'
 		},
 		title: {
-			text: 'Insulin Dosage and Carbohydrates over Time',
+			text: '<a href="http://127.0.0.1:8000/glossary/#insulin">Insulin</a> Dosage and <a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbohydrates</a> over Time',
 			style: {
 				fontSize: '18px',
 				fontFamily: 'Poppins',
@@ -325,7 +325,7 @@ function createInsulinBarChart(data) {
 		{
 			title: {
 				enabled: true,
-				text: 'Carbohydrates',
+				text: '<a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbohydrates</a>',
 				style: {
 					color: 'rgba(223, 83, 83, .5)'
 				}
@@ -437,7 +437,7 @@ function createPercentRangeGlucoseBarChart(data) {
 			type: 'bar'
 		},
 		title: {
-			text: 'Percentage Glucose in Range',
+			text: 'Percentage <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a><br> in Range',
 			style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
@@ -496,7 +496,7 @@ function createPercentRangeCarbsBarChart(data) {
 			type: 'bar'
 		},
 		title: {
-			text: 'Percentage Daily Carbohydrates in Range',
+			text: 'Percentage Daily <br><a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbohydrates<br></a> in Range',
 			style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
@@ -578,7 +578,7 @@ function createBoxChart(data) {
 		},
 		yAxis: {
 		   title: {
-			  text: 'Glucose (mg/dL)',
+			  text: '<a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a> (<a href="http://127.0.0.1:8000/glossary/#mg-dL">mg/dL</a>)',
 			  style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
@@ -694,7 +694,7 @@ function createProgressCircles(data) {
 				y: data.min,
 				dataLabels: {
 					y: -70,
-					format: 'Min Glucose: <br/>{y}',
+					format: 'Min <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>: <br/>{y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
@@ -770,7 +770,7 @@ function createProgressCircles(data) {
 				y: data.avg,
 				dataLabels: {
 					y: -70,
-					format: 'Avg Glucose: <br/>{y}',
+					format: 'Avg <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>: <br/>{y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
@@ -846,7 +846,7 @@ function createProgressCircles(data) {
 				y: data.max,
 				dataLabels: {
 					y: -70,
-					format: 'Max Glucose: <br/>{y}',
+					format: 'Max <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>: <br/>{y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
@@ -924,7 +924,7 @@ function createProgressCircles(data) {
 				y: data.hba1c,
 				dataLabels: {
 					y: -70,
-					format: "Hba1c: {y}",
+					format: '<a href="http://127.0.0.1:8000/glossary/#A1C">HBA1C</a>: {y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',

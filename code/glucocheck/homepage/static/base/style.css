@@ -80,7 +80,7 @@ body::-webkit-scrollbar {
     width: 100%;
     border: 0;
     border-top: 1px solid #262261;
-    margin-bottom: 600px;
+    margin-bottom: -600px;
 }
 
 .footer-row{
@@ -90,7 +90,7 @@ body::-webkit-scrollbar {
     flex-wrap: wrap;
     margin-right: 80px;
     margin-left: 80px;
-    margin-bottom: -600px;
+    margin-top: -500px;
    
    
    
