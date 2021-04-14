@@ -1,6 +1,6 @@
 from django.urls import path
 from .import views
-
+from rest_framework.authtoken import views
 
 
 urlpatterns = [
@@ -21,6 +21,9 @@ urlpatterns = [
     path('api-glucose/', views.GlucoseView.as_view(), name='GlucoseView'),
     path('api-carbs/', views.CarbsView.as_view(), name='CarbsView'),
     path('api-insulin/', views.InsulinAPIView.as_view(), name='InsulinAPIView'),
-    
+    path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
+    path('analytics-data/<start_date>/<end_date>/', views.analytics_data, name='analytics_data'),
+    path('analytics', views.analytics, name='analytics'),
+    path('glossary/', views.glossary, name='glossary'),
 ]
   

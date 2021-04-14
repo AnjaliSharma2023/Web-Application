@@ -80,9 +80,9 @@ function loadDashboardData() {
 			let last_carb = document.getElementById('last_carb');
 			let last_insulin = document.getElementById('last_insulin');
 			
-			last_insulin.innerHTML = 'Insulin:<br>&emsp;&emsp;' + data.last_insulin;
-			last_glucose.innerHTML = 'Glucose:<br>&emsp;&emsp;' + data.last_glucose;
-			last_carb.innerHTML = 'Carb:<br>&emsp;&emsp;' + data.last_carb;
+			last_insulin.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#insulin">Insulin</a>:<br>&emsp;&emsp;' + data.last_insulin;
+			last_glucose.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>:<br>&emsp;&emsp;' + data.last_glucose;
+			last_carb.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbs</a>:<br>&emsp;&emsp;' + data.last_carb;
 			
 			
 			let circle_charts = createProgressCircles(data.progress_circles);
@@ -107,6 +107,156 @@ function loadDashboardData() {
 	xhr.send();
 }
 
+function loadAnalyticsData() {
+	/*
+	* Requests user data based on the date range and constructs graphs for display.
+	* 
+	* @return {void} Nothing.
+	*/
+	var dates = document.getElementById('dates');
+	dates = dates.innerText.split("-");
+	dates[0] = returnFormattedDate(dates[0]);
+	dates[1] = returnFormattedDate(dates[1]);
+	
+	var xhr = new XMLHttpRequest();
+	// 
+	xhr.open('GET', '/analytics-data/' + dates[0] + '/' + dates[1] + '/');
+	xhr.onload = function() {
+		if (xhr.status === 200) {
+			var data = JSON.parse(xhr.responseText);
+			
+			let advice_container = document.getElementById('advice_statement');
+			let advice_statement = "";
+			
+			let circle_charts = createProgressCircles(data.progress_circles);
+			let insulin_bar_chart = createInsulinBarChart(data.scatter_bar_plot);
+			let glucose_scatter_plot = createGlucoseScatterPlot(data.scatter_plot);
+			
+			Highcharts.chart('max', circle_charts[0]);
+			Highcharts.chart('avg', circle_charts[1]);
+			Highcharts.chart('min', circle_charts[2]);
+			Highcharts.chart('hba1c', circle_charts[3]);
+			Highcharts.chart('glucose_scatter_plot', glucose_scatter_plot);
+			Highcharts.chart('insulin_bar_chart', insulin_bar_chart);
+		}
+		else {
+			alert('Request failed.  Returned status of ' + xhr.status);
+		}
+	};
+	xhr.send();
+}
+
+function createGlucoseScatterPlot(data) {
+	var plotlines = [];
+	for (let index=0; index < data.plotlines.length; index++) {
+		plotlines.push({
+			color: '#808080', // gray
+			width: 1,
+			value: data.plotlines[index] // Position, you'll have to translate this to the values on your x axis
+		});
+	}
+	
+	scatter_plot = {
+		time: {
+			useUTC: false
+		},
+		chart: {
+			backgroundColor: '#FCF5F5',
+			type: 'scatter',
+			zoomType: 'x'
+		},
+		legend: {
+			enabled: false
+		},
+		title: {
+			text: 'Glucose Readings over Time',
+			style: {
+				fontSize: '18px',
+				fontFamily: 'Poppins',
+				textDecoration: 'Underline',
+				color: '#7069AF',
+				
+			}
+		},
+		xAxis: {
+			type: 'datetime',
+			title: {
+				enabled: true,
+				text: 'Time',
+				style: {
+					fontSize: '16px',
+					fontFamily: 'Poppins',
+					color: '#7069AF',
+				}
+			},
+			min: data.min_time,
+			max: data.max_time,
+			plotLines: plotlines
+		},
+		yAxis: {
+			title: {
+				enabled: true,
+				text: 'Glucose Readings',
+				style: {
+					color: '#7069AF'
+				}
+			},
+			min: data.min_glucose,
+			max: data.max_glucose,
+			plotLines: [{
+				color: '#FF0000', // Red
+				width: 1,
+				value: 80 // Position, you'll have to translate this to the values on your x axis
+			},
+			{
+				color: '#FF0000', // Red
+				width: 1,
+				value: 160 // Position, you'll have to translate this to the values on your x axis
+			}]
+		},
+		series: [{
+			color: 'rgba(223, 83, 83, .5)',
+			name: 'Glucose Readings',
+			data: data.glucose_data
+		}],
+		plotOptions: {
+		    scatter: {
+				tooltip: {
+					headerFormat: '{point.x:%B} {point.x:%e}, {point.x:%Y} at {point.x:%H}:{point.x:%M}:{point.x:%S}<br>',
+					pointFormatter: function() {
+						var symbol = '';
+
+						switch ( this.series.symbol ) {
+							case 'circle':
+								symbol = '●';
+								break;
+							case 'diamond':
+								symbol = '♦';
+								break;
+							case 'square':
+								symbol = '■';
+								break;
+							case 'triangle':
+								symbol = '▲';
+								break;
+							case 'triangle-down':
+								symbol = '▼';
+								break;
+							case undefined:
+								symbol = '●';
+								break;
+						}
+						
+						return '<span style="color:' + this.series.color + '">' + symbol + '</span>' + '<strong> ' + this.y + '</strong> carbs';
+					}
+				}
+			}
+		}
+	};
+	
+	return scatter_plot;
+}
+
 function createInsulinBarChart(data) {
 	/*
 	* Creates a highcharts chart dictionary based on input information.
@@ -118,7 +268,7 @@ function createInsulinBarChart(data) {
 	var plotlines = [];
 	for (let index=0; index < data.plotlines.length; index++) {
 		plotlines.push({
-			color: '#808080', // Red
+			color: '#808080', // gray
 			width: 1,
 			value: data.plotlines[index] // Position, you'll have to translate this to the values on your x axis
 		});
@@ -137,7 +287,7 @@ function createInsulinBarChart(data) {
 			zoomType: 'x'
 		},
 		title: {
-			text: 'Insulin Dosage and Carbohydrates over Time',
+			text: '<a href="http://127.0.0.1:8000/glossary/#insulin">Insulin</a> Dosage and <a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbohydrates</a> over Time',
 			style: {
 				fontSize: '18px',
 				fontFamily: 'Poppins',
@@ -175,7 +325,7 @@ function createInsulinBarChart(data) {
 		{
 			title: {
 				enabled: true,
-				text: 'Carbohydrates',
+				text: '<a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbohydrates</a>',
 				style: {
 					color: 'rgba(223, 83, 83, .5)'
 				}
@@ -287,7 +437,7 @@ function createPercentRangeGlucoseBarChart(data) {
 			type: 'bar'
 		},
 		title: {
-			text: 'Percentage Glucose in Range',
+			text: 'Percentage <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a><br> in Range',
 			style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
@@ -346,7 +496,7 @@ function createPercentRangeCarbsBarChart(data) {
 			type: 'bar'
 		},
 		title: {
-			text: 'Percentage Daily Carbohydrates in Range',
+			text: 'Percentage Daily <br><a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbohydrates<br></a> in Range',
 			style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
@@ -428,7 +578,7 @@ function createBoxChart(data) {
 		},
 		yAxis: {
 		   title: {
-			  text: 'Glucose (mg/dL)',
+			  text: '<a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a> (<a href="http://127.0.0.1:8000/glossary/#mg-dL">mg/dL</a>)',
 			  style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
@@ -544,7 +694,7 @@ function createProgressCircles(data) {
 				y: data.min,
 				dataLabels: {
 					y: -70,
-					format: 'Min Glucose: <br/>{y}',
+					format: 'Min <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>: <br/>{y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
@@ -620,7 +770,7 @@ function createProgressCircles(data) {
 				y: data.avg,
 				dataLabels: {
 					y: -70,
-					format: 'Avg Glucose: <br/>{y}',
+					format: 'Avg <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>: <br/>{y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
@@ -696,7 +846,7 @@ function createProgressCircles(data) {
 				y: data.max,
 				dataLabels: {
 					y: -70,
-					format: 'Max Glucose: <br/>{y}',
+					format: 'Max <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>: <br/>{y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
@@ -774,7 +924,7 @@ function createProgressCircles(data) {
 				y: data.hba1c,
 				dataLabels: {
 					y: -70,
-					format: "Hba1c: {y}",
+					format: '<a href="http://127.0.0.1:8000/glossary/#A1C">HBA1C</a>: {y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',

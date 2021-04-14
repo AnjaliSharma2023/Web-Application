@@ -1,0 +1,47 @@
+*{
+   
+    font-family: 'Quicksand', sans-serif;
+    background-color: #FCF5F5;
+}
+
+.glossary{
+    max-width: 1000px;
+	margin: 100px;
+    margin-left: 200px;
+    padding: 40px;
+    align-items: center;
+    font-weight: 100;
+    line-height: 40px;
+    
+    
+}
+
+.glossary h2{
+    font-family: 'Nixie One', cursive;
+    color: #7069AF;
+    margin-bottom: 10px;
+    font-size: 22px;
+   
+}
+
+
+
+.glossary p{
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.glossary hr{
+    width: 100%;
+    border: 0;
+    border-top: 1px solid  #f67c92;
+}
+
+
+
+.glossary a{
+    text-decoration: none;
+    color: blue;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 18px;
+}
