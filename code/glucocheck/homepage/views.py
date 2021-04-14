@@ -667,19 +667,36 @@ def dashboard_data(request, start_date, end_date):
     dashboard_data = {'last_glucose': last_glucose, 'last_carb': last_carb, 'last_insulin': last_insulin, 'progress_circles': {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}, 'scatter_bar_plot': {'min_dosage':min_dosage, 'max_dosage':max_dosage, 'min_carbs': min_carbs, 'max_carbs': max_carbs, 'min_time': min_time, 'max_time': max_time, 'plotlines': plotlines, 'insulin_data': insulin_data, 'carbohydrate_data': carbohydrate_data}, 'box_plot':box_plot, 'bar_plot_glucose':bar_plot_glucose, 'bar_plot_carbs': bar_plot_carbs}
     
     return JsonResponse(dashboard_data)
+
+
+@login_required
+def analytics(request):
+    '''Renders the analytics view ('/analytics/index') with needed context.
+    
+    Keyword arguments:
+    request -- the http request tied to the users session
+    '''
+    context = {'username': str(request.user)}
+    return render(request, 'analytics/index.html', context)
+    
     
 @login_required
-def analytics_data(request): # start_date, end_date
+def analytics_data(request, start_date, end_date): # start_date, end_date
+    
+    start_date = datetime.fromisoformat(start_date)
+    end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
+    
+    # Trend Analysis
+    
+    # earlier_bolus > 10% due to difficulty matching the trend 
+    # up/down_bolus > 30%
+    # up/down_basal > 15%
+    # mealtime > 20%
+    # daily carbs > 50%
+    # use test users 5, 7, 9
     statements = [['normal_glucose', 0], ['up_basal', 0], ['down_basal', 0], ['up_bolus', 0], ['down_bolus', 0], ['earlier_bolus', 0], ['normal_carbs', 0], ['lower_daily_carbs', 0], ['lower_mealtime_carbs', 0]]
-    #start_date = datetime.fromisoformat(start_date)
-    #end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
-    
-    start_date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=30)
-    end_date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-    
     glucose_objects = Glucose.objects.filter(user=request.user, record_datetime__gt=start_date, record_datetime__lt=end_date)
     carb_objects = Carbohydrate.objects.filter(user=request.user, record_datetime__gt=start_date, record_datetime__lt=end_date)
-    print(len(glucose_objects))
     #mealtime_ranges = { 'breakfast': [6,8],
     #    'inbetween1': [9,10],
     #    'lunch': [11,13],
@@ -713,13 +730,6 @@ def analytics_data(request): # start_date, end_date
         for item in days_carbs:
             carb_grouped[-1].append(item)
     
-    '''for group in glucose_grouped:
-        print('\nNew Group')
-        for day in range(len(group)):
-            for item in group[day]:
-                print(f'Day {day} - {item.record_datetime}: {item.glucose_reading}')'''
-    
-    #print(glucose_grouped)
     for group in glucose_grouped:
         statements = determine_trends(group, statements)
         
@@ -729,7 +739,6 @@ def analytics_data(request): # start_date, end_date
     glucose_total = sum([value[1] for value in statements[:-3]])
     day_carb_total = len(carb_grouped)
     reading_carb_total = len(carb_objects)
-    print(statements)
     print(glucose_total, day_carb_total, reading_carb_total)
     for index in range(len(statements[:-3])):
         statements[index][1] = statements[index][1] / glucose_total
@@ -741,13 +750,70 @@ def analytics_data(request): # start_date, end_date
     for statement in statements:
         print(f'{statement[0]}: {statement[1]*100:.2f}%')
     
-    # earlier_bolus > 10% due to difficulty matching the trend 
-    # up/down_bolus > 30%
-    # up/down_basal > 15%
-    # mealtime > 20%
-    # daily carbs > 50%
-    # use test users 5, 7, 9
-    return JsonResponse({'group1':0})
+    statements = {statement[0]:statement[1]*100 for statement in statements[1:-3] + statements[-2:]}
+    
+    # Solid gauge data
+    avg_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading')).get('glucose_reading__avg')
+    min_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading')).get('glucose_reading__min')
+    max_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading')).get('glucose_reading__max')
+    
+    if avg_glucose != None:
+        avg_glucose = int(avg_glucose)
+        a1c = round(((avg_glucose +  46.7)/ 28.7),2)
+    else:
+        a1c = 0
+        avg_glucose = 0
+        min_glucose = 0
+        max_glucose = 0
+        
+    progress_circles = {'min': min_glucose, 'max': max_glucose, 'avg': avg_glucose, 'hba1c': a1c}
+        
+    # Carb/Insulin Scatter/bar plot data
+    insulin_objects = Insulin.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
+    
+    min_dosage = 0
+    max_dosage = Insulin.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('dosage')).get('dosage__max')
+    min_carbs = 0
+    max_carbs = carb_objects.aggregate(Max('carb_reading')).get('carb_reading__max')
+    
+    if max_dosage == None:
+        max_dosage = 6
+    else:
+        max_dosage = int(max_dosage + 2)
+        
+    if max_carbs == None:
+        max_carbs = 30
+    else:
+        max_carbs = int(max_carbs + 5)
+    
+    insulin_data = []
+    carbohydrate_data = []
+    for item in carb_objects:
+        carbohydrate_data.append([item.record_datetime.timestamp()*1000, item.carb_reading])
+        
+    for item in insulin_objects:
+        insulin_data.append([item.record_datetime.timestamp()*1000, item.dosage])
+        
+    min_time = start_date.timestamp() * 1000
+    max_time = end_date.timestamp() * 1000
+    
+    plotlines = []
+    for day in pd.date_range(start=start_date,end=end_date).to_pydatetime():
+        plotlines.append(day.timestamp() * 1000)   
+
+    scatter_bar_plot = {'min_dosage':min_dosage, 'max_dosage':max_dosage, 'min_carbs': min_carbs, 'max_carbs': max_carbs, 'min_time': min_time, 'max_time': max_time, 'plotlines': plotlines, 'insulin_data': insulin_data, 'carbohydrate_data': carbohydrate_data}
+    
+    # Glucose Scatter plot data
+    glucose_data = []
+    for item in glucose_objects:
+        glucose_data.append([item.record_datetime.timestamp()*1000, item.glucose_reading])
+        
+    min_glucose = 0
+    max_glucose = glucose_objects.aggregate(Max('glucose_reading')).get('glucose_reading__max')
+    
+    scatter_plot = {'min_time':min_time, 'max_time':max_time, 'min_glucose':min_glucose, 'max_glucose':max_glucose, 'plotlines':plotlines, 'glucose_data':glucose_data}
+    
+    return JsonResponse({'trend_percentages':statements, 'progress_circles':progress_circles, 'scatter_bar_plot':scatter_bar_plot, 'scatter_plot':scatter_plot})
 
 
 def determine_trends(data_group, statements):
