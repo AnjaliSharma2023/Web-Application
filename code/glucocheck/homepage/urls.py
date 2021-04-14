@@ -24,5 +24,6 @@ urlpatterns = [
     path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
     path('glossary/', views.glossary, name='glossary'),
     
+    
 ]
   
