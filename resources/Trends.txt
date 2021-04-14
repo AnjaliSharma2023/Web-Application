@@ -1,0 +1,37 @@
+Guidelines:
+	"Value Starts" indicates -> Breakfast, Lunch, Dinner, Bedtime
+	"Value Inbetween" indicates -> Readings in between Value Starts that are either due to the user eating a snack or because of a low blood sugar (<80)
+	
+	
+Glucose Trends:
+	Dosage:
+		High:
+			#'x,<,80,<,1:30'#Value Starts at X, if there is a low blood sugar (fasting) reading within 1 hour and 30 minutes (insulin activation time), then dosage is too high (raise carb ratio 1/Y -> 1/Y+2)
+			#'x,<,x-15,>,1:30'#Value Starts at X, if there is a Value Inbetween reading after 1 hour and 30 minutes and reading < X - 15 to 25, then dosage is too high (raise carb ration 1/Y -> 1/Y+1)
+		Low:
+			#'x,>,x+15,>,1:30'#Value Starts at X, if there is a Value Inbetween reading after 1 hour and 30 minutes and reading > X + 15 to 25, then dosage is too low (lower carb ration 1/Y -> 1/Y-1)
+	
+	Basal:
+		High:
+			#'1.5x,<,x+-10,x-20,>,1:30'#Value Inbetween at X 1 hour and 30 minutes after a Value Start, if the next reading < X - 20 to 25, then advise lowering basal rate (Y -> Y - .05)
+		Low:
+			#'1.5x,>,x+-10,x+20,>,1:30'#Value Inbetween at X 1 hour and 30 minutes after a Value Start, if the next reading > X + 20 to 25, then advise raising basal rate (Y -> Y + .05)
+			
+	Both:
+		High:
+			#'x,<,80,>,1:30'#Value Starts at X, if there is a low blood sugar (fasting) reading after 1 hour and 30 minutes (insulin activation time), then basal and/or dosage is too high (raise carb ratio 1/Y -> 1/Y+1 and/or lower basal rate Y -> Y - .05)
+			#'x,<,x-30'#Value Starts at X, if there is no Value Inbetween reading and the next Value Starts reading < X - 30 to 50, then basal and/or dosage is too high (raise carb ratio 1/Y -> 1/Y+1 and/or lower basal rate Y -> Y - .05)
+		Low:
+			#'x,>,x+30'#Value Starts at X, if there is no Value Inbetween reading and the next Value Starts reading > X + 30 to 50, then basal and/or dosage is too low (lower carb ratio 1/Y -> 1/Y-1 and/or raise basal rate Y -> Y + .05)
+	
+	Dosage Timing:
+		#'x,>,x+50,x+-20,<,1:30'#Value Starts at X, if there is a snack/fasting reading where reading > X + 50 to 80 within 1 hour and 30 minutes (insulin activation time) then drops back down to X +- 20 at the next checkpoint, then advise taking insulin dosage 10-15 minutes before meals or minimizing simple sugars
+	
+Carbohydrate Trends:
+	#'x,>,275,=,24:00'#Daily carbs are above 275 grams, advise staying away from simple sugars and high carb foods
+	#'x,>,90'#Meal carbs above 90 to 125, advise staying away from simple sugars and high carb foods 
+	
+Insulin Trends:
+	I don't think we should put too much stock into the accuracy of the datetime here as the trend that might go here can be determined from glucose values and people are less likely to remember dosage times as opposed to glucose measurement times
+	
+	But otherwise - Insulin datetime is X and associated Carb datetime is Y, if X - Y > -5 to 5 minutes, then advise bolusing 10 to 15 minutes before meals
