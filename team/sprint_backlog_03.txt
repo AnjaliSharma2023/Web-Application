@@ -66,8 +66,8 @@ The *one* story—and any subitems—that are presently in progress. Only the de
 
 ••• (10) Generate Approved Advice: As a developer, I want to provide generic advice and alerts based on the health data and metrics so that I do not give regulated medical advice. (1. Is legally unregulated. 2. Is safe. 3. Is accurate. 4. Is based upon both the customer's health data and the metrics. 5. Incorporates dietary information. 6. Is actionable.)
 # (2021-04-09) Rework test data generation (Kai)
-= (2021-04-02) Create an algorithm to identify unsafe glucose trends (Kai)
-= (2021-04-02) Create an algorithm to identify unsafe carb trends (Kai)
+# (2021-04-14) Create an algorithm to identify unsafe glucose trends (Kai)
+# (2021-04-14) Create an algorithm to identify unsafe carb trends (Kai)
 = (2021-04-12) Create a list of unregulated, safe, and actionable statements (Stuart)
 
 •• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so that I can understand my health better. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
