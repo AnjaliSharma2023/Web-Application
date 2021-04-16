@@ -1,3 +1,25 @@
+  
+Trends
+
+https://github.com/bizzlebin/team_6/blob/master/resources/Trends.txt
+
+nkfs:/red/language/Trends.txt
+
+***
+
+By krmcgregor1
+
+***
+
+Created 2021-04-05
+
++++
+Description
+
+The trends and their associated statement for glucose, carbohydrate, and insulin data. The trends, in code form, is included for reference
+
++++
+
 Guidelines:
 	"Value Starts" indicates -> Breakfast, Lunch, Dinner, Bedtime
 	"Value Inbetween" indicates -> Readings in between Value Starts that are either due to the user eating a snack or because of a low blood sugar (<80)
