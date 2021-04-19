@@ -689,7 +689,17 @@ def analytics(request):
     
     
 @login_required
-def analytics_data(request, start_date, end_date): # start_date, end_date
+def analytics_data(request, start_date, end_date):
+    '''Renders the analytics data form view ('/analytics-data/<start_date>/<end_date>/') with the different plots for the logged in user.
+
+    Keyword arguments:
+    request -- the http request tied to the users session
+    start_date -- the selected start date as an iso formatted string
+    end_date -- the selected end date as an iso formatted string
+    
+    Returns:
+    JSONResponse -- the json response with the data for the graphs and info displayed on the analytics page
+    '''
     
     start_date = datetime.fromisoformat(start_date)
     end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
@@ -825,6 +835,15 @@ def analytics_data(request, start_date, end_date): # start_date, end_date
 
 
 def determine_trends(data_group, statements):
+    '''Matches and increments the data group to trends and returns the number of matches to the corrosponding statement.
+
+    Keyword arguments:
+    data_group -- a list of the objects to be matched, should be of one consistent type either Carbohydrate or Glucose
+    statements -- the current increment of the statements
+    
+    Returns:
+    incr_statements -- the statements that have been incremented as a result of matched trends
+    '''
     incr_statements = statements[:]
     trends = {statements[0][0]:{'x,<,x+-10':1}, statements[1][0]:{'1.5x,>,x+-10,x+20,>,1:30':1, 'x,>,x+30':.5}, statements[2][0]:{'1.5x,<,x+-10,x-20,>,1:30':1, 'x,<,80,>,1:30':.5, 'x,<,x-30':.5}, 
         statements[3][0]:{'x,>,x+15,>,1:30':1, 'x,>,x+30':.5}, statements[4][0]:{'x,<,80,<,1:30':1, 'x,<,x-15,>,1:30':1, 'x,<,80,>,1:30':.5, 'x,<,x-30':.5}, 
@@ -903,6 +922,14 @@ def determine_trends(data_group, statements):
 
 
 def returnCounterpart(item):
+    '''Returns the counterpart to the input statement.
+
+    Keyword arguments:
+    item -- the statement to to be edited, either 'up_basal', 'down_basal', 'up_bolus', 'down_bolus'
+    
+    Returns:
+    string -- the counterpart to the input statement
+    '''
     item = item.split('_')
     if item[1] == 'basal':
         return item[0] + '_bolus'
@@ -911,6 +938,15 @@ def returnCounterpart(item):
 
 
 def test_carbohydrate_trend(trend, days_carbs):
+    '''Tests the carbohydrate data against the input trend to determine a match.
+
+    Keyword arguments:
+    trend -- a split string (list) representing the trend to be matched
+    days_carbs -- a single Carbohydrate model object or list of objects to be tested against the trend
+    
+    Returns:
+    boolean -- a boolean telling whether the trend was matched or not
+    '''
     if type(days_carbs) is Carbohydrate:
         eval_string = trend[0].replace('x', 'days_carbs.carb_reading')
         eval_string += trend[1]
@@ -928,6 +964,17 @@ def test_carbohydrate_trend(trend, days_carbs):
       
       
 def test_glucose_trend(trend, initial_reading, inbetween_readings, next_reading):
+    '''Tests the reading group against the input trend to determine a match.
+
+    Keyword arguments:
+    trend -- a split string (list) representing the trend to be matched
+    initial_reading -- the Glucose model object representing the first meal in the group
+    inbetween_readings -- a list of any Glucose model object readings that occur inbetween two meals
+    next_reading -- the Glucose model object representing the second meal in the group
+    
+    Returns:
+    boolean -- a boolean telling whether the trend was matched or not
+    '''
     if len(trend) < 4:
         if '+-' in trend[2]:
             addsub_value = int(trend[2].split('+-')[1])
@@ -1014,6 +1061,16 @@ def test_glucose_trend(trend, initial_reading, inbetween_readings, next_reading)
     
     
 def group_data(day, group_hour_ranges, record_datetime):
+    '''Groups data into one of three groups based on the hour ranges passed in.
+
+    Keyword arguments:
+    day -- the day the datetime corrosponds to
+    group_hour_ranges -- the hour ranges each of the three groups corrosponds to
+    record_datetime -- the datetime of the object to be sorted
+    
+    Returns:
+    indexes -- the indexes (0-2 incl.) the item should be placed into, can return a tuple of indexes or a single index
+    '''
     for index in range(len(group_hour_ranges)):
         if group_hour_ranges[index][0][0] <= record_datetime.hour < group_hour_ranges[index][1][0]:
             return index
