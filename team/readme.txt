@@ -250,6 +250,14 @@ Thursday (2021-04-15)
 
 1. **10 pm sprint retrospective**: what worked, what didn't, and how can we improve?
 
+===
+Week 12 (2021-04-18)
+
+---
+Monday (2021-04-19)
+
+1. **10 pm** meeting on Teams: we're done with scrum so we'll break down the final tasks and prep for the presentation
+
 +++
 Ground Rules
 
@@ -268,4 +276,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-04-08
+**meta_updated**: 2021-04-18
