@@ -72,16 +72,11 @@ body::-webkit-scrollbar {
 #footer{
     padding: 0 30px;
     background-color: #FCF5F5;
-  
-    
-   height: 50%;
+    bottom: 0;
+    height: 50%;
+
 }
-.container.footer-row hr{
-    width: 100%;
-    border: 0;
-    border-top: 1px solid #262261;
-    margin-bottom: -600px;
-}
+
 
 .footer-row{
     display: flex;
@@ -90,7 +85,10 @@ body::-webkit-scrollbar {
     flex-wrap: wrap;
     margin-right: 80px;
     margin-left: 80px;
-    margin-top: -500px;
+    margin-top: -100px;
+    margin-bottom: -300px;
+    
+
    
    
    

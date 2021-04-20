@@ -1,0 +1,50 @@
+Sprint Retrospective 03
+
+https://github.com/bizzlebin/team_6/blob/master/team/sprint_retrospective_03.txt
+
+***
+
+By Jeremiah Thomas, et al
+
+***
+
+Created 2021-04-15
+
++++
+Description
+
+Highlights of the team's (and scrum framework's) efficiency, effectiveness, and issues during the sprint.
+
++++
++
+
+• Communication is still strong
+•• Better progress updates
+•• More help, especially with code
+•• Understanding of other team members
+• Consistent demo
+• Self-identification of strengths
+
++++
+-
+
+• Second-guessing code quality
+• Siloing between scrum master, PO, and dev team
+• Missing live mentor feedback
+• Lack of planning
+• Lack of focus
+• Lots of novel material
+• User stories too broad
+
++++
+Δ
+
+• Dive into stories sooner and look ahead
+• Break any "10" stories into smaller stories and consider adding complexity values to subtasks
+• Be more specific about the code or strategy used for each subtask
+
++++
+?
+
+• How to determine if a story is too broad?
+• Scope of presentation?

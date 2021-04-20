@@ -57,23 +57,15 @@ Definition Of Done
 5. The feature is live in the repo, either currently deployed or ready to deploy immediately.
 \\\
 **2021-04-12**:••• (5) Input Health Data Via API: As a developer, I want to automate data entry so that advanced users or hardware can quickly and accurately input large amounts of health data. (1. Provides a public-facing API that allows programmatic mass data entry after authentication. 2. Documents the API for users.)
-
+**2021-04-14**:••• (10) Generate Approved Advice: As a developer, I want to provide generic advice and alerts based on the health data and metrics so that I do not give regulated medical advice. (1. Is legally unregulated. 2. Is safe. 3. Is accurate. 4. Is based upon both the customer's health data and the metrics. 5. Incorporates dietary information. 6. Is actionable.)
+**2021-04-14**:•• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so that I can understand my health better. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
 ===
 Doing
 
 The *one* story—and any subitems—that are presently in progress. Only the dev team may pull an item into this category and they may freely create subitems, as needed: this is the place to break a story down.
 
 
-••• (10) Generate Approved Advice: As a developer, I want to provide generic advice and alerts based on the health data and metrics so that I do not give regulated medical advice. (1. Is legally unregulated. 2. Is safe. 3. Is accurate. 4. Is based upon both the customer's health data and the metrics. 5. Incorporates dietary information. 6. Is actionable.)
-# (2021-04-09) Rework test data generation (Kai)
-# (2021-04-14) Create an algorithm to identify unsafe glucose trends (Kai)
-# (2021-04-14) Create an algorithm to identify unsafe carb trends (Kai)
-= (2021-04-12) Create a list of unregulated, safe, and actionable statements (Stuart)
 
-•• (1) Provide Definitions: As a customer, I want descriptions of app-related medical terms so that I can understand my health better. (1. From a recognized medical authority. 2. With a hyperlink to a .org or .gov source. 3. Covering all medical terms used on the website.)
-= (2021-04-12) Determine our source (Stuart)
-= (2021-03-29) Develop initial list of 10–15 terms (Stuart, Mehdi)
-= (2021-03-29) Find JS script to auto-hyperlink terms (Mehdi)
 
 ===
 Do

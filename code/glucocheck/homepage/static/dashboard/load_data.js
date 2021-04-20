@@ -125,33 +125,36 @@ function loadAnalyticsData() {
 		if (xhr.status === 200) {
 			var data = JSON.parse(xhr.responseText);
 			
+			window.glucose_days = data.glucose_days;
+			window.carbohydrate_days = data.carbohydrate_days;
+			
 			let advice_container = document.getElementById('advice_statement');
 			let advice_statement = "";
 			for (let entry in data.trend_percentages) {
 				if (entry == 'up_basal' && data.trend_percentages[entry] >= 15) {
-					advice_statement = advice_statement.concat('Up Long-Acting Insulin<br>');
+					advice_statement = advice_statement.concat('We recommend raising your long-acting Insulin<br>');
 				}
 				else if (entry =='down_basal' && data.trend_percentages[entry] >= 15) {
-					advice_statement = advice_statement.concat('Down Long-Acting Insulin<br>');
+					advice_statement = advice_statement.concat('We recommend lowering your long-acting insulin<br>');
 				}
 				else if (entry =='up_bolus' && data.trend_percentages[entry] >= 30) {
-					advice_statement = advice_statement.concat('Up Bolus<br>');
+					advice_statement = advice_statement.concat('We recommend raising your bolus<br>');
 				}
 				else if (entry =='down_bolus' && data.trend_percentages[entry] >= 30) {
-					advice_statement = advice_statement.concat('Down Bolus<br>');
+					advice_statement = advice_statement.concat('We recommend lowering your bolus<br>');
 				}
 				else if (entry =='earlier_bolus' && data.trend_percentages[entry] >= 10) {
-					advice_statement = advice_statement.concat('Earlier Bolus<br>');
+					advice_statement = advice_statement.concat('We recommend taking your bolus earlier<br>');
 				}
 				else if (entry =='lower_daily_carbs' && data.trend_percentages[entry] >= 80) {
-					advice_statement = advice_statement.concat('Lower Daily Carbs<br>');
+					advice_statement = advice_statement.concat('We recommend lowering your daily carbs<br>');
 				}
 				else if (entry =='lower_mealtime_carbs' && data.trend_percentages[entry] >= 20) {
-					advice_statement = advice_statement.concat('Lower Mealtime Carbs<br>');
+					advice_statement = advice_statement.concat('We recommend lowering your mealtime carbs<br>');
 				}
 			}
 			if (advice_statement == "") {
-				advice_statement = "Normal";
+				advice_statement = "Your glucose values are great!";
 			}
 			advice_container.innerHTML = advice_statement;
 			
@@ -173,7 +176,92 @@ function loadAnalyticsData() {
 	xhr.send();
 }
 
+function loadAnalyticsContext(glucose_bool) {
+	/*
+	* Requests user data based for the day, providing context to the trend analysis.
+	* 
+	* @return {void} Nothing.
+	*/
+	if (glucose_bool == true) {
+		if (document.getElementById('glucose_trend_context').innerHTML.length == 0) {
+			var index = 0;
+		} else {
+			var index = document.querySelector("#glucose_trend_context .highcharts-title").innerHTML.split('Day')[1].trim();
+			if (index.length > 4) {
+				index = index.split('>');
+				index = parseInt(index[index.length-1]);
+				
+			}
+			else {
+				index = parseInt(index);
+			}
+		}
+	}
+	else {
+		if (document.getElementById('carb_trend_context').innerHTML.length == 0) {
+			var index = 0;
+		} else {
+			var index = document.querySelector("#carb_trend_context .highcharts-title").innerHTML.split('Day')[1].trim();
+			if (index.length > 4) {
+				index = index.split('>');
+				index = parseInt(index[index.length-1]);
+				
+			}
+			else {
+				index = parseInt(index);
+			}
+		}
+	}
+	if ((glucose_bool == true && window.glucose_days.length != 0) || (glucose_bool == false && window.carbohydrate_days.length != 0)) {
+		if (glucose_bool == true) {
+			if (index >= window.glucose_days.length) {
+				index = 0;
+			}
+			var day = window.glucose_days[index];
+		} else {
+			if (index >= window.carbohydrate_days.length) {
+				index = 0;
+			}
+			var day = window.carbohydrate_days[index];
+		}
+		
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', '/analytics-trend-data/' + day + '/' + glucose_bool + '/');
+		xhr.onload = function() {
+			if (xhr.status === 200) {
+				var data = JSON.parse(xhr.responseText);
+				
+				if (glucose_bool == true) {
+					let glucose_scatter_plot = createGlucoseScatterPlot(data);
+					let title_day = (index + 1).toString();
+					glucose_scatter_plot.title.text = 'Glucose Context, Day ' + title_day;
+					delete glucose_scatter_plot.chart.zoomType;
+					Highcharts.chart('glucose_trend_context', glucose_scatter_plot);
+				} else {
+					let carb_insulin_bar_plot = createInsulinBarChart(data);
+					let title_day = (index + 1).toString();
+					carb_insulin_bar_plot.title.text = 'Carb Context, Day ' + title_day;
+					delete carb_insulin_bar_plot.chart.zoomType;
+					Highcharts.chart('carb_trend_context', carb_insulin_bar_plot);
+				}
+			}
+			else {
+				alert('Request failed.  Returned status of ' + xhr.status);
+			}
+		};
+		xhr.send();
+	}
+}
+
+
 function createGlucoseScatterPlot(data) {
+	/*
+	* Creates a highcharts chart dictionary based on input information.
+	*
+	* @param {dictionary} data - the scatter plot data containing min/max axis values, plotlines, and the plotted data.
+	* 
+	* @return {dictionary} the highcarts chart dictionary for the glucose scatter plot.
+	*/
 	var plotlines = [];
 	for (let index=0; index < data.plotlines.length; index++) {
 		plotlines.push({
@@ -274,7 +362,7 @@ function createGlucoseScatterPlot(data) {
 								break;
 						}
 						
-						return '<span style="color:' + this.series.color + '">' + symbol + '</span>' + '<strong> ' + this.y + '</strong> carbs';
+						return '<span style="color:' + this.series.color + '">' + symbol + '</span>' + '<strong> ' + this.y + '</strong> mg/dL';
 					}
 				}
 			}

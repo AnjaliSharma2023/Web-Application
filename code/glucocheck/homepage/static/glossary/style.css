@@ -11,7 +11,7 @@
     padding: 40px;
     align-items: center;
     font-weight: 100;
-    line-height: 40px;
+    line-height: 30px;
     
     
 }
@@ -20,7 +20,7 @@
     font-family: 'Nixie One', cursive;
     color: #7069AF;
     margin-bottom: 10px;
-    font-size: 22px;
+    font-size: 20px;
    
 }
 
@@ -28,7 +28,7 @@
 
 .glossary p{
     margin-top: 10px;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .glossary hr{

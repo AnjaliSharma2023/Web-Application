@@ -25,8 +25,5 @@ urlpatterns = [
     path('analytics-data/<start_date>/<end_date>/', views.analytics_data, name='analytics_data'),
     path('analytics', views.analytics, name='analytics'),
     path('glossary/', views.glossary, name='glossary'),
-]
-  
-urlpatterns += [
-    path('api-token-auth/', authviews.obtain_auth_token)
+    path('analytics-trend-data/<day>/<glucose_bool>/', views.analytics_trend_data, name='analytics_trend_data'),
 ]

@@ -422,8 +422,15 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
         return user_list
     
     class setUpTrendData:
+        '''A class for initializing test glucose, insulin, and carbohydrate data according to trends for multiple users in a live test server.'''
         # 285 carbs per day # normal 200/275
         def __init__(self, num_users):
+            '''Initializes the class, creating the Glucose, Insulin, and Carbohydrate data for the number of users requested.
+            
+            Keyword Arguments:
+            self -- the setUpTrendData class object
+            num_users -- the number of users to generate data for
+            '''
             self.statements = ['normal', 'up_basal', 'down_basal', 'up_bolus', 'down_bolus', 'earlier_bolus', 'lower_daily_carbs', 'lower_mealtime_carbs']
             # Glucose:
             #   {'initial_value,</>/=,subsequent_value,</>/=,timeframe(H:MM)':tally_value} timeframe is optional for when there is no fasting/snack reading in between meals
@@ -520,6 +527,14 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             
                 
         def __str__(self):
+            '''Returns a string outputting the context of the users created.
+            
+            Keyword Arguments:
+            self -- the setUpTrendData class object
+            
+            Returns:
+            string -- the formatted context string
+            '''
             return_string = '\n'
             for key, value in self.return_dict.items():
                 return_string += f'{key}: {value}\n\n'
@@ -529,6 +544,15 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
         
         @staticmethod
         def _switchNormal(trend, glucose):
+            '''Removes or moves the fourth item in the normal trend.
+            
+            Keyword Arguments:
+            trend -- the normal trend as a string
+            glucose -- a boolean telling whether it's for a Glucose or Carbohydrate object
+            
+            Returns:
+            string --  the converted trend string
+            '''
             trend = trend.split(',')
             if glucose is False:
                 trend[-2] = trend[-1]
@@ -542,6 +566,9 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             
             Keyword Arguments:
             user_num -- the user num to appended to the username, password, and email and then incremented and returned
+            
+            Returns:
+            tuple -- the created user, and the next users number
             '''
             birth_date = datetime.today().replace(year=datetime.today().year - 19)
             while True:
@@ -559,6 +586,7 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             
         @staticmethod
         def _fillCategories():
+            '''Fills the recording category database with the needed data if they don't already exist.'''
             recording_categories = ['fasting', 'before breakfast', 'after breakfast', 'before lunch', 'after lunch', 'snacks', 'before dinner', 'after dinner']
             if len(RecordingCategory.objects.all()) == 0:
                 for category in recording_categories:
@@ -566,6 +594,18 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             
             
         def _getCategory(self, trend, time_ranges, time, inbetween=False):
+            '''Returns the corrosponding category for the Glucose model object.
+            
+            Keyword Arguments:
+            self -- the setUpTrendData class object
+            trend -- the trend the Glucose model is being matched to
+            time_ranges -- the time ranges the Glucose model is in
+            time -- the datetime of the Glucose model object
+            inbetween -- a boolean telling if the reading is for a meal or a reading inbetween
+            
+            Returns:
+            RecordingCategory -- the recording category for the Glucose model object
+            '''
             if inbetween:
                 return RecordingCategory.objects.get(pk=6)
             
@@ -598,6 +638,17 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
           
         @staticmethod    
         def _getGlucoseTime(day, time_range, prev_reading=None, trend=None):
+            '''Returns the datetime for the glucose reading according to the previous reading, trend, and time range.
+            
+            Keyword Arguments:
+            day -- the day the reading occurs on
+            time_range -- the time range the reading falls in to
+            prev_reading -- the previous glucose reading, if available
+            trend -- the trend, if it inpacts the datetime of the glucose
+            
+            Returns:
+            datetime -- the datetime of the Glucose model object
+            '''
             if trend is None:
                 hour = randint(time_range[0],time_range[1])
                 if hour > 23:
@@ -628,6 +679,15 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
              
         @staticmethod            
         def _getTrendReading(passthrough_vars, trend):
+            '''Returns the glucose reading according to the trend.
+            
+            Keyword Arguments:
+            passthrough_vars -- the vars to be included in the eval statement
+            trend -- the trend the Glucose model is being matched to
+            
+            Returns:
+            int -- the generated glucose reading according to the trend
+            '''
             reading_range = trend.split('/')
 
             if 'x' in trend:
@@ -727,6 +787,14 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
               
         @staticmethod
         def _getCarbTime(glucose_reading):
+            '''Returns the carbohydrate datetime according to the glucose reading.
+            
+            Keywork Arguments:
+            glucose_reading -- the glucose reading for the time to be generated from based on the category
+            
+            Returns:
+            datetime -- the datetime of the Carbohydrate model object
+            '''
             category = glucose_reading.categories.name
             time = glucose_reading.record_datetime
             if 'snacks' in category or 'before' in category:
@@ -738,6 +806,14 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
         
         @staticmethod
         def _format24HCarbTrend(trend):
+            '''Converts a range from a 24 hour trend to (totals) to give the range when generating three seperate points.
+            
+            Keywork Arguments:
+            trend -- the 24 hour trend to edit
+            
+            Returns:
+            string -- the edited trend
+            '''
             low = int(trend.split('/')[0])
             high = int(trend.split('/')[1])
             
@@ -748,6 +824,16 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
             
        
         def _addCarbData(self, user, trend, norm_trend, day, glucose_readings):
+            '''Creates Carbohydrate model objects for a user to match the trend given.
+            
+            Keywork Arguments:
+            self -- the setUpTrendData class object
+            user -- the user object to attach data to
+            trend -- the trend to generate the data in compience to
+            norm_trend --  the carbohydrate normal trend
+            day -- the datetime day the readings occur on
+            glucose_readings -- the days glucose readings
+            '''
             # Carb readings for inbetween readings that are low dependent on time
             # Carb readings for low bedtime values 
             
@@ -797,6 +883,14 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
                 
         @staticmethod
         def _returnCounterpart(item):
+            '''Returns the counterpart to the input statement.
+
+            Keyword arguments:
+            item -- the statement to to be edited, either 'up_basal', 'down_basal', 'up_bolus', 'down_bolus'
+            
+            Returns:
+            string -- the counterpart to the input statement
+            '''
             item = item.split('_')
             if item[1] == 'basal':
                 return item[0] + '_bolus'
@@ -805,6 +899,15 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
         
         
         def _getUserTrends(self, user_num):
+            '''Returns the trends to be used with a user.
+
+            Keyword arguments:
+            self -- the setUpTrendData class object
+            user_num -- the number of the user to be created (0-4)
+            
+            Returns:
+            dict -- the user trends dictionary with with the trends each statement corrosponds to
+            '''
             user_trends = {'active':{statement:0 for statement in self.statements[1:] if randint(0,100) <= 30}}
             user_trends['active'][self.statements[0]] = 0
             # ['normal', 'up_basal', 'down_basal', 'up_bolus', 'down_bolus', 'earlier_bolus', 'lower_daily_carbs', 'lower_mealtime_carbs']
@@ -818,6 +921,18 @@ class SetupVisualizationDatasets(StaticLiveServerTestCase):
         
         
         def _determineTrend(self, trend_group, user_trends, user_chance, glucose=True):
+            '''Determines the trend the set of data should be generated to.
+
+            Keyword arguments:
+            self -- the setUpTrendData class object
+            trend_group -- the group of trend the data can be generated from
+            user_trends --  the users trends to be applied to their data
+            user_chance --  the chance of the user to use a trend, as opposed to the normal trend
+            glucose -- tells whether the group of data the trend is being used for is Glucose or Carbohydrate
+            
+            Returns:
+            string -- the trend the users data shall be generated to
+            '''
             temp_trends = [trend for trend in user_trends['active'].keys() if trend in trend_group.keys()]
             temp_trends.insert(0, temp_trends.pop(temp_trends.index('normal')))
             
