@@ -258,6 +258,31 @@ Monday (2021-04-19)
 
 1. **10 pm** meeting on Teams: we're done with scrum so we'll break down the final tasks and prep for the presentation
 
+---
+Tuesday (2021-04-20)
+
+1. Project report
+1.1. Review project report: any additions, corrections, changes?
+1.2. Provide personal reflection: 1 paragraph minimum for ch 5
+2. Presentation slides
+2.1. Outline slides and general presentation flow
+2.2. Begin slide development and artwork
+
+---
+Wednesday (2021-04-21)
+
+1. **10 pm** meeting on Teams: final check of report draft, review of presentation slide progress
+
+---
+Thursday (2021-04-22)
+
+1. Submit draft report for review (plaintext?)
+
+---
+Saturday (2021-04-24)
+
+1. Submit final report (with screenshots)
+
 +++
 Ground Rules
 
@@ -276,4 +301,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-04-18
+**meta_updated**: 2021-04-19
