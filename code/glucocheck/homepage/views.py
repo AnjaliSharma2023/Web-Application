@@ -46,7 +46,7 @@ def get_account_nav(user):
     if user.is_authenticated:
         account_nav = f'hi {str(user)}, logout?'.upper()
     else:
-        account_nav = 'LOGIN'
+        account_nav = 'Login'
     
     return account_nav
 
@@ -155,7 +155,7 @@ def signup(request):
              'form_title': 'Sign Up',
              'submit_value': 'Register Account',
              'additional_html': 'account/signup_extra.html',
-             'account_nav': 'SIGN-UP',
+             'account_nav': get_account_nav(request.user),
     }
     return render(request,'form/form.html', context)
 
@@ -549,14 +549,14 @@ def dashboard_data(request, start_date, end_date):
         for item in carb_objects:
             carb_day_total += item.carb_reading
             
-            if carb_day_total > 325:
-                bar_data_carbs['Day']['aboverange'] += 1
-            else:
-                bar_data_carbs['Day']['inrange'] += 1
+        if carb_day_total > 275:
+            bar_data_carbs['Day']['aboverange'] += 1
+        else:
+            bar_data_carbs['Day']['inrange'] += 1
                 
     bar_plot_carbs = {'data':[]}
-    inrange = {'name': 'In-range (0-325)', 'color': '#8CC63E','data':[]}
-    aboverange = {'name': 'Above-range (>325)', 'color':'#7069AF', 'data':[]}
+    inrange = {'name': 'In-range (0-275)', 'color': '#8CC63E','data':[]}
+    aboverange = {'name': 'Above-range (>275)', 'color':'#7069AF', 'data':[]}
     for section, value in bar_data_carbs.items():
         total = value['aboverange'] + value['inrange']
         if total == 0:
