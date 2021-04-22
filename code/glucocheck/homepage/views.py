@@ -46,7 +46,7 @@ def get_account_nav(user):
     if user.is_authenticated:
         account_nav = f'hi {str(user)}, logout?'.upper()
     else:
-        account_nav = 'LOGIN'
+        account_nav = 'Login'
     
     return account_nav
 
@@ -155,7 +155,7 @@ def signup(request):
              'form_title': 'Sign Up',
              'submit_value': 'Register Account',
              'additional_html': 'account/signup_extra.html',
-             'account_nav': 'SIGN-UP',
+             'account_nav': get_account_nav(request.user),
     }
     return render(request,'form/form.html', context)
 
@@ -549,14 +549,14 @@ def dashboard_data(request, start_date, end_date):
         for item in carb_objects:
             carb_day_total += item.carb_reading
             
-            if carb_day_total > 325:
-                bar_data_carbs['Day']['aboverange'] += 1
-            else:
-                bar_data_carbs['Day']['inrange'] += 1
+        if carb_day_total > 275:
+            bar_data_carbs['Day']['aboverange'] += 1
+        else:
+            bar_data_carbs['Day']['inrange'] += 1
                 
     bar_plot_carbs = {'data':[]}
-    inrange = {'name': 'In-range (0-325)', 'color': '#8CC63E','data':[]}
-    aboverange = {'name': 'Above-range (>325)', 'color':'#7069AF', 'data':[]}
+    inrange = {'name': 'In-range (0-275)', 'color': '#8CC63E','data':[]}
+    aboverange = {'name': 'Above-range (>275)', 'color':'#7069AF', 'data':[]}
     for section, value in bar_data_carbs.items():
         total = value['aboverange'] + value['inrange']
         if total == 0:
@@ -687,9 +687,101 @@ def analytics(request):
     context = {'username': str(request.user)}
     return render(request, 'analytics/index.html', context)
     
+
+@login_required
+def analytics_trend_data(request, day, glucose_bool):
+    '''Renders the analytics data form view ('/analytics-data/<start_date>/<end_date>/') to display trend context.
+
+    Keyword arguments:
+    request -- the http request tied to the users session
+    day -- the day to display data from
+    glucose_bool -- a boolean indicating whether the call is for glucose or carbohydrate information
+    
+    Returns:
+    JsonResponse -- the json response with the data for the graphs displayed for the context section
+    '''
+    day = day.split('T')[0]
+    day = day.split('-')
+    day = list(map(lambda x: int(x), day))
+    day = datetime(day[0], day[1], day[2])
+    
+    if glucose_bool == 'true':
+        glucose_bool = True
+    else:
+        glucose_bool = False
+        
+    if glucose_bool:
+        min_time = day + timedelta(hours=2)
+        max_time = day + timedelta(days=1, hours=2)
+        days_readings = Glucose.objects.filter(user=request.user, record_datetime__gt=min_time, record_datetime__lt=max_time)
+        
+        glucose_data = []
+        for item in days_readings:
+            glucose_data.append([item.record_datetime.timestamp()*1000, item.glucose_reading])
+            
+        min_glucose = 0
+        max_glucose = days_readings.aggregate(Max('glucose_reading')).get('glucose_reading__max')
+        
+        plotlines = []
+        
+        min_time = min_time.timestamp() * 1000
+        max_time = max_time.timestamp() * 1000
+        
+        scatter_plot = {'min_time':min_time, 'max_time':max_time, 'min_glucose':min_glucose, 'max_glucose':max_glucose, 'plotlines':plotlines, 'glucose_data':glucose_data}
+        
+        return JsonResponse(scatter_plot)
+    else:
+        min_time = day + timedelta(hours=2)
+        max_time = day + timedelta(days=1, hours=2)
+        
+        days_readings = Carbohydrate.objects.filter(user=request.user, record_datetime__gt=min_time, record_datetime__lt=max_time)
+        insulin_objects = Insulin.objects.filter(user=request.user,record_datetime__gt=min_time, record_datetime__lt=max_time)
+    
+        min_dosage = 0
+        max_dosage = insulin_objects.aggregate(Max('dosage')).get('dosage__max')
+        min_carbs = 0
+        max_carbs = days_readings.aggregate(Max('carb_reading')).get('carb_reading__max')
+        
+        if max_dosage == None:
+            max_dosage = 6
+        else:
+            max_dosage = int(max_dosage + 2)
+            
+        if max_carbs == None:
+            max_carbs = 30
+        else:
+            max_carbs = int(max_carbs + 5)
+        
+        insulin_data = []
+        carbohydrate_data = []
+        for item in days_readings:
+            carbohydrate_data.append([item.record_datetime.timestamp()*1000, item.carb_reading])
+        
+        for item in insulin_objects:
+            insulin_data.append([item.record_datetime.timestamp()*1000, item.dosage])
+        
+        plotlines = []
+            
+        min_time = min_time.timestamp() * 1000
+        max_time = max_time.timestamp() * 1000
+        
+        scatter_bar_graph = {'min_dosage':min_dosage, 'max_dosage':max_dosage, 'min_carbs': min_carbs, 'max_carbs': max_carbs, 'min_time': min_time, 'max_time': max_time, 'plotlines': plotlines, 'insulin_data': insulin_data, 'carbohydrate_data': carbohydrate_data}
+        
+        return JsonResponse(scatter_bar_graph)
+    
     
 @login_required
-def analytics_data(request, start_date, end_date): # start_date, end_date
+def analytics_data(request, start_date, end_date):
+    '''Renders the analytics data form view ('/analytics-data/<start_date>/<end_date>/') with the different plots for the logged in user.
+
+    Keyword arguments:
+    request -- the http request tied to the users session
+    start_date -- the selected start date as an iso formatted string
+    end_date -- the selected end date as an iso formatted string
+    
+    Returns:
+    JsonResponse -- the json response with the data for the graphs and info displayed on the analytics page
+    '''
     
     start_date = datetime.fromisoformat(start_date)
     end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
@@ -712,8 +804,8 @@ def analytics_data(request, start_date, end_date): # start_date, end_date
     #    'dinner': [17,20],
     #    'bedtime': [21,25]}
     group_hour_ranges = [[[6,9], [11,14]], [[11,14], [17,21]], [[17,21], [21,26]]]
-    glucose_grouped = [[] for x in range(3)]
-    carb_grouped = []
+    glucose_grouped = [[] for x in range(3)] #[[group], [group], [group]] group = [day_readings], [day_readings]...
+    carb_grouped = [] # [[day_readings], [day_readings]...]
     for day in pd.date_range(start=start_date, end=end_date).to_pydatetime():
         # Glucose data grouping
         days_readings = glucose_objects.filter(record_datetime__gt=day+timedelta(hours=2), record_datetime__lt=day+timedelta(days=1, hours=2))
@@ -738,11 +830,18 @@ def analytics_data(request, start_date, end_date): # start_date, end_date
         for item in days_carbs:
             carb_grouped[-1].append(item)
     
+    glucose_days = []
     for group in glucose_grouped:
-        statements = determine_trends(group, statements)
-        
+        statements, new_days = determine_trends(group, statements)
+        glucose_days += new_days
+    
+    carbohydrate_days = []
     for day in carb_grouped:
-        statements = determine_trends(day, statements)
+        statements, new_days = determine_trends(day, statements)
+        carbohydrate_days += new_days
+    
+    glucose_days = sorted(list(set(glucose_days)))
+    carbohydrate_days = sorted(list(set(carbohydrate_days)))
     
     glucose_total = sum([value[1] for value in statements[:-3]])
     day_carb_total = len(carb_grouped)
@@ -780,7 +879,7 @@ def analytics_data(request, start_date, end_date): # start_date, end_date
     insulin_objects = Insulin.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
     
     min_dosage = 0
-    max_dosage = Insulin.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('dosage')).get('dosage__max')
+    max_dosage = insulin_objects.aggregate(Max('dosage')).get('dosage__max')
     min_carbs = 0
     max_carbs = carb_objects.aggregate(Max('carb_reading')).get('carb_reading__max')
     
@@ -821,10 +920,19 @@ def analytics_data(request, start_date, end_date): # start_date, end_date
     
     scatter_plot = {'min_time':min_time, 'max_time':max_time, 'min_glucose':min_glucose, 'max_glucose':max_glucose, 'plotlines':plotlines, 'glucose_data':glucose_data}
     
-    return JsonResponse({'trend_percentages':statements, 'progress_circles':progress_circles, 'scatter_bar_plot':scatter_bar_plot, 'scatter_plot':scatter_plot})
+    return JsonResponse({'glucose_days':glucose_days, 'carbohydrate_days':carbohydrate_days, 'trend_percentages':statements, 'progress_circles':progress_circles, 'scatter_bar_plot':scatter_bar_plot, 'scatter_plot':scatter_plot})
 
 
 def determine_trends(data_group, statements):
+    '''Matches and increments the data group to trends and returns the number of matches to the corrosponding statement.
+
+    Keyword arguments:
+    data_group -- a list of the objects to be matched, should be of one consistent type either Carbohydrate or Glucose
+    statements -- the current increment of the statements
+    
+    Returns:
+    tuple -- the statements that have been incremented as a result of matched trends and the days on which trends have been matched
+    '''
     incr_statements = statements[:]
     trends = {statements[0][0]:{'x,<,x+-10':1}, statements[1][0]:{'1.5x,>,x+-10,x+20,>,1:30':1, 'x,>,x+30':.5}, statements[2][0]:{'1.5x,<,x+-10,x-20,>,1:30':1, 'x,<,80,>,1:30':.5, 'x,<,x-30':.5}, 
         statements[3][0]:{'x,>,x+15,>,1:30':1, 'x,>,x+30':.5}, statements[4][0]:{'x,<,80,<,1:30':1, 'x,<,x-15,>,1:30':1, 'x,<,80,>,1:30':.5, 'x,<,x-30':.5}, 
@@ -844,12 +952,14 @@ def determine_trends(data_group, statements):
         raise ValueError('Mixed data types received, expected a nested iterator with either Glucose or Carbohydrate objects')
     
     day_trend = False
+    day_list = []
     for index in range(len(statements)):
         # Prevents double marking full day trends and single reading trends
         for trend in trends[statements[index][0]]:
             trend = trend.split(',')
             if data_type is Glucose:
                 for day in data_group:
+                    new_day = day[0].record_datetime.replace(hour=0, minute=0, second=0, microsecond=0)
                     if len(day) < 2:
                         continue
                     elif len(day) == 2: #3, 5 # 6 'x,=,x+-10', 'x,>,x+30', 'x,<,x-30', 'x,<,80,>,1:30', 'x,<,80,<,1:30', 'x,>,x+15,>,1:30', 'x,<,x-15,>,1:30'
@@ -864,6 +974,9 @@ def determine_trends(data_group, statements):
                         next_reading = day[-1]
                     
                     if test_glucose_trend(trend, initial_reading, inbetween_readings, next_reading):
+                        if new_day not in day_list and statements[index][0] != 'normal_glucose':
+                            day_list.append(new_day)
+                            
                         increment = trends[statements[index][0]][','.join(trend)]
                         # Increment the other half percentage if needed
                         if increment == .5:
@@ -878,12 +991,16 @@ def determine_trends(data_group, statements):
                                 incr_statements[index2][1] += increment
                                 break
             else:
+                new_day = data_group[0].record_datetime.replace(hour=0, minute=0, second=0, microsecond=0)
                 if len(trend) < 4:
                     if day_trend is True:
                         continue
                         
                     for item in data_group:
                         if test_carbohydrate_trend(trend, item):
+                            if new_day not in day_list and statements[index][0] != 'normal_carbs':
+                                day_list.append(new_day)
+                                
                             increment = trends[statements[index][0]][','.join(trend)]
                             for index2 in range(len(incr_statements)):
                                 if incr_statements[index2][0] == statements[index][0]:
@@ -892,6 +1009,9 @@ def determine_trends(data_group, statements):
                         
                 else:
                     if test_carbohydrate_trend(trend, data_group):
+                        if new_day not in day_list and statements[index][0] != 'normal_carbs':
+                            day_list.append(new_day)
+                            
                         day_trend = True
                         increment = trends[statements[index][0]][','.join(trend)]
                         for index2 in range(len(incr_statements)):
@@ -899,10 +1019,18 @@ def determine_trends(data_group, statements):
                                 incr_statements[index2][1] += increment
                                 break
                         
-    return incr_statements
+    return incr_statements, day_list
 
 
 def returnCounterpart(item):
+    '''Returns the counterpart to the input statement.
+
+    Keyword arguments:
+    item -- the statement to to be edited, either 'up_basal', 'down_basal', 'up_bolus', 'down_bolus'
+    
+    Returns:
+    string -- the counterpart to the input statement
+    '''
     item = item.split('_')
     if item[1] == 'basal':
         return item[0] + '_bolus'
@@ -911,6 +1039,15 @@ def returnCounterpart(item):
 
 
 def test_carbohydrate_trend(trend, days_carbs):
+    '''Tests the carbohydrate data against the input trend to determine a match.
+
+    Keyword arguments:
+    trend -- a split string (list) representing the trend to be matched
+    days_carbs -- a single Carbohydrate model object or list of objects to be tested against the trend
+    
+    Returns:
+    boolean -- a boolean telling whether the trend was matched or not
+    '''
     if type(days_carbs) is Carbohydrate:
         eval_string = trend[0].replace('x', 'days_carbs.carb_reading')
         eval_string += trend[1]
@@ -928,6 +1065,17 @@ def test_carbohydrate_trend(trend, days_carbs):
       
       
 def test_glucose_trend(trend, initial_reading, inbetween_readings, next_reading):
+    '''Tests the reading group against the input trend to determine a match.
+
+    Keyword arguments:
+    trend -- a split string (list) representing the trend to be matched
+    initial_reading -- the Glucose model object representing the first meal in the group
+    inbetween_readings -- a list of any Glucose model object readings that occur inbetween two meals
+    next_reading -- the Glucose model object representing the second meal in the group
+    
+    Returns:
+    boolean -- a boolean telling whether the trend was matched or not
+    '''
     if len(trend) < 4:
         if '+-' in trend[2]:
             addsub_value = int(trend[2].split('+-')[1])
@@ -1014,6 +1162,16 @@ def test_glucose_trend(trend, initial_reading, inbetween_readings, next_reading)
     
     
 def group_data(day, group_hour_ranges, record_datetime):
+    '''Groups data into one of three groups based on the hour ranges passed in.
+
+    Keyword arguments:
+    day -- the day the datetime corrosponds to
+    group_hour_ranges -- the hour ranges each of the three groups corrosponds to
+    record_datetime -- the datetime of the object to be sorted
+    
+    Returns:
+    indexes -- the indexes (0-2 incl.) the item should be placed into, can return a tuple of indexes or a single index
+    '''
     for index in range(len(group_hour_ranges)):
         if group_hour_ranges[index][0][0] <= record_datetime.hour < group_hour_ranges[index][1][0]:
             return index
