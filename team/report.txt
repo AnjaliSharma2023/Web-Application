@@ -10,21 +10,21 @@ By Jeremiah Thomas, et al
 
 Created 2021-04-11
 
-Updated 2021-04-19
+Updated 2021-04-22
 
 +++
 Description
 
-The project report for Team 6's project and app, GlucoCheck; uses template provided by teacher.
+The ***draft*** project report for Team 6's project and app, GlucoCheck; uses template provided by teacher, which is not semantically optimized.
 
 +++
-0. [Title Page]
+[0. Title Page]
 
 Glucocheck
 
 Submitted by:
 Jeremiah Thomas, Computer Programming Student (Scrum Master)
-Stuart Watson, Computer Programming Student (Product Owner)
+Stuart Watson, Data Science Student (Product Owner)
 Anjali Sharma, Data Science Student (Developer)
 Elmehdi Mnajli, Data Science Student (Developer)
 Kai McGregor, Computer Programming Student (Developer)
@@ -36,7 +36,7 @@ Industry Mentors:
 Mike Fitzpatrick, IHS Markit Software Developer
 William Calhoun, IHS Markit Executive Director
 
-???, 2021
+April 24, 2021
 
 Submitted in partial fulfillment of the requirements for CSC 289 Capstone Project
 
@@ -103,24 +103,24 @@ Our product also offers lifestyle changes and USDA/FDA-approved meal ideas for c
 ===
 3.1. Methods
 
-Using the Django framework and coordinating code with Git and GitHub, our team created a viable Python 3 web app backed by an SQLite database for storing, graphing, and providing context for diabetes health data provided by users. This required a heavy amount of work from the Scrum Master and Product Owner at the beginning of the project, while the development team's work steadily increased during the sprints. Over the course of 3 sprints, features were added and the app grew into a more complete and competitive product.
+Our team had only 1 semester to create an application and a limited amount of options to choose from. Based on the group's experiences—centered around Python and SQLite—and one of our member's own health condition, we decided to focus on the glucose monitoring app GlucoCheck and develop in Django, a framework a couple of us had used before. We had access to both an SRS and HLD and walked through the documentation multiple times. But in the end, we scaled down many of the concepts into something that was more attuned to the data scientists in the group and created our own user stories based on our needs just as much as the customer's. Coordinating code and management with Git and GitHub and meeting at least twice a week on MS Teams, our Scrum Master and Product Owner put in a heavy amount of work at the beginning of the project. The development team's work, in turn, steadily increased during the sprints as we used a pull-style "board" where members could choose the tasks most suited to their skills. Over the course of 3 sprints, our app grew into a more complete and competitive product.
 
-During sprint 1, our team finished laying the groundwork for the project in terms of communication and collaboration tools. It was also during this sprint that we were able to deal with our most crippling constraints: basic medical knowledge, regulations, and information on food data API access. Our scrum master was able to fill out a series of legal release forms for the food data, but ultimately the server was not set up for the sort of access our team needed. We were able to tackle regulatory issues with a little research and some generic, HIPAA-tested disclaimers. Finally, our lead developer Kai provided textual summaries and Q&A for the team regarding diabetes, allowing us all a window into the condition and the basic knowledge to move forward. All of this was enough to get our app's skeleton built.
+During sprint 1, our team finished laying the groundwork for the project in terms of communication and collaboration tools. It was also during this sprint that we were able to deal with our most crippling constraints: basic medical knowledge, regulations, and information on food data API access. Our scrum master was able to fill out a series of legal release forms for the food data, but ultimately the server was not set up for the sort of access our team needed. We were able to tackle regulatory issues with a little research and some generic, HIPAA-tested disclaimers. Finally, our lead developer Kai provided textual summaries and Q&A for the team regarding diabetes, allowing us all a window into the condition and giving us sufficient basic knowledge to move forward. All of this was enough to get our app's skeleton built.
 
-By the start of sprint 2, our team had completed the basic website and sign-up process but still needed to address the final constraint: visualization. Since no one had much experience with either Python or JS-based graphing libraries, we were able to solicit feedback from our mentors to help us arrive at a solution. It was also during this sprint that we started to run up against more personal challenges, delving into more and more unknown algorithms and complex chains of logic. Though the work was difficult, we finished the sprint with working both the ability to input health data and meaningfully visualize it.
+By the start of sprint 2, our team had completed the shell of the website and sign-up process but still needed to address the final constraint: visualization. Since no one had much experience with either Python or JS-based graphing libraries, we were able to solicit feedback from our mentors to help us arrive at a solution: client-side JS—in the form of Highcharts—on top of our server-side Python. It was also during this sprint that we started to run up against more personal challenges, delving further into unknown algorithms and complex chains of logic. Though the work was difficult, we finished the sprint with both the ability to input health data and meaningfully visualize it.
 
-For sprint 3, we chose to focus on the next-most-important features that would give our produce a competitive advantage: user-facing definitions, legally-safe health advice, and a public API for uploading health data either in bulk or from a device. These user stories brought us back into obscure territory, but we continued to learn new libraries, more complex algorithms, and even how to make better test data. By the end, we we able to implement all 3 of these new features.
+For sprint 3, we chose to focus on the next-most-important features that would give our product a competitive advantage: user-facing definitions, legally-safe health advice, and a public API for uploading health data either in bulk or from a device. These user stories brought us back into obscure territory, but we continued to learn new libraries, more complex algorithms, and even how to make better test data. By the end, we we able to implement all 3 of these new features.
 
-Due to time constraints and the difficulty of the work involved, every sprint after the first saw a major reduction in user stories—and story points—completed. For example, during sprint 2, our team had hoped to do extended browser testing. Even though this user story had only 2 story point allotted, we ended up postponing the story in order to focus on features that would add more direct value to the customer; this was based on advice from our mentors. Though we did not reattempt the story in sprint 3, our evolving definition of done obviated the need for much of the testing as a separate story.
+Due to time constraints and the difficulty of the work involved, every sprint after the first saw a major reduction in user stories—and story points—completed. For example, during sprint 2, our team had hoped to do extended browser testing. Even though this user story had only 2 story points allotted, we ended up postponing the story in order to focus on features that would add more direct value to the customer; this was based on advice from our mentors. Though we did not reattempt the story in sprint 3, our evolving definition of done obviated the need for much of the testing as a separate story.
 
 ===
 3.2. Project Management
 
-The form of project management we used during application development was scrum. Though all of our team members had some familiarity with the framework, none of us had used it in a pure form. But because of the structure of the project and all the amazing stories we'd heard about scrum, we adopted it as closely as we were able to.
+The form of project management we used during application development was scrum. Though all of our team members had some familiarity with the framework, none of us had used it in a pure form. But because of the structure of the class and all the amazing stories we'd heard about scrum, we adopted it as closely as we were able to.
 
 For our artifacts, such as sprint backlogs, we stuck exclusively to plaintext hosted on GitHub. This allowed everyone to easily update, read, and upload all changes without any specialized tools and encouraged transparency among team members who were otherwise only able to meet with each other virtually. Extra support for the artifacts, as well as the increment codebase, was provided via our Slack workspace, where we were able to post questions and answers at any time of day or night; this was especially important for our team because of scheduling issues.
 
-The scrum ceremonies were more difficult to carry out online and involved using the videoconferencing features of Microsoft Teams. This was not able to completely replicate the environment of an in-person daily scrum, but the regularity of our twice-weekly "standups" did help the team stay focused on the goal and continue to develop interpersonal connections. The larger ceremonies, such as sprint reviews and retrospectives, were also conducted on Teams, and we were able to make extensive use of screen sharing—both for presentation purposes and also for live group editing of scrum artifacts and project documentation.
+The scrum ceremonies were more difficult to carry out online and involved using the videoconferencing features of Microsoft Teams. This tool was not able to completely replicate the environment of an in-person daily scrum, but the regularity of our twice-weekly "standups" did help the team stay focused on the goal and continue to develop interpersonal connections. The larger ceremonies, such as sprint reviews and retrospectives, were also conducted on Teams, and we were able to make extensive use of screen sharing—both for presentation purposes and for live group editing of scrum artifacts and project documentation.
 
 In accordance with our understanding of scrum, we did not mandate any specific processes in addition to scrum. However, the scrum master did provide a wealth of optional formats and processes for everything from filenames to metadata to docstrings. All of these tools allowed the team's code and documentation to better integrate. We also used a plugin for Slack called Poker Planner, which was invaluable for complexity estimation and sprint planning.
 
@@ -147,11 +147,11 @@ While a complete presentation of all our team's artifacts—to say nothing of th
 ===
 3.4. Results
 
-By the end of 3 sprints, we fell far short of some of the goals we'd hoped to achieve. Some of these difficulties were brought on by forces outside of our control, such as the copyright and legal issues surrounding us implementing any robust form of meal planning (see request form, below—one of many steps in that long, winding path to rejection). Other challenges were brought on by the scrum framework itself, which—despite its claims—created some unbreakable silos in our group and prevented valuable work from being done because of strict, role-based boundaries. Further roadblocks were truly our own: we lacked "real life" working experience with most of the tools, libraries, and even algorithms we needed to implement in order to create our app.
+By the end of 3 sprints, we fell far short of some of the goals we'd hoped to achieve. Some of the difficulties were brought on by forces outside of our control, such as the copyright and legal issues surrounding us implementing any robust form of meal planning. Other challenges were brought on by the scrum framework itself, which—despite its claims—created some unbreakable silos in our group and prevented valuable work from being done because of strict, role-based boundaries. Further roadblocks were truly our own: we lacked "real life" working experience with most of the tools, libraries (see eventual visualization results, below), and even algorithms we needed to implement in order to create our app.
 
 [pic]
 
-Yet with the continued support of our mentors, we were able to meet these challenges not as problems but opportunities. We were forced to confront questions such as feature priority, marketability, and usability. We had to rethink our definition of done (see current definition, below). And we had to cut some features off completely, like exporting health data—it would not be too difficult to implement in the future, but there was no time to research and/or develop our own data format. All of this made our app—and our team—stronger.
+Yet with the continued support of our mentors, we were able to meet these challenges not as problems but opportunities. We were forced to confront questions such as feature priority, marketability, and usability. We had to rethink our definition of done. And we had to cut some features off completely, like exporting health data—it would not be too difficult to implement in the future, but there was no time to research and/or develop our own data format. All of this made our app—and our team—stronger. This focus gave us the ability to hone in on features like the API (see below).
 
 [pic]
 
@@ -161,6 +161,8 @@ By the end of the project, we completed a total of 10 user stories (38 points): 
 
 +++
 4. Conclusion/Summary
+
+Our GlucoCheck app is a viable Python web app for storing, graphing, and providing context for diabetes health data provided by users. In 3 sprints, we went from scrum novices to veterans, and created a product with real commercial potential. The open API, vendor-neutral approach, and health suggestions give our application real advantages over competitors. Though some of the most distinguishing features are not quite ready, our app could be deployed as-is on a public website in a matter of minutes—fully ready for new customers. And because we have monetization strategies planned ahead of time, our implementation can easily transition from a school project to a money-making enterprise. This shared experience will help our team in résumés, in future employment, and maybe even as a job in and of itself!
 
 +++
 5. Reflections
@@ -173,3 +175,8 @@ Anjali - Glucocheck Capstone project is a team work where multiple students from
 
 +++
 6. Acknowledgments
+
+WTCC, our school, which provided all of us amazing opportunities for growth
+IHS Markit, which provided us with patient and knowledgeable mentors
+Tandem Diabetes Care, which graciously allowed us to use their tested disclaimers and policies
+And the developers and maintainers of all the languages, frameworks, and libraries we used throughout our app
