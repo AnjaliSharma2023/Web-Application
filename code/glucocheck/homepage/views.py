@@ -1255,23 +1255,34 @@ def profile_page(request):
     return render(request,'form/form.html', context)
 
 
+
 class GlucoseView(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
-    """ 
-    ---
+    '''
+    Methods in the Glucose API page
+
     get:
-        Return the last 4 entries by the user.
-        
+        Return the last 4 entries of the user.
     post:
         Creates a new entry of Glucose.
         
-    """ 
-    
-    queryset = Glucose.objects.all().order_by('-id')[:3]
+    ''' 
+
+    ''' Renders the API view of Glucose
+    Represent the API endpoint that allows users to be view or edit with the authenciation and persmission
+    Keyword argument:
+    mixins.ListModelMixin -- Provides a .list(request, *args, **kwargs) method, that implements listing a queryset and 
+                             return it as a response to a GET request
+    mixins.CreateModelMixin -- Provides a .create(request, *args, **kwargs) method, that implements creating and 
+                               saving a new object in response to POST request
+    generics.GenericAPIView -- Provides the core functionality needed to build API view
+    '''
+
+    queryset = Glucose.objects.all().order_by('-id')[:4]
     serializer_class = GlucoseSerializer
-    authentication_classes = (TokenAuthentication,SessionAuthentication)
-    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,SessionAuthentication) # add authentication to check
+    permission_classes = (IsAuthenticated,)                              # add permission to check if user is authenticated
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -1287,16 +1298,28 @@ class CarbsView(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
     """ 
-    ---
+    Methods in the Carbohydrate API page
+    
     get:
-        Return the last 4 entries by the user.
-        
+        Return the last 4 entries by the user.    
     post:
         Creates a new entry of Carbohydrate.
 
     """ 
     
-    queryset = Carbohydrate.objects.all().order_by('-id')[:3]
+
+    ''' Renders the API view of Glucose
+    Represent the API endpoint that allows users to be view or edit with the authenciation and persmission
+    
+    Keyword argument:
+    mixins.ListModelMixin -- Provides a .list(request, *args, **kwargs) method, that implements listing a queryset and 
+                             return it as a response to a GET request
+    mixins.CreateModelMixin -- Provides a .create(request, *args, **kwargs) method, that implements creating and 
+                               saving a new object in response to POST request
+    generics.GenericAPIView -- Provides the core functionality needed to build API view
+    '''
+    
+    queryset = Carbohydrate.objects.all().order_by('-id')[:4]
     serializer_class = CarbohydrateSerializer
     authentication_classes = (TokenAuthentication,SessionAuthentication)
     permission_classes = (IsAuthenticated,)
@@ -1306,7 +1329,6 @@ class CarbsView(mixins.ListModelMixin,
     
 
     def get(self, request, *args, **kwargs):
-     
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -1318,14 +1340,26 @@ class InsulinAPIView(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
     """ 
-    ---
+    Methods in the Carbohydrate API page
+
     get:
         Return the last 4 entries by the user.
-        
     post:
         Creates a new entry of Insulin.
 
     """ 
+    
+
+    ''' Renders the API view of Glucose
+    Represent the API endpoint that allows users to be view or edit with the authenciation and persmission
+    
+    Keyword argument:
+    mixins.ListModelMixin -- Provides a .list(request, *args, **kwargs) method, that implements listing a queryset and 
+                             return it as a response to a GET request
+    mixins.CreateModelMixin -- Provides a .create(request, *args, **kwargs) method, that implements creating and 
+                               saving a new object in response to POST request
+    generics.GenericAPIView -- Provides the core functionality needed to build API view
+    '''
 
     queryset = Insulin.objects.all().order_by('-id')[:3]
     serializer_class = InsulinSerializer
