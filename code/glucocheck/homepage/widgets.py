@@ -2,6 +2,13 @@ from django import forms
 from django.template import loader
 from django.utils.safestring import mark_safe
 
+class DateTimeLocal(forms.DateTimeInput):
+    '''Overrides the DateTimeInput input_type attribute to display a datetime picker in chrome.
+    
+    input_type -- the input type to be used in the <input> tag
+    '''
+    input_type='datetime-local'
+
 class CheckboxLink(forms.widgets.Input):
     '''Creates a checkbox widget with text and/or a hyperlink next to it.
     
