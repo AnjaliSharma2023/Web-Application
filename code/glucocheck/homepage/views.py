@@ -473,10 +473,12 @@ def dashboard_data(request, start_date, end_date):
     start_date = datetime.fromisoformat(start_date)
     end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
     
+    glucose_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=start_date,record_datetime__lt=end_date)
+    
     # Solid gauge data
-    avg_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading')).get('glucose_reading__avg')
-    min_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading')).get('glucose_reading__min')
-    max_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading')).get('glucose_reading__max')
+    avg_glucose = glucose_objects.aggregate(Avg('glucose_reading')).get('glucose_reading__avg')
+    min_glucose = glucose_objects.aggregate(Min('glucose_reading')).get('glucose_reading__min')
+    max_glucose = glucose_objects.aggregate(Max('glucose_reading')).get('glucose_reading__max')
     
     if avg_glucose != None:
         avg_glucose = int(avg_glucose)
@@ -512,9 +514,9 @@ def dashboard_data(request, start_date, end_date):
     carbohydrate_objects = Carbohydrate.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
     
     min_dosage = 0
-    max_dosage = Insulin.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('dosage')).get('dosage__max')
+    max_dosage = insulin_objects.aggregate(Max('dosage')).get('dosage__max')
     min_carbs = 0
-    max_carbs = Carbohydrate.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('carb_reading')).get('carb_reading__max')
+    max_carbs = carbohydrate_objects.aggregate(Max('carb_reading')).get('carb_reading__max')
     
     if max_dosage == None:
         max_dosage = 6
@@ -544,7 +546,7 @@ def dashboard_data(request, start_date, end_date):
     # Carb percent in range data
     bar_data_carbs = {'Day': {'inrange':0, 'aboverange':0}}
     for day in pd.date_range(start=start_date,end=end_date).to_pydatetime():
-        carb_objects = Carbohydrate.objects.filter(user=request.user, record_datetime__gt=day, record_datetime__lt=day + timedelta(days=1))
+        carb_objects = carbohydrate_objects.filter(record_datetime__gt=day, record_datetime__lt=day + timedelta(days=1))
         carb_day_total = 0
         for item in carb_objects:
             carb_day_total += item.carb_reading
@@ -569,7 +571,6 @@ def dashboard_data(request, start_date, end_date):
     bar_plot_carbs['data'].append(inrange)
     
     # Glucose percent in range and glucose whisker plot data
-    glucose_objects = Glucose.objects.filter(user=request.user,record_datetime__gt=start_date, record_datetime__lt=end_date)
     box_data = {'Night':{'items':[]},'Morning':{'items':[]},'Afternoon':{'items':[]},'Evening':{'items':[]}}
     bar_data_glucose = {'Night': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Morning': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Afternoon': {'inrange':0, 'belowrange':0, 'aboverange':0}, 'Evening': {'inrange':0, 'belowrange':0, 'aboverange':0}}
     for item in glucose_objects: 
@@ -785,7 +786,7 @@ def analytics_data(request, start_date, end_date):
     
     start_date = datetime.fromisoformat(start_date)
     end_date = datetime.fromisoformat(end_date) + timedelta(days=1)
-    
+    print(start_date, end_date)
     # Trend Analysis
     
     # earlier_bolus > 10% due to difficulty matching the trend 
@@ -842,10 +843,16 @@ def analytics_data(request, start_date, end_date):
     
     glucose_days = sorted(list(set(glucose_days)))
     carbohydrate_days = sorted(list(set(carbohydrate_days)))
-    
     glucose_total = sum([value[1] for value in statements[:-3]])
     day_carb_total = len(carb_grouped)
     reading_carb_total = len(carb_objects)
+    
+    if glucose_total == 0:
+        glucose_total = 1
+    if day_carb_total == 0:
+        day_carb_total = 1
+    if reading_carb_total == 0:
+        reading_carb_total = 1
     print(glucose_total, day_carb_total, reading_carb_total)
     for index in range(len(statements[:-3])):
         statements[index][1] = statements[index][1] / glucose_total
@@ -860,10 +867,11 @@ def analytics_data(request, start_date, end_date):
     statements = {statement[0]:statement[1]*100 for statement in statements[1:-3] + statements[-2:]}
     
     # Solid gauge data
-    avg_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Avg('glucose_reading')).get('glucose_reading__avg')
-    min_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Min('glucose_reading')).get('glucose_reading__min')
-    max_glucose = Glucose.objects.filter(user=request.user,record_datetime__date__gt=start_date,record_datetime__date__lt=end_date).aggregate(Max('glucose_reading')).get('glucose_reading__max')
-    
+    avg_glucose = glucose_objects.aggregate(Avg('glucose_reading')).get('glucose_reading__avg')
+    min_glucose = glucose_objects.aggregate(Min('glucose_reading')).get('glucose_reading__min')
+    max_glucose = glucose_objects.aggregate(Max('glucose_reading')).get('glucose_reading__max')
+    print(glucose_objects)
+    print(avg_glucose, min_glucose, max_glucose)
     if avg_glucose != None:
         avg_glucose = int(avg_glucose)
         a1c = round(((avg_glucose +  46.7)/ 28.7),2)
@@ -959,6 +967,9 @@ def determine_trends(data_group, statements):
             trend = trend.split(',')
             if data_type is Glucose:
                 for day in data_group:
+                    if len(day) == 0:
+                        continue
+                        
                     new_day = day[0].record_datetime.replace(hour=0, minute=0, second=0, microsecond=0)
                     if len(day) < 2:
                         continue
@@ -991,6 +1002,8 @@ def determine_trends(data_group, statements):
                                 incr_statements[index2][1] += increment
                                 break
             else:
+                if len(data_group) == 0:
+                    continue
                 new_day = data_group[0].record_datetime.replace(hour=0, minute=0, second=0, microsecond=0)
                 if len(trend) < 4:
                     if day_trend is True:

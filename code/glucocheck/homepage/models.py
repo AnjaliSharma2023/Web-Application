@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 # Create your models here.
 
 class UserProfile(models.Model):  
-    user = models.OneToOneField(User,on_delete= models.CASCADE)# relationship of user attribute with User model 
+    user = models.OneToOneField(User, on_delete= models.CASCADE)# relationship of user attribute with User model 
     # every profile associated with one user and every user will have one profile                      
     birth_date = models.DateField(null=True, blank=True)
     state = models.CharField(max_length=200)
@@ -42,7 +42,7 @@ class RecordingCategory(models.Model):
         return self.name
 
 class Glucose(models.Model):
-    user = models.ForeignKey(User, on_delete= models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete= models.CASCADE)
     glucose_reading = models.PositiveIntegerField()
     record_datetime = models.DateTimeField()
     #record_time = models.TimeField()
@@ -54,7 +54,7 @@ class Glucose(models.Model):
         return str(self.glucose_reading)
 
 class Carbohydrate(models.Model):
-    user = models.ForeignKey(User, on_delete= models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete= models.CASCADE)
     carb_reading = models.PositiveIntegerField()
     record_datetime = models.DateTimeField()
 
@@ -64,7 +64,7 @@ class Carbohydrate(models.Model):
 
 class Insulin(models.Model):
 
-    user = models.ForeignKey(User, on_delete= models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete= models.CASCADE)
     dosage = models.FloatField()
     record_datetime = models.DateTimeField()
     
