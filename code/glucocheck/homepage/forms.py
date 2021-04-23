@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from homepage.models import UserProfile, Glucose, Carbohydrate, Insulin, RecordingCategory
 from datetime import date, datetime
-from homepage.widgets import CheckboxLink, InputWithSelector
+from homepage.widgets import CheckboxLink, InputWithSelector, DateTimeLocal
 from localflavor.us.forms import USStateSelect
 from django.contrib.auth import authenticate
 from homepage.fields import FloatWithUnitField, IntWithUnitField
@@ -245,7 +245,7 @@ class GlucoseReadingForm(forms.ModelForm):
     
     glucose_reading = IntWithUnitField(required=True, widget=InputWithSelector(forms.NumberInput, [('mg/dL','mg/dL'),('mmo/L','mmo/L')], attrs={'placeholder':'glucose', 'class':'form-control'}, wrap_elem='div', wrap_elem_attrs={'class':'column'}))
     #glucose_reading = IntWithUnitField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Glucose Value'}))
-    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record Datetime Y-M-D H:M:S'}),input_formats= '%Y-%m-%d %H:%M:%S')
+    record_datetime = forms.DateTimeField(required=True, widget = DateTimeLocal(attrs={'class':'form-control', 'placeholder':'Record Datetime Y-M-D H:M:S'}))
     notes = forms.CharField(required=False, widget= forms.Textarea(attrs={'rows': 1,'cols': 40,'class':'form-control', 'placeholder':'Notes'}))
     categories = forms.ModelChoiceField(queryset=RecordingCategory.objects.all(), widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Categories'}))
 
@@ -297,7 +297,7 @@ class CarbReadingForm(forms.ModelForm):
     
     '''
     carb_reading = forms.IntegerField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Carbs Value    -g'}))
-    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record DateTime Y-M-D H:M:S'}),input_formats= '%Y-%m-%d %H:%M:%S')
+    record_datetime = forms.DateTimeField(required=True, widget = DateTimeLocal(attrs={'class':'form-control', 'placeholder':'Record DateTime Y-M-D H:M:S'}))
     
 
     class Meta():
@@ -338,7 +338,7 @@ class InsulinReadingForm(forms.ModelForm):
     '''
     
     dosage =forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Insulin unit'}))
-    record_datetime = forms.DateTimeField(required=True, widget = forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Record DateTime Y-M-D H:M:S'}),input_formats= '%Y-%m-%d %H:%M:%S')
+    record_datetime = forms.DateTimeField(required=True, widget = DateTimeLocal(attrs={'class':'form-control', 'placeholder':'Record DateTime Y-M-D H:M:S'}))
     
     class Meta():
         '''Meta data on the form.
