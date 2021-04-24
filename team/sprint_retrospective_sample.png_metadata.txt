@@ -1,0 +1,29 @@
+Sprint Retrospective Sample
+
+https://github.com/bizzlebin/team_6/blob/master/team/sprint_retrospective_sample.png
+
+***
+
+By Team 6
+
+Translated by Jeremiah Thomas
+
+***
+
+Created 2021-04
+
++++
+Metadata
+
+===
+Description
+
+An image of a plaintext sprint retrospective, showing 4 chapters covering the 4 basic points: sprint positives, negatives, planned changes, and questions.
+
++++
+Metametadata
+
+**meta_title**: Sprint Retrospective Sample Metadata
+**meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/sprint_retrospective_sample.png_metadata.txt
+**meta_author**: Jeremiah Thomas
+**meta_created**: 2021-04-24
