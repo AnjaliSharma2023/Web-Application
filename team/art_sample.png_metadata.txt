@@ -1,0 +1,29 @@
+Art Sample
+
+https://github.com/bizzlebin/team_6/blob/master/team/art_sample.png
+
+***
+
+By Team 6
+
+Translated by Jeremiah Thomas
+
+***
+
+Created 2021-04
+
++++
+Metadata
+
+===
+Description
+
+An image of the homepage, showcasing the specially-made art and graphic design of our website.
+
++++
+Metametadata
+
+**meta_title**: Art Sample Metadata
+**meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/art_sample.png_metadata.txt
+**meta_author**: Jeremiah Thomas
+**meta_created**: 2021-04-24
