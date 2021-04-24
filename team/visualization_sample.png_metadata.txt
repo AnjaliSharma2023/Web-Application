@@ -1,0 +1,29 @@
+Visualization Sample
+
+https://github.com/bizzlebin/team_6/blob/master/team/visualization_sample.png
+
+***
+
+By Team 6
+
+Translated by Jeremiah Thomas
+
+***
+
+Created 2021-04
+
++++
+Metadata
+
+===
+Description
+
+An image of part of the visualization dashboard, showing a whisker plot and scatter plot of glucose readings, carb intake, and insulin dosages, with summary bar graphs.
+
++++
+Metametadata
+
+**meta_title**: Visualization Sample Metadata
+**meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/visualization_sample.png_metadata.txt
+**meta_author**: Jeremiah Thomas
+**meta_created**: 2021-04-24
