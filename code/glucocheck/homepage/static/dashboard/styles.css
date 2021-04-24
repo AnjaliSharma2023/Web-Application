@@ -171,12 +171,13 @@ a{
 }
 .collapse__menu{
   display: none;
-  
-  padding: .75rem 2.25rem;
+
+  padding: .75rem 3rem;
 }
 .collapse__sublink{
   color: var(--sub-color);
-  font-size: 12px;
+
+  font-size: 13px;
 }
 .collapse__sublink:hover{
   color: var(--white-color);
@@ -277,17 +278,40 @@ a{
 }
 
 .grid-item.two h2{
+  margin-top: -20px;
+  text-align: center;
+  text-decoration: underline;
   font-size: 18px;
-  color:#7069AF ;
+  color:#8CC63E ;
   font-family: 'Poppins';
 	
 }
 
 .grid-item.two h4{
-  font-size: 13px;
-  color:#8CC63E ;
+  font-size: 14px;
+  color:#7069AF;
   font-family: 'Poppins';
 	
+}
+
+.grid-item.two button{
+    padding: 8px 20px;
+    margin: 5px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border-radius: 4em;
+    border: 1px solid #000;
+    color: #262261;
+    cursor: pointer;
+    background: linear-gradient(to left,  #f67c92 50% ,transparent 50%);
+    background-size: 200%;
+    background-position: right;
+    transition: background-position 0.5s;
+}
+
+.grid-item.two button:hover{
+  background-position:left;
+  color: #000;
 }
 
 /*===== footer =====*/
