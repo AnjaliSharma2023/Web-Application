@@ -1,0 +1,29 @@
+Product Backlog Sample
+
+https://github.com/bizzlebin/team_6/blob/master/team/product_backlog_sample.png
+
+***
+
+By Team 6
+
+Translated by Jeremiah Thomas
+
+***
+
+Created 2021-04
+
++++
+Metadata
+
+===
+Description
+
+An image of the plaintext product backlog, showing user story precedence (bullets), story points (parenthetical number), title, body, and acceptance criteria (also parenthesized).
+
++++
+Metametadata
+
+**meta_title**: Product Backlog Sample Metadata
+**meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/product_backlog_sample.png_metadata.txt
+**meta_author**: Jeremiah Thomas
+**meta_created**: 2021-04-24
