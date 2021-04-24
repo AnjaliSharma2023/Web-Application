@@ -80,9 +80,9 @@ function loadDashboardData() {
 			let last_carb = document.getElementById('last_carb');
 			let last_insulin = document.getElementById('last_insulin');
 			
-			last_insulin.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#insulin">Insulin</a>:<br>&emsp;&emsp;' + data.last_insulin;
-			last_glucose.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>:<br>&emsp;&emsp;' + data.last_glucose;
-			last_carb.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbs</a>:<br>&emsp;&emsp;' + data.last_carb;
+			last_insulin.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#insulin"><i><u style="color: #fabdc8;">Insulin:</u></i></a><br>&emsp;&emsp;' + data.last_insulin;
+			last_glucose.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#glucose"><i><u style="color: #fabdc8;">Glucose:</u></i></a><br>&emsp;&emsp;' + data.last_glucose;
+			last_carb.innerHTML = '<a href="http://127.0.0.1:8000/glossary/#carbohydrate"><i><u style="color: #fabdc8;">Carbs:</u></i></a><br>&emsp;&emsp;' + data.last_carb;
 			
 			
 			let circle_charts = createProgressCircles(data.progress_circles);
@@ -132,7 +132,7 @@ function loadAnalyticsData() {
 			let advice_statement = "";
 			for (let entry in data.trend_percentages) {
 				if (entry == 'up_basal' && data.trend_percentages[entry] >= 15) {
-					advice_statement = advice_statement.concat('We recommend raising your long-acting Insulin<br>');
+					advice_statement = advice_statement.concat('We recommend raising your long-acting Insulin<br><br>');
 				}
 				else if (entry =='down_basal' && data.trend_percentages[entry] >= 15) {
 					advice_statement = advice_statement.concat('We recommend lowering your long-acting insulin<br>');
@@ -234,13 +234,13 @@ function loadAnalyticsContext(glucose_bool) {
 				if (glucose_bool == true) {
 					let glucose_scatter_plot = createGlucoseScatterPlot(data);
 					let title_day = (index + 1).toString();
-					glucose_scatter_plot.title.text = 'Glucose Context, Day ' + title_day;
+					glucose_scatter_plot.title.text = '<a href="http://127.0.0.1:8000/glossary/#glucose"><u style="color: #fabdc8;">Glucose</u></a> Context, Day ' + title_day;
 					delete glucose_scatter_plot.chart.zoomType;
 					Highcharts.chart('glucose_trend_context', glucose_scatter_plot);
 				} else {
 					let carb_insulin_bar_plot = createInsulinBarChart(data);
 					let title_day = (index + 1).toString();
-					carb_insulin_bar_plot.title.text = 'Carb Context, Day ' + title_day;
+					carb_insulin_bar_plot.title.text = '<a href="http://127.0.0.1:8000/glossary/#carbohydrate"><u style="color: #fabdc8;">Carb</u></a> Context, Day' + title_day;
 					delete carb_insulin_bar_plot.chart.zoomType;
 					Highcharts.chart('carb_trend_context', carb_insulin_bar_plot);
 				}
@@ -275,18 +275,22 @@ function createGlucoseScatterPlot(data) {
 		time: {
 			useUTC: false
 		},
+		credits: {
+			enabled: false
+		},
 		chart: {
 			backgroundColor: '#FCF5F5',
 			type: 'scatter',
 			zoomType: 'x'
 		},
 		legend: {
-			enabled: false
+			enabled: true
 		},
 		title: {
-			text: 'Glucose Readings over Time',
+			enabled: true,
+			text: '<a href="http://127.0.0.1:8000/glossary/#glucose"><u style="color: #fabdc8;">Glucose</u></a> Readings over Time',
 			style: {
-				fontSize: '18px',
+				fontSize: '17px',
 				fontFamily: 'Poppins',
 				textDecoration: 'Underline',
 				color: '#7069AF',
@@ -402,7 +406,7 @@ function createInsulinBarChart(data) {
 			zoomType: 'x'
 		},
 		title: {
-			text: '<a href="http://127.0.0.1:8000/glossary/#insulin">Insulin</a> Dosage and <a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbohydrates</a> over Time',
+			text: '<a href="http://127.0.0.1:8000/glossary/#insulin"><u style="color: #fabdc8;">Insulin</u></a> Dosage and <a href="http://127.0.0.1:8000/glossary/#carbohydrate"><u style="color: #fabdc8;">Carbohydrates</u></a> over Time',
 			style: {
 				fontSize: '18px',
 				fontFamily: 'Poppins',
@@ -440,7 +444,7 @@ function createInsulinBarChart(data) {
 		{
 			title: {
 				enabled: true,
-				text: '<a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbohydrates</a>',
+				text: '<a href="http://127.0.0.1:8000/glossary/#carbohydrate"><u style="color: #fabdc8;">Carbohydrates</u></a>',
 				style: {
 					color: 'rgba(223, 83, 83, .5)'
 				}
@@ -552,7 +556,7 @@ function createPercentRangeGlucoseBarChart(data) {
 			type: 'bar'
 		},
 		title: {
-			text: 'Percentage <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a><br> in Range',
+			text: 'Percentage <a href="http://127.0.0.1:8000/glossary/#glucose"><i><u style="color: #fabdc8;">Glucose</u></i></a><br> in Range',
 			style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
@@ -611,7 +615,7 @@ function createPercentRangeCarbsBarChart(data) {
 			type: 'bar'
 		},
 		title: {
-			text: 'Percentage Daily <br><a href="http://127.0.0.1:8000/glossary/#carbohydrate">Carbohydrates<br></a> in Range',
+			text: 'Percentage Daily <br><a href="http://127.0.0.1:8000/glossary/#carbohydrate"><i><u style="color: #fabdc8;">Carbohydrates</u></i><br></a> in Range',
 			style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
@@ -693,7 +697,7 @@ function createBoxChart(data) {
 		},
 		yAxis: {
 		   title: {
-			  text: '<a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a> (<a href="http://127.0.0.1:8000/glossary/#mg-dL">mg/dL</a>)',
+			  text: '<a href="http://127.0.0.1:8000/glossary/#glucose"><i><u style="color: #fabdc8;">Glucose</u></i></a> (<a href="http://127.0.0.1:8000/glossary/#mg-dL"><i><u style="color: #fabdc8;">mg/dL</u></i></a>)',
 			  style: {
 				fontSize: '16px',
 				fontFamily: 'Poppins',
@@ -809,7 +813,7 @@ function createProgressCircles(data) {
 				y: data.min,
 				dataLabels: {
 					y: -70,
-					format: 'Min <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>: <br/>{y}',
+					format: 'Min <a href="http://127.0.0.1:8000/glossary/#glucose"><i><u style="color: #fabdc8;">Glucose</u></i></a> : <br/>{y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
@@ -885,7 +889,7 @@ function createProgressCircles(data) {
 				y: data.avg,
 				dataLabels: {
 					y: -70,
-					format: 'Avg <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>: <br/>{y}',
+					format: 'Avg <a href="http://127.0.0.1:8000/glossary/#glucose"><i><u style="color: #fabdc8;">Glucose</u></i></a> : <br/>{y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
@@ -961,7 +965,7 @@ function createProgressCircles(data) {
 				y: data.max,
 				dataLabels: {
 					y: -70,
-					format: 'Max <a href="http://127.0.0.1:8000/glossary/#glucose">Glucose</a>: <br/>{y}',
+					format: 'Max <a href="http://127.0.0.1:8000/glossary/#glucose"><i><u style="color: #fabdc8;">Glucose</u></i></a> : <br/>{y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
@@ -1039,7 +1043,7 @@ function createProgressCircles(data) {
 				y: data.hba1c,
 				dataLabels: {
 					y: -70,
-					format: '<a href="http://127.0.0.1:8000/glossary/#A1C">HBA1C</a>: {y}',
+					format: '<a href="http://127.0.0.1:8000/glossary/#A1C"><i><u style="color: #fabdc8;">HBA1C</u></i></a> : {y}',
 					borderWidth: 0,
 					style: {
 						fontSize: '16px',
