@@ -271,7 +271,7 @@ def reset_password(request, uidb64, token):
                    'page_title': 'Reset Password',
                    'form_title': 'Reset Password', # The title at the top of the form
                    'submit_value': 'Reset Password', # The value on the button for the form
-                   'additional_html': None, # Additional html to be placed under the button
+                   'additional_html': 'account/resetPassword.html', # Additional html to be placed under the button
                    'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
         }
         return render(request,'form/form.html', context)
@@ -327,7 +327,7 @@ def email_input(request):
                'page_title': 'Input Email',
                'form_title': 'Input Email', # The title at the top of the form
                'submit_value': 'Send Reset Link', # The value on the button for the form
-               'additional_html': None, # Additional html to be placed under the button
+               'additional_html': 'account/input-email.html', # Additional html to be placed under the button
                'account_nav': get_account_nav(request.user), # Fills in the header 'Sign-In/Up' link
     }
     return render(request,'form/form.html', context)
