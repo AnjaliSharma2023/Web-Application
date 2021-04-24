@@ -1,0 +1,29 @@
+API Sample
+
+https://github.com/bizzlebin/team_6/blob/master/team/api_sample.png
+
+***
+
+By Team 6
+
+Translated by Jeremiah Thomas
+
+***
+
+Created 2021-04
+
++++
+Metadata
+
+===
+Description
+
+An image of part of the API documentation, which allows low-level access for programmatic input and output of health data.
+
++++
+Metametadata
+
+**meta_title**: API Sample Metadata
+**meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/api_sample.png_metadata.txt
+**meta_author**: Jeremiah Thomas
+**meta_created**: 2021-04-24
