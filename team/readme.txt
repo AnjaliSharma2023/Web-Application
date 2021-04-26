@@ -283,6 +283,19 @@ Saturday (2021-04-24)
 
 1. Submit final report (with screenshots)
 
+===
+Week 13 (2021-04-25)
+
+---
+Wednesday (2021-04-28)
+
+1. **10 pm** tech check Teams: meet to ensure all mics, monitors, and other accessories are working; final check of slides and presentation outline
+
+---
+Thursday (2021-04-29)
+
+1. **2 pm** practice presentation: lots of department-level visitors and other guests!
+
 +++
 Ground Rules
 
@@ -301,4 +314,4 @@ Metametadata
 **meta_uri**: https://github.com/bizzlebin/team_6/blob/master/team/readme.txt
 **meta_author**: Jeremiah Thomas
 **meta_created**: 2021-01-19
-**meta_updated**: 2021-04-19
+**meta_updated**: 2021-04-26
