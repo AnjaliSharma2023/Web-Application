@@ -390,3 +390,12 @@ a{
 
 
 
+.drp-buttons .cancelBtn btn btn-sm btn-default{
+
+  background-color: #7069AF;
+}
+
+.drp-buttons .applyBtn btn btn-sm btn-primary{
+
+  background-color: #7069AF;
+}
