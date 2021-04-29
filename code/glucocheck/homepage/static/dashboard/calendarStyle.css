@@ -8,6 +8,7 @@
     max-width: none;
     padding: 0;
     margin-top: 7px;
+    margin-bottom: 20px;
     top: 100px;
     left: 20px;
     z-index: 3001;
@@ -83,7 +84,7 @@
   
   .daterangepicker.drop-up:after {
     top: initial;
-    bottom: -6px;
+    bottom: -60px;
     border-bottom: initial;
     border-top: 6px solid #ccc;
   }
@@ -105,11 +106,11 @@
   }
   
   .daterangepicker.auto-apply .drp-buttons {
-    display: block;
+    display: none;
   }
   
   .daterangepicker .drp-calendar {
-    display:flex;
+    display:none;
     max-width: 270px;
   }
   
@@ -185,9 +186,10 @@
   }
   
   .daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
-    background-color: rgba(24, 14, 43, 0.4);
+    background-color: transparent;
     border-color: transparent;
-    color: #fff;
+    color: #7069AF;
+   
   }
   
   .daterangepicker td.in-range {
