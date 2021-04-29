@@ -40,7 +40,7 @@ homepage -> login -> signup -> open TNC page -> signup (newUser, kairrmcgregor@g
 (Forgot Password) Elmehdi
 forgot password (kairrmcgregor@gmail.com) -> click reset password link -> reset password (newPassword2) -> login (newUser, newPassword2) -> 
 
-(Edit Profile)
+(Edit Profile) Elmehdi
 dashboard -> edit profile (change state to Alaska) -> return to edit profile to view change ->
 
 (Data Input) Anjali
