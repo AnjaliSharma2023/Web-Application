@@ -61,7 +61,8 @@ We then navigate to the signup page using the button to the left as a new user w
 The user must enter a unique username and email, a password that is at least 6 charectors long and contains a uppercase letter, lowercase letter, and a number ->
 They must also provide their state of residence and birthdate in order to prove they are at least 18 years old and a residence of the USA ->
 Once they have read the Terms and Conditions (I'll open a tab to show the page) which are outlined on this page, they may create an account ->
-For our user, we'll use the username newUser, one of our emails as the email, newPassword1 as the password, and march 17, 1995 as the birthdate (signup button clicked)->
+The Terms and conditions page includes our privacy policy, terms of use, cookie policy, and HIPPA privacy practices ->
+Now if we return to our signup page, for our user, we'll use the username newUser, one of our emails as the email, newPassword1 as the password, and march 17, 1995 as the birthdate (signup button clicked)->
 When the account is created, a verification email is sent to the user and (account attempts to login), as we can see, the login is denied because the account is not verified ->
 So if we go to our email, we'll see we've recieved a verification email and when we click the link, our account will be activated ->
 As you can see, the user is already logged in ->
