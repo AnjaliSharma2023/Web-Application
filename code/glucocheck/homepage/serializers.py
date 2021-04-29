@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields -- the model fields the form fields relate to
         '''
         model = User
-        fields = ('pk', 'email', 'first_name', 'last_name')
+        fields = ('pk','email', 'first_name', 'last_name')
 
 
 def validateGlucose(glucose_reading):
@@ -45,7 +45,7 @@ class GlucoseSerializer(ModelSerializer):
         fields -- the model fields the form fields relate to
         '''
         model = Glucose
-        fields = ['id','user','glucose_reading','record_datetime','notes','categories']
+        fields = ['user','glucose_reading','record_datetime','notes','categories']
 
     
 
