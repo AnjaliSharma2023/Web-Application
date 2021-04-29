@@ -333,4 +333,21 @@ left: 0;
     color: #fab3c4;
 }
 
+.register-form #id_username, .register-form #id_email {
+    background: #dfdfea;
+    border-radius: 30px;
+    width: 380px;
+    height: 40px;
+    border: none;
+    padding: 10px;
+} 
 
+.register-form #id_glucose_reading_1{
+    background: #dfdfea;
+    border-radius: 30px;
+    width: 380px;
+    height: 40px;
+    border: none;
+    padding: 10px;
+    margin-top: 20px;
+} 
