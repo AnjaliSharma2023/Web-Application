@@ -1287,7 +1287,7 @@ class GlucoseView(mixins.ListModelMixin,
       
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user).order_by('record_datetime')[:4]
+        return self.queryset.filter(user=self.request.user).order_by('-id')[:4]
 
     def get(self, request, *args, **kwargs):
         
@@ -1327,7 +1327,7 @@ class CarbsView(mixins.ListModelMixin,
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user).order_by('record_datetime')[:4]
+        return self.queryset.filter(user=self.request.user).order_by('-id')[:4]
     
 
     def get(self, request, *args, **kwargs):
@@ -1342,7 +1342,7 @@ class InsulinAPIView(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
     """ 
-    Methods in the Carbohydrate API page
+    Methods in the Insulin API page
 
     get:
         Return the last 4 entries by the user.
@@ -1369,7 +1369,7 @@ class InsulinAPIView(mixins.ListModelMixin,
     permission_classes = (IsAuthenticated,)
    
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user).order_by('record_datetime')[:4]
+        return self.queryset.filter(user=self.request.user).order_by('-id')[:4]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)

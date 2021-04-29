@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields -- the model fields the form fields relate to
         '''
         model = User
-        fields = ('pk','email', 'first_name', 'last_name')
+        fields = ('username','email', 'first_name', 'last_name')
 
 
 def validateGlucose(glucose_reading):
@@ -36,7 +36,10 @@ class GlucoseSerializer(ModelSerializer):
     '''
     glucose_reading = serializers.IntegerField(validators=[validateGlucose],help_text='Integer value in mg/dl unit.Glucose value should be between 0 and 400') 
     record_datetime = serializers.DateTimeField(help_text='Date Time field in the format Y-M-D H:M:S')
-    user = UserSerializer(required=False, read_only=True)
+    #user = UserSerializer(required=False)
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
     class Meta:
         '''Meta data on the form.
         
@@ -45,7 +48,7 @@ class GlucoseSerializer(ModelSerializer):
         fields -- the model fields the form fields relate to
         '''
         model = Glucose
-        fields = ['user','glucose_reading','record_datetime','notes','categories']
+        fields = ['id','user','glucose_reading','record_datetime','notes','categories']
 
     
 
@@ -68,7 +71,10 @@ class CarbohydrateSerializer(ModelSerializer):
     '''
     carb_reading = serializers.IntegerField(validators=[validateCarb],help_text='Integer value of carbohydrate between 0 and 300.') 
     record_datetime = serializers.DateTimeField(help_text='Date Time field in the format Y-M-D H:M:S')
-    user = UserSerializer(required=False, read_only=True)
+    #user = UserSerializer(required=False, read_only=True)
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
     class Meta:
         '''Meta data on the form.
         
@@ -99,7 +105,11 @@ class InsulinSerializer(ModelSerializer):
     '''
     dosage = serializers.FloatField(validators=[validateDosage],help_text='Float value of insulin between 0 and 50')
     record_datetime = serializers.DateTimeField(help_text='Date Time field in the format Y-M-D H:M:S')
-    user = UserSerializer(required=False, read_only=True) 
+    #user = UserSerializer(required=False, read_only=True) 
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     class Meta:
         '''Meta data on the form.
         
