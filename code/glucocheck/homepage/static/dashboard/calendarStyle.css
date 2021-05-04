@@ -1,5 +1,5 @@
 .daterangepicker {
-    position: fixed;
+    position: absolute;
     color: #7069AF;
     background-color: #fff;
     border-radius: 10px;
@@ -84,7 +84,7 @@
   
   .daterangepicker.drop-up:after {
     top: initial;
-    bottom: -60px;
+    bottom: -6px;
     border-bottom: initial;
     border-top: 6px solid #ccc;
   }
@@ -110,7 +110,7 @@
   }
   
   .daterangepicker .drp-calendar {
-    display:none;
+    display: block;
     max-width: 270px;
   }
   
@@ -306,7 +306,7 @@
   }
   
   .daterangepicker .ranges {
-    float: none;
+    position: relative;
     text-align: left;
     margin: 0;
   }
