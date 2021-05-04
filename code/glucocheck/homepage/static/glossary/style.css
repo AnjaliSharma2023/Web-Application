@@ -4,6 +4,13 @@
     background-color: #FCF5F5;
 }
 
+::selection {
+    background: #fab3c4;
+  }
+  ::-moz-selection {
+    background: #fab3c4;
+  }
+
 .glossary{
     max-width: 1000px;
 	margin: 100px;
