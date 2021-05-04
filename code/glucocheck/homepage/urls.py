@@ -1,8 +1,5 @@
 from django.urls import path
-from .import views
-from rest_framework.authtoken import views as authviews
-
-
+from homepage import views
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),

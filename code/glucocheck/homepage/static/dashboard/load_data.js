@@ -240,7 +240,7 @@ function loadAnalyticsContext(glucose_bool) {
 				} else {
 					let carb_insulin_bar_plot = createInsulinBarChart(data);
 					let title_day = (index + 1).toString();
-					carb_insulin_bar_plot.title.text = '<a href="http://127.0.0.1:8000/glossary/#carbohydrate"><u style="color: #fabdc8;">Carb</u></a> Context, Day' + title_day;
+					carb_insulin_bar_plot.title.text = '<a href="http://127.0.0.1:8000/glossary/#carbohydrate"><u style="color: #fabdc8;">Carb</u></a> Context, Day ' + title_day;
 					delete carb_insulin_bar_plot.chart.zoomType;
 					Highcharts.chart('carb_trend_context', carb_insulin_bar_plot);
 				}
