@@ -56,7 +56,7 @@ analytics page - show scatter plots and zoom function -> cycle glucose context a
 click glossary term -> dashboard -> glucose import form - hover over insulin term for popup definition -> 
 
 (API) Anjali
-navigate to /api-glucose/ -> send POST (145, 05/04/2021 6:00 PM) -> send GET request to view new data -> navigate to /api-carbs/ explain ranges are the same as the form -> navigate to /api-insulin/ explain ranges are the same as the form -> homepage -> API documentation -> interact with api-carbs list -> interact with api-token-auth create (test_user5, testPassword5) -> copy token -> under authentication click token (Token, ###########) -> interact with api-carbs list -> 
+navigate to /api-glucose/ -> send POST (145, 05/04/2021 6:00 PM) -> send GET request to view new data -> navigate to /api-carbs/ -> navigate to /api-insulin/ -> homepage -> logout -> API documentation -> interact with api-carbs list -> interact with api-token-auth create (test_user5, testPassword5) -> copy token -> under authentication click token (Token, ###########) -> interact with api-carbs list -> 
 
 
 
