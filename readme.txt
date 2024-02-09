@@ -3,3 +3,4 @@ GlucoCheck is an app that enables diabetics and their caregivers to input insuli
 
 ![](images/web-1.jpg)
 ![Image description](https://github.com/LarrySul/Parallax-Landing-Page/blob/master/src/img/Screenshot%20(285).png)
+![image](https://github.com/AnjaliSharma2023/Web-Application/master/web-1.png)
